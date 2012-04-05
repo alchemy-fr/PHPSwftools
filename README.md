@@ -3,7 +3,7 @@
 [![Build Status](https://secure.travis-ci.org/alchemy-fr/PHPSwftools.png?branch=master)](http://travis-ci.org/alchemy-fr/PHPSwftools)
 
 PHP Swftools is a tiny lib which help you to use SWFTools
-(http://www.swftools.org/).
+http://www.swftools.org/.
 
 SWFTools are GPL licensed and are described as "a collection of utilities for
 working with Adobe Flash files"
@@ -66,6 +66,6 @@ $File = new SwfTools\FlashFile('Animation.swf', $configuration);
 
 ##License
 
-PHPSwftools are released under MIT License (http://opensource.org/licenses/MIT).
+PHPSwftools are released under MIT License http://opensource.org/licenses/MIT.
 
 See LICENSE file for more information
