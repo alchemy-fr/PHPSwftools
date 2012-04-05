@@ -45,7 +45,7 @@ $File->extractFirstImage('renderedAnimation.jpg');
 
 ##Using various binaries versions
 
-PHPSwfTools uses swfextract an swfrender provided by SWFTools. If you want to
+PHPSwfTools uses ``swfextract`` an ``swfrender`` provided by SWFTools. If you want to
 specify the path to the binary you wnat to use, you can add configuration :
 
 ```php
