@@ -55,6 +55,15 @@ class SwfrenderTest extends \PHPUnit_Framework_TestCase
         {
 
         }
+        try
+        {
+            $this->object->render($flash, '', true);
+            $this->fail('Swfrender should raise an exception on an unexistent destination');
+        }
+        catch (\SwfTools\Exception\InvalidArgument $e)
+        {
+
+        }
     }
 
     /**

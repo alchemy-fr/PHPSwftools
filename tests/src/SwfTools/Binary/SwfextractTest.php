@@ -57,11 +57,21 @@ class SwfextractTest extends \PHPUnit_Framework_TestCase
 
         $dest_file = __DIR__ . '/../../../files/tmp.jpg';
 
-        $this->object->extract($flash, $e, $dest_file);
+        $this->object->extract($flash, $embedded, $dest_file);
         $sizes = getimagesize($dest_file);
         $this->assertTrue(file_exists($dest_file));
 
         unlink($dest_file);
+
+        try
+        {
+            $this->object->extract($flash, $embedded, '');
+            $this->fail('Should fail on invalid destination');
+        }
+        catch (\SwfTools\Exception\InvalidArgument $exception)
+        {
+
+        }
 
         $this->assertEquals(1440, $sizes[0]);
         $this->assertEquals(420, $sizes[1]);
@@ -70,15 +80,19 @@ class SwfextractTest extends \PHPUnit_Framework_TestCase
 
         try
         {
-            $this->object->extract($fakeFile, $e, $dest_file);
+            $this->object->extract($fakeFile, $embedded, $dest_file);
             $this->fail('Swfrender should file on an unexistent file');
         }
-        catch (\SwfTools\Exception\RuntimeException $e)
+        catch (\SwfTools\Exception\RuntimeException $exception)
         {
 
         }
     }
 
+    public function testExtractWrongDest()
+    {
+
+    }
 
     /**
      * @covers SwfTools\Binary\Swfextract::load

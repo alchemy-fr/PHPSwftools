@@ -21,30 +21,8 @@
 
 namespace SwfTools;
 
-class FlashFile extends \SplFileInfo
+class FlashFile extends File
 {
-
-    protected $configuration;
-    protected $embedded;
-
-    /**
-     * Build the Flash file given the configuration
-     *
-     * @param type $pathname
-     * @param Configuration $configuration
-     * @throws Exception
-     */
-    public function __construct($pathname, Configuration $configuration = null)
-    {
-        if ( ! file_exists($pathname))
-        {
-            throw new Exception(sprintf('File %s does not exist', $pathname));
-        }
-
-        parent::__construct($pathname);
-
-        $this->configuration = $configuration ? : new Configuration();
-    }
 
     /**
      * Render the flash to PNG file
@@ -238,50 +216,6 @@ class FlashFile extends \SplFileInfo
         }
 
         throw new Exception('Unable to extract an image');
-    }
-
-    /**
-     * Change the extension of a pathname
-     *
-     * @example $this->changeExtension('/my/path/to/image.png', 'jpg') returns
-     * '/my/path/to/image.jpg'
-     *
-     * @param string $pathname
-     * @param string $extension
-     *
-     * @return string
-     */
-    protected function changeExtension($pathname, $extension)
-    {
-        return dirname($pathname) . '/' . pathinfo($pathname, PATHINFO_FILENAME) . '.' . $extension;
-    }
-
-    /**
-     * Return the BinaryAdapter given a BinaryName
-     *
-     * @param type $binaryName
-     *
-     * @return Binary\Binary The requested binary
-     *
-     * @throws Exception
-     */
-    protected function getBinaryAdapter($binaryName)
-    {
-        $classname = __NAMESPACE__ . '\\Binary\\' . $binaryName;
-
-        try
-        {
-            if (class_exists($classname))
-            {
-                return $classname::load($this->configuration);
-            }
-        }
-        catch (Exception\RuntimeException $e)
-        {
-
-        }
-
-        throw new Exception(sprintf('Unable to load %s', $binaryName));
     }
 
 }

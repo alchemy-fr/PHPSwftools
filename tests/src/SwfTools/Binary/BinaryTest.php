@@ -38,6 +38,17 @@ class BinaryTest extends \PHPUnit_Framework_TestCase
         {
 
         }
+
+        try
+        {
+            $object->runIt('mycommand');
+            $this->fail('should fail on bad command');
+        }
+        catch (\SwfTools\Exception\RuntimeException $e)
+        {
+
+        }
+        $object->runIt('mycommand', true);
     }
 
     public function testGetVersion()
@@ -59,6 +70,11 @@ class BinaryTester extends Binary
     public function getBinaryPath()
     {
         return $this->binaryPathname;
+    }
+
+    public function runIt($command, $bypass = false)
+    {
+        return $this->run($command, $bypass);
     }
 
 }
