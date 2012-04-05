@@ -20,7 +20,7 @@ class SwfextractTest extends \PHPUnit_Framework_TestCase
      */
     public function testListEmbedded()
     {
-        $flash = new \SwfTools\FlashFile(__DIR__ . '/../../../files/flashfile.swf');
+        $flash = new \SplFileObject(__DIR__ . '/../../../files/flashfile.swf');
         $embed = $this->object->listEmbedded($flash);
 
         $this->assertTrue(strpos($embed, 'Objects in file ') !== false);
@@ -32,19 +32,8 @@ class SwfextractTest extends \PHPUnit_Framework_TestCase
      */
     public function testListEmbeddedWrongFile()
     {
-        $fakeFile = $this->getMock(
-          '\SwfTools\FlashFile'
-          , array('getPathname')
-          , array(__DIR__ . '/../../../files/flashfile.swf')
-        );
-
-        /* @var $fakeFile \PHPUnit_Framework_MockObject_MockObject */
-
-        $fakeFile->expects($this->once())
-          ->method('getPathname')
-          ->will($this->returnValue('nofile'));
-
-        $this->object->listEmbedded($fakeFile);
+        $wrongFile = new \SplFileInfo(__DIR__ . '/../../../files/unknownflashfile.swf');
+        $this->object->listEmbedded($wrongFile);
     }
 
     /**
@@ -77,17 +66,7 @@ class SwfextractTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1440, $sizes[0]);
         $this->assertEquals(420, $sizes[1]);
 
-        $fakeFile = $this->getMock(
-          '\SwfTools\FlashFile'
-          , array('getPathname')
-          , array(__DIR__ . '/../../../files/flashfile.swf')
-        );
-
-        /* @var $fakeFile \PHPUnit_Framework_MockObject_MockObject */
-
-        $fakeFile->expects($this->once())
-          ->method('getPathname')
-          ->will($this->returnValue('nofile'));
+        $fakeFile = new \SplFileInfo(__DIR__ . '/../../../files/nofile');
 
         try
         {
@@ -99,6 +78,7 @@ class SwfextractTest extends \PHPUnit_Framework_TestCase
 
         }
     }
+
 
     /**
      * @covers SwfTools\Binary\Swfextract::load

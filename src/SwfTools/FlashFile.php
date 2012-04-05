@@ -21,11 +21,10 @@
 
 namespace SwfTools;
 
-class FlashFile
+class FlashFile extends \SplFileInfo
 {
 
     protected $configuration;
-    protected $pathname;
     protected $embedded;
 
     /**
@@ -42,17 +41,9 @@ class FlashFile
             throw new Exception(sprintf('File %s does not exist', $pathname));
         }
 
-        $this->pathname = realpath($pathname);
-        $this->configuration = $configuration ? : new Configuration();
-    }
+        parent::__construct($pathname);
 
-    /**
-     *
-     * @return string
-     */
-    public function getPathname()
-    {
-        return $this->pathname;
+        $this->configuration = $configuration ? : new Configuration();
     }
 
     /**

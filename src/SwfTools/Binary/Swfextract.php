@@ -22,7 +22,6 @@
 namespace SwfTools\Binary;
 
 use SwfTools\Configuration;
-use SwfTools\FlashFile;
 use SwfTools\EmbeddedObject;
 use SwfTools\Exception;
 use Symfony\Component\Process\Process;
@@ -33,11 +32,11 @@ class Swfextract extends Binary
     /**
      * Execute the command to list the embedded objects
      *
-     * @param FlashFile $file
+     * @param \SplFileInfo $file
      * @throws \SwfTools\Exception\RuntimeException
      * @return string|null The ouptut string, null on error
      */
-    public function listEmbedded(FlashFile $file)
+    public function listEmbedded(\SplFileInfo $file)
     {
         $cmd = sprintf('%s %s', escapeshellcmd($this->binaryPathname), escapeshellarg($file->getPathname()));
 
@@ -48,14 +47,14 @@ class Swfextract extends Binary
      *
      * Execute the command to extract an embedded object from a flash file
      *
-     * @param FlashFile $file the FlashFile
+     * @param \SplFileInfo $file the file
      * @param int $id The id of the object
      * @param string $outputFile the path where to extract
      * @throws Exception\InvalidArgument
      * @throws Exception\RuntimeException
      * @return string|null The ouptut string, null on error
      */
-    public function extract(FlashFile $file, EmbeddedObject $embedded, $outputFile)
+    public function extract(\SplFileInfo $file, EmbeddedObject $embedded, $outputFile)
     {
         if (trim($outputFile) === '')
         {

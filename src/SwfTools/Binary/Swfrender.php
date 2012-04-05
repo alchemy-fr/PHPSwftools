@@ -22,7 +22,6 @@
 namespace SwfTools\Binary;
 
 use SwfTools\Configuration;
-use SwfTools\FlashFile;
 use SwfTools\Exception;
 use Symfony\Component\Process\Process;
 
@@ -31,14 +30,14 @@ class Swfrender extends Binary
 
     /**
      *
-     * @param FlashFile $file
+     * @param \SplFileInfo $file
      * @param type $outputFile
      * @param type $legacy
      * @return null
      * @throws Exception\InvalidArgument
      * @throws Exception\RuntimeException
      */
-    public function render(FlashFile $file, $outputFile, $legacy)
+    public function render(\SplFileInfo $file, $outputFile, $legacy)
     {
         if (trim($outputFile) === '')
         {
