@@ -28,9 +28,15 @@ foreach($File->listEmbeddedObjects() as $embeddedObject)
 }
 
 /**
+ * Extract embedded Object #1
+ */
+$File->extractEmbedded(1, 'Object1.png');
+
+/**
  * Extract the first embedded image found
  */
 $File->extractFirstImage('renderedAnimation.jpg');
 
 
 ```
+
