@@ -58,11 +58,11 @@ class FlashFileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers SwfTools\FlashFile::render
-     * @covers SwfTools\FlashFile::getBinary
+     * @covers SwfTools\FlashFile::getBinaryAdapter
      */
     public function testRender()
     {
-        $this->object->render($this->destination);
+        $this->destination = $this->object->render($this->destination);
         $this->assertTrue(file_exists($this->destination));
 
         unlink($this->destination);
@@ -115,13 +115,13 @@ class FlashFileTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SwfTools\FlashFile::getBinary
+     * @covers SwfTools\FlashFile::getBinaryAdapter
      * @expectedException  \SwfTools\Exception
      */
-    public function testGetBinary()
+    public function testGetBinaryAdapter()
     {
         $object = new ExtendedFlashFile();
-        $object->testGetBinary();
+        $object->testGetBinaryAdapter();
     }
 
     /**
@@ -228,9 +228,9 @@ class ExtendedFlashFile extends FlashFile
 
     }
 
-    public function testGetBinary()
+    public function testGetBinaryAdapter()
     {
-        $this->getBinary('Babebibobu');
+        $this->getBinaryAdapter('Babebibobu');
     }
 
 }

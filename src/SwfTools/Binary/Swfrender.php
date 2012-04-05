@@ -47,7 +47,7 @@ class Swfrender extends Binary
 
         $cmd = sprintf(
           '%s %s %s -o %s'
-          , $this->binaryPath
+          , $this->binaryPathname
           , ($legacy ? '-l' : '')
           , $file->getPathname()
           , $outputFile

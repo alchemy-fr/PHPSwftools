@@ -67,9 +67,16 @@ class FlashFile
     {
         $swfrender = $this->getBinaryAdapter('Swfrender');
 
+        if(!$outputFile)
+        {
+            throw new Exception('Invalid argument');
+        }
+
+        $outputFile = $this->changeExtension($outputFile, 'png');
+
         try
         {
-            $swfrender->render($this, $this->changeExtension($outputFile, 'png'), $legacy_rendering);
+            $swfrender->render($this, $outputFile, $legacy_rendering);
 
             return $outputFile;
         }

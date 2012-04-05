@@ -28,7 +28,7 @@ class SwfextractTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers SwfTools\Binary\Swfextract::listEmbedded
-     * @expectedExcpetion \SwfTools\Exception\RuntimeException
+     * @expectedException \SwfTools\Exception\RuntimeException
      */
     public function testListEmbeddedWrongFile()
     {

@@ -39,7 +39,7 @@ class Swfextract extends Binary
      */
     public function listEmbedded(FlashFile $file)
     {
-        $cmd = sprintf('%s %s', escapeshellcmd($this->binaryPath), escapeshellarg($file->getPathname()));
+        $cmd = sprintf('%s %s', escapeshellcmd($this->binaryPathname), escapeshellarg($file->getPathname()));
 
         return self::run($cmd);
     }
@@ -63,7 +63,7 @@ class Swfextract extends Binary
         }
 
         $cmd = sprintf('%s -%s %d %s -o %s'
-          , escapeshellcmd($this->binaryPath)
+          , escapeshellcmd($this->binaryPathname)
           , $embedded->getOption()
           , $embedded->getId()
           , escapeshellarg($file->getPathname())

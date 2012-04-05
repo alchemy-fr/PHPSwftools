@@ -58,7 +58,7 @@ class BinaryTester extends Binary
 
     public function getBinaryPath()
     {
-        return $this->binaryPath;
+        return $this->binaryPathname;
     }
 
 }
