@@ -1,9 +1,8 @@
 language: php
 
 before_script:
-  - sudo apt-get update
-  - sudo apt-cache search swftools
-  - sudo apt-get install -y swftools
+  - wget http://www.swftools.org/swftools-0.6.3.tar.gz
+  - sh -c "tar xzvf swftools-0.6.3.tar.gz &&& cd swftools-0.6.3 && ./configure && make && sudo make install"
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar install
 
