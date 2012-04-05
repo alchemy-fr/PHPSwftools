@@ -1,0 +1,6 @@
+/nbproject/
+/vendor/
+/tests/phpunit_report/
+.DS_Store
+composer.lock
+composer.phar

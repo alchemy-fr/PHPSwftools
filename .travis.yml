@@ -1,0 +1,11 @@
+language: php
+
+before_script:
+  - sudo apt-get install -y swftools
+  - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install
+
+php:
+  - 5.3
+  - 5.4
+
