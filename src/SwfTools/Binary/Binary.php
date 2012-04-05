@@ -28,7 +28,7 @@ use Symfony\Component\Process\Process;
 /**
  *
  */
-abstract class Binary
+abstract class Binary implements AdapterInterface
 {
 
     protected $binaryPathname;
@@ -58,8 +58,6 @@ abstract class Binary
 
         return count($matches) > 0 ? $matches[1] : null;
     }
-
-    abstract public static function load(Configuration $configuration);
 
     /**
      *
