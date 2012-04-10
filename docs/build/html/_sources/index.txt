@@ -1,0 +1,67 @@
+PHP SwfTools
+============
+
+.. toctree::
+   :maxdepth: 2
+
+
+PHP SwfTools is a lib for manipulating PDF files and SWF files with SWFTools
+(http://www.swftools.org/).
+
+This project is released under MIT License.
+
+API
+---
+
+API is quite simple : Two objects should be mainly used and cover the needs :
+FlashFile and PDFFile. These objects extends \SplFileInfo.
+
+Exceptions
+----------
+
+
+
+Using Custom Configuration
+--------------------------
+
+PHP SwfTools autodetects SWFTools binaries on most \*nix systems with the command
+**where**. If you would like to provide your own configuration, you can do it
+at many level :
+
+Files Level
+***********
+
+.. code-block:: php
+
+    <?php
+
+    use SwfTools\PDFFile;
+    use SwfTools\Configuration;
+
+    $PDF = new PDFFile('file.pdf');
+    /* Will autodetect pdf2swf location */
+    $PDF->toSwf('destination.swf');
+
+    $PDF = new PDFFile('file.pdf', new Configuration('pdf2swf'=>'/my/custom/path/to/pdf2swf'));
+    /* Will use /my/custom/path/to/pdf2swf */
+    $PDF->toSwf('destination.swf');
+
+
+Binary Level
+************
+
+.. code-block:: php
+
+    <?php
+
+    use SwfTools\Binary\Pdf2swf;
+    use SwfTools\Configuration;
+
+    /* Specify binary */
+    $adapter = new Pdf2swf('/my/custom/path/to/pdf2swf');
+    $adapter->toSwf('input_file.pdf', 'output_file.swf');
+
+    /* Autodetect binary */
+    $adapter = Pdf2swf::load(new Configuration(array()));
+    $adapter->toSwf('input_file.pdf', 'output_file.swf');
+
