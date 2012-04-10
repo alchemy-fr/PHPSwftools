@@ -64,7 +64,7 @@ class Pdf2swf extends Binary
             throw new Exception\InvalidArgument('Invalid pages argument');
         }
 
-        if ( (int) $timelimit < 1)
+        if ((int) $timelimit < 1)
         {
             throw new Exception\InvalidArgument('Invalid time limit argument');
         }
