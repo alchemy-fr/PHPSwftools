@@ -24,6 +24,8 @@ namespace SwfTools;
 class FlashFile extends File
 {
 
+    protected $embedded;
+
     /**
      * Render the flash to PNG file
      *
@@ -36,12 +38,12 @@ class FlashFile extends File
     {
         $swfrender = $this->getBinaryAdapter('Swfrender');
 
-        if(!$outputFile)
+        if ( ! $outputFile)
         {
             throw new Exception('Invalid argument');
         }
 
-        $outputFile = $this->changeExtension($outputFile, 'png');
+        $outputFile = static::changePathnameExtension($outputFile, 'png');
 
         try
         {
@@ -197,10 +199,10 @@ class FlashFile extends File
                     switch ($embedded->getType())
                     {
                         case EmbeddedObject::TYPE_JPEG:
-                            $outputFile = $this->changeExtension($outputFile, 'jpg');
+                            $outputFile = static::changePathnameExtension($outputFile, 'jpg');
                             break;
                         case EmbeddedObject::TYPE_PNG:
-                            $outputFile = $this->changeExtension($outputFile, 'png');
+                            $outputFile = static::changePathnameExtension($outputFile, 'png');
                             break;
                     }
 
