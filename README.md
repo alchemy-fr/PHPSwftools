@@ -7,6 +7,8 @@ PHP Swftools is a tiny lib which help you to use SWFTools http://www.swftools.or
 SWFTools are GPL licensed and are described as "a collection of utilities for
 working with Adobe Flash files"
 
+Documentation available at http://php-swftools.readthedocs.org/
+
 ##Dependencies :
 
 In order to use PHP SwfTools, you need to install SWFTools. Depending of your
