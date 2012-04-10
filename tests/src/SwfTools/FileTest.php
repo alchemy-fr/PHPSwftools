@@ -16,9 +16,9 @@ class FileTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SwfTools\File::changeExtension
+     * @covers SwfTools\File::changePathnameExtension
      */
-    public function testGetChangeExtension()
+    public function testGetChangePathnameExtension()
     {
         $object = new ExtendedFile();
         $this->assertEquals('/path/kawabunga.plus', $object->change('/path/kawabunga.png', 'plus'));
@@ -41,7 +41,7 @@ class ExtendedFile extends File
 
     public function change($pathname, $extension)
     {
-        return $this->changeExtension($pathname, $extension);
+        return static::changePathnameExtension($pathname, $extension);
     }
 
 }
