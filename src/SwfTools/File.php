@@ -49,7 +49,7 @@ abstract class File extends \SplFileInfo
     /**
      * Change the extension of a pathname
      *
-     * @example $this->changeExtension('/my/path/to/image.png', 'jpg') returns
+     * @example static::changePathnameExtension('/my/path/to/image.png', 'jpg') returns
      * '/my/path/to/image.jpg'
      *
      * @param string $pathname
@@ -57,7 +57,7 @@ abstract class File extends \SplFileInfo
      *
      * @return string
      */
-    protected function changeExtension($pathname, $extension)
+    protected static function changePathnameExtension($pathname, $extension)
     {
         return dirname($pathname) . '/' . pathinfo($pathname, PATHINFO_FILENAME) . '.' . $extension;
     }
