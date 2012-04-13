@@ -18,7 +18,6 @@ class BinaryTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers SwfTools\Binary\Binary::__construct
      * @covers SwfTools\Binary\Binary::findBinary
-     * @covers SwfTools\Binary\Binary::autoDetect
      * @covers SwfTools\Binary\Binary::run
      */
     public function testBinaryPath()

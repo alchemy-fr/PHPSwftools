@@ -74,25 +74,14 @@ abstract class Binary implements AdapterInterface
             return new static($configuration->get($binaryName));
         }
 
-        $exec_path = self::autodetect($binaryName);
+        $finder = new \Symfony\Component\Process\ExecutableFinder();
 
-        if ($exec_path && is_executable($exec_path))
+        if (null !== $exec_path = $finder->find($binaryName))
         {
             return new static($exec_path);
         }
 
         throw new Exception\BinaryNotFoundException(sprintf('Binary %s not found', $binaryName));
-    }
-
-    /**
-     * Autodetect the presence of a binary
-     *
-     * @param   string      $binaryName
-     * @return  string
-     */
-    protected static function autodetect($binaryName)
-    {
-        return trim(self::run(sprintf('which %s', escapeshellarg($binaryName)), true));
     }
 
     /**
