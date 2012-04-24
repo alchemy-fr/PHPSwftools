@@ -21,7 +21,7 @@
 
 namespace SwfTools\Exception;
 
-class InvalidArgument extends \Exception
+class InvalidArgument extends \InvalidArgumentException implements Exception
 {
 
 }

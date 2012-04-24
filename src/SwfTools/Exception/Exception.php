@@ -21,7 +21,7 @@
 
 namespace SwfTools\Exception;
 
-class BinaryNotFoundException extends \RuntimeException implements Exception
+interface Exception
 {
 
 }
