@@ -39,7 +39,7 @@ class FlashFileTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \SwfTools\Exception
+     * @expectedException \SwfTools\Exception\InvalidArgument
      */
     public function testWrongFile()
     {
@@ -60,7 +60,7 @@ class FlashFileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers SwfTools\FlashFile::render
-     * @expectedException \SwfTools\Exception
+     * @expectedException \SwfTools\Exception\RuntimeException
      */
     public function testRenderWrongFile()
     {
@@ -69,7 +69,7 @@ class FlashFileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers SwfTools\FlashFile::render
-     * @expectedException \SwfTools\Exception
+     * @expectedException \SwfTools\Exception\InvalidArgument
      */
     public function testRenderWrongDestination()
     {
@@ -86,7 +86,7 @@ class FlashFileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers SwfTools\FlashFile::listEmbeddedObjects
-     * @expectedException \SwfTools\Exception
+     * @expectedException \SwfTools\Exception\RuntimeException
      */
     public function testListEmbeddedObjectsOnWrongFile()
     {
@@ -106,7 +106,7 @@ class FlashFileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers SwfTools\FlashFile::extractFirstImage
-     * @expectedException  \SwfTools\Exception
+     * @expectedException  \SwfTools\Exception\RuntimeException
      */
     public function testNoFirstImage()
     {
@@ -125,7 +125,7 @@ class FlashFileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers SwfTools\FlashFile::extractFirstImage
-     * @expectedException  \SwfTools\Exception
+     * @expectedException  \SwfTools\Exception\RuntimeException
      */
     public function testEmbeddedFailed()
     {
@@ -155,7 +155,7 @@ class FlashFileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers SwfTools\FlashFile::extractFirstImage
-     * @expectedException \SwfTools\Exception
+     * @expectedException \SwfTools\Exception\RuntimeException
      */
     public function testExtractFirstImageFailWiththBadObject()
     {
@@ -164,7 +164,7 @@ class FlashFileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers SwfTools\FlashFile::extractFirstImage
-     * @expectedException \SwfTools\Exception
+     * @expectedException \SwfTools\Exception\InvalidArgument
      */
     public function testExtractFirstImageFailWithoutDestination()
     {
@@ -173,7 +173,7 @@ class FlashFileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers SwfTools\FlashFile::extractEmbedded
-     * @expectedException  \SwfTools\Exception
+     * @expectedException  \SwfTools\Exception\RuntimeException
      */
     public function testExtractEmbeddedWrongId()
     {
@@ -182,7 +182,7 @@ class FlashFileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers SwfTools\FlashFile::extractEmbedded
-     * @expectedException  \SwfTools\Exception
+     * @expectedException  \SwfTools\Exception\RuntimeException
      */
     public function testExtractEmbeddedWrongOutput()
     {
@@ -191,7 +191,7 @@ class FlashFileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers SwfTools\FlashFile::extractEmbedded
-     * @expectedException  \SwfTools\Exception
+     * @expectedException  \SwfTools\Exception\RuntimeException
      */
     public function testExtractEmbeddedWrongObject()
     {

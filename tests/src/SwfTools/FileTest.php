@@ -7,7 +7,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers SwfTools\File::getBinaryAdapter
-     * @expectedException  \SwfTools\Exception
+     * @expectedException  \SwfTools\Exception\RuntimeException
      */
     public function testGetBinaryAdapter()
     {

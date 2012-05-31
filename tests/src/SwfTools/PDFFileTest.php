@@ -40,7 +40,7 @@ class PDFFileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers SwfTools\PDFFile::toSwf
-     * @expectedException \SwfTools\Exception
+     * @expectedException \SwfTools\Exception\InvalidArgument
      */
     public function testToSwfFailed()
     {
