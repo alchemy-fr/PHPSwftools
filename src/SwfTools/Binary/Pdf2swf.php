@@ -1,30 +1,22 @@
 <?php
 
-/**
- * Copyright (c) 2012 Alchemy
+/*
+ * This file is part of PHP-SwfTools.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * (c) Alchemy <info@alchemy.fr>
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
- * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace SwfTools\Binary;
 
 use SwfTools\Configuration;
 use SwfTools\Exception;
-use Symfony\Component\Process\Process;
 
+/**
+ * @author Romain Neutron imprec@gmail.com
+ */
 class Pdf2swf extends Binary
 {
 
@@ -39,41 +31,33 @@ class Pdf2swf extends Binary
 
     public function toSwf(\SplFileInfo $file, $outputFile, Array $options = array(), $convertType = self::CONVERT_POLY2BITMAP, $resolution = 72, $pageRange = '1-', $frameRate = 15, $jpegquality = 75, $timelimit = 100)
     {
-        if ( ! trim($outputFile))
-        {
+        if ( ! trim($outputFile)) {
             throw new Exception\InvalidArgument('Invalid resolution argument');
         }
 
-        if ((int) $resolution < 1)
-        {
+        if ((int) $resolution < 1) {
             throw new Exception\InvalidArgument('Invalid resolution argument');
         }
 
-        if ((int) $frameRate < 1)
-        {
+        if ((int) $frameRate < 1) {
             throw new Exception\InvalidArgument('Invalid framerate argument');
         }
 
-        if ((int) $jpegquality < 0 || (int) $jpegquality > 100)
-        {
+        if ((int) $jpegquality < 0 || (int) $jpegquality > 100) {
             throw new Exception\InvalidArgument('Invalid jpegquality argument');
         }
 
-        if ( ! preg_match('/\d+-\d?/', $pageRange))
-        {
+        if ( ! preg_match('/\d+-\d?/', $pageRange)) {
             throw new Exception\InvalidArgument('Invalid pages argument');
         }
 
-        if ((int) $timelimit < 1)
-        {
+        if ((int) $timelimit < 1) {
             throw new Exception\InvalidArgument('Invalid time limit argument');
         }
 
-
         $option_cmd = array();
 
-        switch ($convertType)
-        {
+        switch ($convertType) {
             case self::CONVERT_POLY2BITMAP:
             case self::CONVERT_BITMAP:
                 $option_cmd [] = $convertType;
@@ -85,27 +69,22 @@ class Pdf2swf extends Binary
         $option_cmd [] = 'jpegquality=' . (int) $jpegquality;
         $option_cmd [] = 'pages=' . $pageRange;
 
-        if ( ! in_array(self::OPTION_ZLIB_DISABLE, $options) && in_array(self::OPTION_ZLIB_ENABLE, $options))
-        {
+        if ( ! in_array(self::OPTION_ZLIB_DISABLE, $options) && in_array(self::OPTION_ZLIB_ENABLE, $options)) {
             $option_cmd [] = 'enablezlib';
         }
-        if ( ! in_array(self::OPTION_DISABLE_SIMPLEVIEWER, $options) && in_array(self::OPTION_ENABLE_SIMPLEVIEWER, $options))
-        {
+        if ( ! in_array(self::OPTION_DISABLE_SIMPLEVIEWER, $options) && in_array(self::OPTION_ENABLE_SIMPLEVIEWER, $options)) {
             $option_cmd [] = 'simpleviewer';
         }
-        if (in_array(self::OPTION_LINKS_DISABLE, $options))
-        {
+        if (in_array(self::OPTION_LINKS_DISABLE, $options)) {
             $option_cmd [] = 'disablelinks';
         }
-        if (in_array(self::OPTION_LINKS_OPENNEWWINDOW, $options))
-        {
+        if (in_array(self::OPTION_LINKS_OPENNEWWINDOW, $options)) {
             $option_cmd [] = 'linksopennewwindow';
         }
 
         $option_string = escapeshellarg(implode('&', $option_cmd));
 
         $option_string = ! $option_string ? : '-s ' . $option_string;
-
 
         $cmd = sprintf(
           '%s %s %s -o %s -T 9 -f'
@@ -115,8 +94,7 @@ class Pdf2swf extends Binary
           , escapeshellarg($outputFile)
         );
 
-        if ( ! defined('PHP_WINDOWS_VERSION_BUILD') && $timelimit > 0)
-        {
+        if ( ! defined('PHP_WINDOWS_VERSION_BUILD') && $timelimit > 0) {
             $cmd .= ' -Q ' . (int) $timelimit;
         }
 

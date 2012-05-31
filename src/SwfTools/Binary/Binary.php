@@ -1,22 +1,12 @@
 <?php
 
-/**
- * Copyright (c) 2012 Alchemy
+/*
+ * This file is part of PHP-SwfTools.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * (c) Alchemy <info@alchemy.fr>
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
- * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace SwfTools\Binary;
@@ -26,7 +16,7 @@ use SwfTools\Exception;
 use Symfony\Component\Process\Process;
 
 /**
- *
+ * @author Romain Neutron imprec@gmail.com
  */
 abstract class Binary implements AdapterInterface
 {
@@ -36,7 +26,7 @@ abstract class Binary implements AdapterInterface
     /**
      * The path to the binary
      *
-     * @param type $binaryPath
+     * @param type $binaryPathname
      */
     public function __construct($binaryPathname)
     {
@@ -61,23 +51,21 @@ abstract class Binary implements AdapterInterface
 
     /**
      *
-     * @param   string  $binaryName the name of the executable (used as a key
+     * @param string $binaryName the name of the executable (used as a key
      *                              in the configuration)
-     * @param   Configuration   $configuration  The configuration
-     * @return  \SwfTools\Binary\Binary
-     * @throws  \SwfTools\Exception\BinaryNotFoundException
+     * @param  Configuration                               $configuration The configuration
+     * @return \SwfTools\Binary\Binary
+     * @throws \SwfTools\Exception\BinaryNotFoundException
      */
     protected static function findBinary($binaryName, Configuration $configuration)
     {
-        if ($configuration->has($binaryName))
-        {
+        if ($configuration->has($binaryName)) {
             return new static($configuration->get($binaryName));
         }
 
         $finder = new \Symfony\Component\Process\ExecutableFinder();
 
-        if (null !== $exec_path = $finder->find($binaryName))
-        {
+        if (null !== $exec_path = $finder->find($binaryName)) {
             return new static($exec_path);
         }
 
@@ -87,18 +75,17 @@ abstract class Binary implements AdapterInterface
     /**
      * Run a command
      *
-     * @param   string      $command            The command to execute
-     * @param   boolean     $bypass_errors      if true, No exception are thrown
-     * @return  string                          The output of the command
-     * @throws  RuntimeException
+     * @param  string           $command       The command to execute
+     * @param  boolean          $bypass_errors if true, No exception are thrown
+     * @return string           The output of the command
+     * @throws RuntimeException
      */
     protected static function run($command, $bypass_errors = false)
     {
         $process = new Process($command);
         $process->run();
 
-        if ( ! $process->isSuccessful() && ! $bypass_errors)
-        {
+        if ( ! $process->isSuccessful() && ! $bypass_errors) {
             throw new Exception\RuntimeException('Failed to execute ' . $command);
         }
 
