@@ -22,6 +22,10 @@
         "symfony/dependency-injection": ">2.0",
         "doctrine/common": ">2.0"
     },
+    "require-dev": {
+        "fabpot/php-cs-fixer": "dev-master",
+        "sami/sami": "dev-master"
+    },
     "autoload": {
         "psr-0": {
             "SwfTools": "src"
