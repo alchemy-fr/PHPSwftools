@@ -24,14 +24,14 @@ class FlashFile extends File
      * @param  type                       $outputFile
      * @param  type                       $legacy_rendering
      * @return boolean
-     * @throws Exception\RuntimeException
+     * @throws Exception\InvalidArgumentException
      */
     public function render($outputFile, $legacy_rendering = false)
     {
         $swfrender = $this->getBinaryAdapter('Swfrender');
 
         if ( ! $outputFile) {
-            throw new Exception\InvalidArgument('Invalid argument');
+            throw new Exception\InvalidArgumentException('Invalid argument');
         }
 
         $outputFile = static::changePathnameExtension($outputFile, 'png');
@@ -136,13 +136,13 @@ class FlashFile extends File
      *
      * @return type
      *
-     * @throws Exception\InvalidArgument
+     * @throws Exception\InvalidArgumentException
      * @throws Exception\RuntimeException
      */
     public function extractFirstImage($outputFile)
     {
         if ( ! $outputFile) {
-            throw new Exception\InvalidArgument('Bad destination');
+            throw new Exception\InvalidArgumentException('Bad destination');
         }
 
         $objects = $this->listEmbeddedObjects();

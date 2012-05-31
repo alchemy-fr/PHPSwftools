@@ -48,7 +48,7 @@ class Pdf2swfTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers SwfTools\Binary\Pdf2swf::toSwf
-     * @expectedException \SwfTools\Exception\InvalidArgument
+     * @expectedException \SwfTools\Exception\InvalidArgumentException
      */
     public function testToSwfInvalidFile()
     {
@@ -59,7 +59,7 @@ class Pdf2swfTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers SwfTools\Binary\Pdf2swf::toSwf
      * @dataProvider getWrongOptions
-     * @expectedException \SwfTools\Exception\InvalidArgument
+     * @expectedException \SwfTools\Exception\InvalidArgumentException
      */
     public function testToSwfInvalidRes($pdf, $dest, $opts, $convert, $res, $pages, $framerate, $quality, $timelimit)
     {

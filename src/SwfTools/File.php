@@ -25,12 +25,12 @@ abstract class File extends \SplFileInfo
      *
      * @param  type                      $pathname
      * @param  Configuration             $configuration
-     * @throws Exception\InvalidArgument
+     * @throws Exception\InvalidArgumentException
      */
     public function __construct($pathname, Configuration $configuration = null)
     {
         if ( ! file_exists($pathname)) {
-            throw new Exception\InvalidArgument(sprintf('File %s does not exist', $pathname));
+            throw new Exception\InvalidArgumentException(sprintf('File %s does not exist', $pathname));
         }
 
         parent::__construct($pathname);

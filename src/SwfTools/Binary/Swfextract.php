@@ -42,14 +42,14 @@ class Swfextract extends Binary
      * @param  \SplFileInfo               $file       the file
      * @param  EmbeddedObject             $embedded   The id of the object
      * @param  string                     $outputFile the path where to extract
-     * @throws Exception\InvalidArgument
+     * @throws Exception\InvalidArgumentException
      * @throws Exception\RuntimeException
      * @return string|null                The ouptut string, null on error
      */
     public function extract(\SplFileInfo $file, EmbeddedObject $embedded, $outputFile)
     {
         if (trim($outputFile) === '') {
-            throw new Exception\InvalidArgument('Invalid output file');
+            throw new Exception\InvalidArgumentException('Invalid output file');
         }
 
         $cmd = sprintf('%s -%s %d %s -o %s'

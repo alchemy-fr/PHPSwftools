@@ -26,13 +26,13 @@ class Swfrender extends Binary
      * @param  type                       $outputFile
      * @param  type                       $legacy
      * @return null
-     * @throws Exception\InvalidArgument
+     * @throws Exception\InvalidArgumentException
      * @throws Exception\RuntimeException
      */
     public function render(\SplFileInfo $file, $outputFile, $legacy)
     {
         if (trim($outputFile) === '') {
-            throw new Exception\InvalidArgument('Invalid output file');
+            throw new Exception\InvalidArgumentException('Invalid output file');
         }
 
         $cmd = sprintf(

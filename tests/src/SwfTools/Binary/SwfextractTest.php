@@ -64,7 +64,7 @@ class SwfextractTest extends \PHPUnit_Framework_TestCase
         try {
             $this->object->extract($flash, $embedded, '');
             $this->fail('Should fail on invalid destination');
-        } catch (\SwfTools\Exception\InvalidArgument $exception) {
+        } catch (\SwfTools\Exception\InvalidArgumentException $exception) {
 
         }
 

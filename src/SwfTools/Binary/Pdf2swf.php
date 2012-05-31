@@ -32,27 +32,27 @@ class Pdf2swf extends Binary
     public function toSwf(\SplFileInfo $file, $outputFile, Array $options = array(), $convertType = self::CONVERT_POLY2BITMAP, $resolution = 72, $pageRange = '1-', $frameRate = 15, $jpegquality = 75, $timelimit = 100)
     {
         if ( ! trim($outputFile)) {
-            throw new Exception\InvalidArgument('Invalid resolution argument');
+            throw new Exception\InvalidArgumentException('Invalid resolution argument');
         }
 
         if ((int) $resolution < 1) {
-            throw new Exception\InvalidArgument('Invalid resolution argument');
+            throw new Exception\InvalidArgumentException('Invalid resolution argument');
         }
 
         if ((int) $frameRate < 1) {
-            throw new Exception\InvalidArgument('Invalid framerate argument');
+            throw new Exception\InvalidArgumentException('Invalid framerate argument');
         }
 
         if ((int) $jpegquality < 0 || (int) $jpegquality > 100) {
-            throw new Exception\InvalidArgument('Invalid jpegquality argument');
+            throw new Exception\InvalidArgumentException('Invalid jpegquality argument');
         }
 
         if ( ! preg_match('/\d+-\d?/', $pageRange)) {
-            throw new Exception\InvalidArgument('Invalid pages argument');
+            throw new Exception\InvalidArgumentException('Invalid pages argument');
         }
 
         if ((int) $timelimit < 1) {
-            throw new Exception\InvalidArgument('Invalid time limit argument');
+            throw new Exception\InvalidArgumentException('Invalid time limit argument');
         }
 
         $option_cmd = array();

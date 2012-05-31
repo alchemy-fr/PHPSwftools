@@ -20,7 +20,7 @@ class PDFFile extends File
     public function toSwf($outputFile)
     {
         if ( ! $outputFile) {
-            throw new Exception\InvalidArgument('Bad destination');
+            throw new Exception\InvalidArgumentException('Bad destination');
         }
 
         $pdf2swf = $this->getBinaryAdapter('Pdf2swf');

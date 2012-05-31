@@ -39,7 +39,7 @@ class FlashFileTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \SwfTools\Exception\InvalidArgument
+     * @expectedException \SwfTools\Exception\InvalidArgumentException
      */
     public function testWrongFile()
     {
@@ -69,7 +69,7 @@ class FlashFileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers SwfTools\FlashFile::render
-     * @expectedException \SwfTools\Exception\InvalidArgument
+     * @expectedException \SwfTools\Exception\InvalidArgumentException
      */
     public function testRenderWrongDestination()
     {
@@ -164,7 +164,7 @@ class FlashFileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers SwfTools\FlashFile::extractFirstImage
-     * @expectedException \SwfTools\Exception\InvalidArgument
+     * @expectedException \SwfTools\Exception\InvalidArgumentException
      */
     public function testExtractFirstImageFailWithoutDestination()
     {
