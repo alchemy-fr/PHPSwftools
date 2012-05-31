@@ -46,22 +46,16 @@ class SwfrenderTest extends \PHPUnit_Framework_TestCase
 
         $fakeFlash = new \SplFileInfo(__DIR__ . '/../../../files/noflashfile.swf');
 
-        try
-        {
+        try {
             $this->object->render($fakeFlash, $dest_file, true);
             $this->fail('Swfrender should raise an exception on an unexistent file');
-        }
-        catch (\SwfTools\Exception\RuntimeException $e)
-        {
+        } catch (\SwfTools\Exception\RuntimeException $e) {
 
         }
-        try
-        {
+        try {
             $this->object->render($flash, '', true);
             $this->fail('Swfrender should raise an exception on an unexistent destination');
-        }
-        catch (\SwfTools\Exception\InvalidArgument $e)
-        {
+        } catch (\SwfTools\Exception\InvalidArgument $e) {
 
         }
     }

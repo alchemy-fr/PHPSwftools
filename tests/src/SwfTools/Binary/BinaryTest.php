@@ -28,23 +28,17 @@ class BinaryTest extends \PHPUnit_Framework_TestCase
         $object = BinaryTester::load(new \SwfTools\Configuration());
         $this->assertTrue(is_executable($object->getBinaryPath()));
 
-        try
-        {
+        try {
             BinaryBadTester::load(new \SwfTools\Configuration());
             $this->fail();
-        }
-        catch (\SwfTools\Exception\BinaryNotFoundException $e)
-        {
+        } catch (\SwfTools\Exception\BinaryNotFoundException $e) {
 
         }
 
-        try
-        {
+        try {
             $object->runIt('mycommand');
             $this->fail('should fail on bad command');
-        }
-        catch (\SwfTools\Exception\RuntimeException $e)
-        {
+        } catch (\SwfTools\Exception\RuntimeException $e) {
 
         }
         $object->runIt('mycommand', true);

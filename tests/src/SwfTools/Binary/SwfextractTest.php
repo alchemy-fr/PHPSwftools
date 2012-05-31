@@ -46,10 +46,8 @@ class SwfextractTest extends \PHPUnit_Framework_TestCase
 
         $embedded = null;
 
-        foreach ($embeddeds as $e)
-        {
-            if ($e->getType() === \SwfTools\EmbeddedObject::TYPE_JPEG)
-            {
+        foreach ($embeddeds as $e) {
+            if ($e->getType() === \SwfTools\EmbeddedObject::TYPE_JPEG) {
                 $embedded = $e;
                 break;
             }
@@ -63,13 +61,10 @@ class SwfextractTest extends \PHPUnit_Framework_TestCase
 
         unlink($dest_file);
 
-        try
-        {
+        try {
             $this->object->extract($flash, $embedded, '');
             $this->fail('Should fail on invalid destination');
-        }
-        catch (\SwfTools\Exception\InvalidArgument $exception)
-        {
+        } catch (\SwfTools\Exception\InvalidArgument $exception) {
 
         }
 
@@ -78,13 +73,10 @@ class SwfextractTest extends \PHPUnit_Framework_TestCase
 
         $fakeFile = new \SplFileInfo(__DIR__ . '/../../../files/nofile');
 
-        try
-        {
+        try {
             $this->object->extract($fakeFile, $embedded, $dest_file);
             $this->fail('Swfrender should file on an unexistent file');
-        }
-        catch (\SwfTools\Exception\RuntimeException $exception)
-        {
+        } catch (\SwfTools\Exception\RuntimeException $exception) {
 
         }
     }

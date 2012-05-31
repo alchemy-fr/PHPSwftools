@@ -19,7 +19,6 @@ class FlashFileTest extends \PHPUnit_Framework_TestCase
         $this->destination = __DIR__ . '/../../files/tmp.jpg';
         $this->object = new FlashFile(__DIR__ . '/../../files/flashfile.swf');
 
-
         $this->fakeObject = $this->getMock(
           '\SwfTools\FlashFile'
           , array('getPathname')

@@ -114,7 +114,6 @@ class Pdf2swfTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-
     /**
      * @covers SwfTools\Binary\Pdf2swf::load
      */
