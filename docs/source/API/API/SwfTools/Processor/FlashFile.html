@@ -72,10 +72,10 @@
             </tr>
                     <tr>
                 <td class="type">
-                    boolean
+                    Boolean
                 </td>
                 <td class="last">
-                    <a href="#method_render">render</a>(<abbr title="SwfTools\Processor\type">type</abbr> $outputFile, <abbr title="SwfTools\Processor\type">type</abbr> $legacy_rendering = false)
+                    <a href="#method_render">render</a>(string $outputFile, Boolean $legacy_rendering = false, <abbr title="SwfTools\Processor\Logger">Logger</abbr> $logger = null)
                     <p>Render the flash to PNG file</p>
                 </td>
                 <td></td>
@@ -85,7 +85,7 @@
                     <abbr title="SwfTools\Processor\type">type</abbr>
                 </td>
                 <td class="last">
-                    <a href="#method_listEmbeddedObjects">listEmbeddedObjects</a>(<abbr title="SwfTools\Processor\type">type</abbr> $useCache = false)
+                    <a href="#method_listEmbeddedObjects">listEmbeddedObjects</a>(Boolean $useCache = false, <abbr title="SwfTools\Processor\Logger">Logger</abbr> $logger = null)
                     <p>List all embedded object of the current flash file</p>
                 </td>
                 <td></td>
@@ -95,17 +95,17 @@
                     string
                 </td>
                 <td class="last">
-                    <a href="#method_extractEmbedded">extractEmbedded</a>(<abbr title="SwfTools\Processor\type">type</abbr> $id, <abbr title="SwfTools\Processor\type">type</abbr> $outputFile)
+                    <a href="#method_extractEmbedded">extractEmbedded</a>(integer $id, string $outputFile, <abbr title="SwfTools\Processor\Logger">Logger</abbr> $logger = null)
                     <p>Extract the specified Embedded file</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    <abbr title="SwfTools\Processor\type">type</abbr>
+                    
                 </td>
                 <td class="last">
-                    <a href="#method_extractFirstImage">extractFirstImage</a>(<abbr title="SwfTools\Processor\type">type</abbr> $outputFile)
+                    <a href="#method_extractFirstImage">extractFirstImage</a>(string $outputFile, <abbr title="SwfTools\Processor\Logger">Logger</abbr> $logger = null)
                     <p>Extract the first embedded image found</p>
                 </td>
                 <td></td>
@@ -116,7 +116,7 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">in <a href="../../SwfTools/Processor/File.html#method___construct"><abbr title="SwfTools\Processor\File">File</abbr></a> at line 32</div>
+        <div class="location">in <a href="../../SwfTools/Processor/File.html#method___construct"><abbr title="SwfTools\Processor\File">File</abbr></a> at line 33</div>
         <code>            public            
     <strong>__construct</strong>(<abbr title="SwfTools\Processor\SwfTools\Configuration">Configuration</abbr> $configuration = null)</code>
     </h3>
@@ -156,7 +156,7 @@
     </div>
 
                 <h3 id="method_open">
-        <div class="location">in <a href="../../SwfTools/Processor/File.html#method_open"><abbr title="SwfTools\Processor\File">File</abbr></a> at line 44</div>
+        <div class="location">in <a href="../../SwfTools/Processor/File.html#method_open"><abbr title="SwfTools\Processor\File">File</abbr></a> at line 45</div>
         <code>            public            
     <strong>open</strong>($pathfile)</code>
     </h3>
@@ -181,7 +181,7 @@
     </div>
 
                 <h3 id="method_close">
-        <div class="location">in <a href="../../SwfTools/Processor/File.html#method_close"><abbr title="SwfTools\Processor\File">File</abbr></a> at line 55</div>
+        <div class="location">in <a href="../../SwfTools/Processor/File.html#method_close"><abbr title="SwfTools\Processor\File">File</abbr></a> at line 56</div>
         <code>            public            
     <strong>close</strong>()</code>
     </h3>
@@ -196,9 +196,9 @@
     </div>
 
                 <h3 id="method_render">
-        <div class="location">at line 40</div>
-        <code>            public            boolean
-    <strong>render</strong>(<abbr title="SwfTools\Processor\type">type</abbr> $outputFile, <abbr title="SwfTools\Processor\type">type</abbr> $legacy_rendering = false)</code>
+        <div class="location">at line 41</div>
+        <code>            public            Boolean
+    <strong>render</strong>(string $outputFile, Boolean $legacy_rendering = false, <abbr title="SwfTools\Processor\Logger">Logger</abbr> $logger = null)</code>
     </h3>
     <div class="details">
         <p>Render the flash to PNG file</p>
@@ -208,14 +208,19 @@
 
                     <table>
                     <tr>
-                <td><abbr title="SwfTools\Processor\type">type</abbr></td>
+                <td>string</td>
                 <td>$outputFile</td>
                 <td></td>
             </tr>
                     <tr>
-                <td><abbr title="SwfTools\Processor\type">type</abbr></td>
+                <td>Boolean</td>
                 <td>$legacy_rendering</td>
                 <td></td>
+            </tr>
+                    <tr>
+                <td><abbr title="SwfTools\Processor\Logger">Logger</abbr></td>
+                <td>$logger</td>
+                <td>A logger</td>
             </tr>
             </table>
 
@@ -224,7 +229,7 @@
 
                     <table>
         <tr>
-            <td>boolean</td>
+            <td>Boolean</td>
             <td></td>
         </tr>
     </table>
@@ -244,9 +249,9 @@
     </div>
 
                 <h3 id="method_listEmbeddedObjects">
-        <div class="location">at line 72</div>
+        <div class="location">at line 79</div>
         <code>            public            <abbr title="SwfTools\Processor\type">type</abbr>
-    <strong>listEmbeddedObjects</strong>(<abbr title="SwfTools\Processor\type">type</abbr> $useCache = false)</code>
+    <strong>listEmbeddedObjects</strong>(Boolean $useCache = false, <abbr title="SwfTools\Processor\Logger">Logger</abbr> $logger = null)</code>
     </h3>
     <div class="details">
         <p>List all embedded object of the current flash file</p>
@@ -256,9 +261,14 @@
 
                     <table>
                     <tr>
-                <td><abbr title="SwfTools\Processor\type">type</abbr></td>
+                <td>Boolean</td>
                 <td>$useCache</td>
                 <td></td>
+            </tr>
+                    <tr>
+                <td><abbr title="SwfTools\Processor\Logger">Logger</abbr></td>
+                <td>$logger</td>
+                <td>A logger</td>
             </tr>
             </table>
 
@@ -287,9 +297,9 @@
     </div>
 
                 <h3 id="method_extractEmbedded">
-        <div class="location">at line 134</div>
+        <div class="location">at line 147</div>
         <code>            public            string
-    <strong>extractEmbedded</strong>(<abbr title="SwfTools\Processor\type">type</abbr> $id, <abbr title="SwfTools\Processor\type">type</abbr> $outputFile)</code>
+    <strong>extractEmbedded</strong>(integer $id, string $outputFile, <abbr title="SwfTools\Processor\Logger">Logger</abbr> $logger = null)</code>
     </h3>
     <div class="details">
         <p>Extract the specified Embedded file</p>
@@ -299,14 +309,19 @@
 
                     <table>
                     <tr>
-                <td><abbr title="SwfTools\Processor\type">type</abbr></td>
+                <td>integer</td>
                 <td>$id</td>
                 <td></td>
             </tr>
                     <tr>
-                <td><abbr title="SwfTools\Processor\type">type</abbr></td>
+                <td>string</td>
                 <td>$outputFile</td>
                 <td></td>
+            </tr>
+                    <tr>
+                <td><abbr title="SwfTools\Processor\Logger">Logger</abbr></td>
+                <td>$logger</td>
+                <td>A logger</td>
             </tr>
             </table>
 
@@ -335,9 +350,9 @@
     </div>
 
                 <h3 id="method_extractFirstImage">
-        <div class="location">at line 173</div>
-        <code>            public            <abbr title="SwfTools\Processor\type">type</abbr>
-    <strong>extractFirstImage</strong>(<abbr title="SwfTools\Processor\type">type</abbr> $outputFile)</code>
+        <div class="location">at line 190</div>
+        <code>            public            
+    <strong>extractFirstImage</strong>(string $outputFile, <abbr title="SwfTools\Processor\Logger">Logger</abbr> $logger = null)</code>
     </h3>
     <div class="details">
         <p>Extract the first embedded image found</p>
@@ -347,22 +362,18 @@
 
                     <table>
                     <tr>
-                <td><abbr title="SwfTools\Processor\type">type</abbr></td>
+                <td>string</td>
                 <td>$outputFile</td>
                 <td></td>
+            </tr>
+                    <tr>
+                <td><abbr title="SwfTools\Processor\Logger">Logger</abbr></td>
+                <td>$logger</td>
+                <td>A logger</td>
             </tr>
             </table>
 
             
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><abbr title="SwfTools\Processor\type">type</abbr></td>
-            <td></td>
-        </tr>
-    </table>
-
             
                             <h4>Exceptions</h4>
 

@@ -88,7 +88,7 @@ class FlashFileTest extends \PHPUnit_Framework_TestCase
         $object->expects($this->any())
             ->method('listEmbeddedObjects')
             ->will($this->returnValue(array()));
-        
+
         $object->open(__DIR__ . '/../../../files/flashfile.swf');
         $object->extractFirstImage($this->destination);
     }
