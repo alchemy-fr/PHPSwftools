@@ -11,6 +11,7 @@
 
 namespace SwfTools\Processor;
 
+use Monolog\Logger;
 use SwfTools\Exception\InvalidArgumentException;
 use SwfTools\Exception\RuntimeException;
 
@@ -27,35 +28,35 @@ abstract class File
     /**
      * Build the File processor given the configuration
      *
-     * @param  Configuration             $configuration
+     * @param Configuration $configuration
      */
     public function __construct(\SwfTools\Configuration $configuration = null)
     {
         $this->configuration = $configuration ? : new \SwfTools\Configuration();
         $this->binaryAdapters = array();
     }
-    
+
     public function __destruct()
     {
         $this->close();
         $this->configuration = $this->binaryAdapters = null;
     }
-    
+
     public function open($pathfile)
     {
         if ( ! file_exists($pathfile)) {
             throw new InvalidArgumentException(sprintf('File %s does not exist', $pathfile));
         }
-        
+
         $this->pathfile = $pathfile;
-        
+
         return $this;
     }
-    
+
     public function close()
     {
         $this->pathfile = null;
-        
+
         return $this;
     }
 
@@ -78,24 +79,25 @@ abstract class File
     /**
      * Return the BinaryAdapter given a BinaryName
      *
-     * @param type $binaryName
+     * @param string $binaryName
+     * @param Logger $logger     A logger
      *
      * @return Binary\Binary The requested binary
      *
      * @throws Exception\RuntimeException
      */
-    protected function getBinaryAdapter($binaryName)
+    protected function getBinaryAdapter($binaryName, Logger $logger)
     {
-        if(isset($this->binaryAdapters[$binaryName])){
+        if (isset($this->binaryAdapters[$binaryName])) {
             return $this->binaryAdapters[$binaryName];
         }
-        
+
         $classname = 'SwfTools\\Binary\\' . $binaryName;
 
         try {
             if (class_exists($classname)) {
-                $this->binaryAdapters[$binaryName] = $classname::load($this->configuration);
-                
+                $this->binaryAdapters[$binaryName] = $classname::load($this->configuration, $logger);
+
                 return $this->binaryAdapters[$binaryName];
             }
         } catch (RuntimeException $e) {

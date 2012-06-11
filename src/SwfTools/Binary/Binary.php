@@ -11,6 +11,7 @@
 
 namespace SwfTools\Binary;
 
+use Monolog\Logger;
 use SwfTools\Configuration;
 use SwfTools\Exception\BinaryNotFoundException;
 use SwfTools\Exception\RuntimeException;
@@ -19,7 +20,7 @@ use Symfony\Component\Process\ExecutableFinder;
 
 /**
  * The abstract binary adapter
- * 
+ *
  * @author Romain Neutron imprec@gmail.com
  */
 abstract class Binary implements AdapterInterface
@@ -28,13 +29,21 @@ abstract class Binary implements AdapterInterface
     protected $binaryPathname;
 
     /**
+     *
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
      * The path to the binary
      *
-     * @param type $binaryPathname
+     * @param type   $binaryPathname
+     * @param Logger $logger         A logger
      */
-    public function __construct($binaryPathname)
+    public function __construct($binaryPathname, Logger $logger)
     {
         $this->binaryPathname = $binaryPathname;
+        $this->logger = $logger;
     }
 
     /**
@@ -46,7 +55,7 @@ abstract class Binary implements AdapterInterface
     {
         $cmd = sprintf('%s --version', $this->binaryPathname);
 
-        $datas = self::run($cmd, true);
+        $datas = $this->run($cmd, true);
 
         preg_match('/[a-z]+\ -\ part of swftools ([0-9\.]+)/i', $datas, $matches);
 
@@ -56,22 +65,23 @@ abstract class Binary implements AdapterInterface
     /**
      * Load a Binary with configuration value, otherwise try to detect it.
      *
-     * @param string $binaryName the name of the executable (used as a keyin the configuration)
-     * @param  Configuration                               $configuration The configuration
+     * @param  string        $binaryName    the name of the executable (used as a keyin the configuration)
+     * @param  Configuration $configuration The configuration
+     * @param  Logger        $logger        A logger
      * @return Binary
-     * 
+     *
      * @throws BinaryNotFoundException When no binary found
      */
-    protected static function loadBinary($binaryName, Configuration $configuration)
+    protected static function loadBinary($binaryName, Configuration $configuration, Logger $logger)
     {
         if ($configuration->has($binaryName)) {
-            return new static($configuration->get($binaryName));
+            return new static($configuration->get($binaryName), $logger);
         }
 
         $finder = new ExecutableFinder();
 
         if (null !== $exec_path = $finder->find($binaryName)) {
-            return new static($exec_path);
+            return new static($exec_path, $logger);
         }
 
         throw new BinaryNotFoundException(sprintf('Binary %s not found', $binaryName));
@@ -85,17 +95,22 @@ abstract class Binary implements AdapterInterface
      * @return string           The output of the command
      * @throws RuntimeException When the command failed
      */
-    protected static function run($command, $bypass_errors = false)
+    protected function run($command, $bypass_errors = false)
     {
+        $this->logger->addInfo(sprintf('SwfTools running command %s', $command));
+
         $process = new Process($command);
         $process->run();
 
         if ( ! $process->isSuccessful() && ! $bypass_errors) {
+            $this->logger->addError(sprintf('SwfTools command failed %s', $process->getErrorOutput()));
             throw new RuntimeException('Failed to execute ' . $command);
         }
 
         $result = $process->getOutput();
         unset($process);
+
+        $this->logger->addInfo('SwfTools command successful');
 
         return $result;
     }

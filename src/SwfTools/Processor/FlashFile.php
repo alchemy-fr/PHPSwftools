@@ -32,18 +32,24 @@ class FlashFile extends File
     /**
      * Render the flash to PNG file
      *
-     * @param  type                       $outputFile
-     * @param  type                       $legacy_rendering
-     * @return boolean
+     * @param  string                   $outputFile
+     * @param  Boolean                  $legacy_rendering
+     * @param  Logger                   $logger           A logger
+     * @return Boolean
      * @throws InvalidArgumentException
      */
-    public function render($outputFile, $legacy_rendering = false)
+    public function render($outputFile, $legacy_rendering = false, Logger $logger = null)
     {
         if ( ! $this->pathfile) {
             throw new LogicException('No file open');
         }
 
-        $swfrender = $this->getBinaryAdapter('Swfrender');
+        if ( ! $logger) {
+            $logger = new \Monolog\Logger('Null logger');
+            $logger->pushHandler(new \Monolog\Handler\NullHandler());
+        }
+
+        $swfrender = $this->getBinaryAdapter('Swfrender', $logger);
 
         if ( ! $outputFile) {
             throw new InvalidArgumentException('Invalid argument');
@@ -64,31 +70,37 @@ class FlashFile extends File
 
     /**
      * List all embedded object of the current flash file
-     * 
-     * @param type $useCache
+     *
+     * @param  Boolean          $useCache
+     * @param  Logger           $logger   A logger
      * @return type
      * @throws RuntimeException
      */
-    public function listEmbeddedObjects($useCache = false)
+    public function listEmbeddedObjects($useCache = false, Logger $logger = null)
     {
         if ( ! $this->pathfile) {
             throw new LogicException('No file open');
         }
-        
+
         if ($useCache && $this->embedded) {
             return $this->embedded;
         }
 
+        if ( ! $logger) {
+            $logger = new \Monolog\Logger('Null logger');
+            $logger->pushHandler(new \Monolog\Handler\NullHandler());
+        }
+
         $this->embedded = array();
 
-        $swfextract = $this->getBinaryAdapter('Swfextract');
+        $swfextract = $this->getBinaryAdapter('Swfextract', $logger);
 
         try {
             $datas = explode("\n", $swfextract->listEmbedded($this->pathfile));
         } catch (RuntimeException $e) {
             throw new RuntimeException('Unable to list embedded datas');
         }
-        
+
         unset($swfextract);
 
         foreach ($datas as $line) {
@@ -124,26 +136,32 @@ class FlashFile extends File
     /**
      * Extract the specified Embedded file
      *
-     * @param type $id
-     * @param type $outputFile
+     * @param integer $id
+     * @param string  $outputFile
+     * @param Logger  $logger     A logger
      *
      * @return string
      *
      * @throws RuntimeException
      */
-    public function extractEmbedded($id, $outputFile)
+    public function extractEmbedded($id, $outputFile, Logger $logger = null)
     {
         if ( ! $this->pathfile) {
             throw new LogicException('No file open');
         }
-        
+
         if ( ! $outputFile) {
             throw new InvalidArgumentException('Bad destination');
         }
-        
+
+        if ( ! $logger) {
+            $logger = new \Monolog\Logger('Null logger');
+            $logger->pushHandler(new \Monolog\Handler\NullHandler());
+        }
+
         foreach ($this->listEmbeddedObjects(true) as $embedded) {
             if ($embedded->getId() == $id) {
-                $swfextract = $this->getBinaryAdapter('Swfextract');
+                $swfextract = $this->getBinaryAdapter('Swfextract', $logger);
 
                 try {
                     $swfextract->extract($this->pathfile, $embedded, $outputFile);
@@ -163,19 +181,18 @@ class FlashFile extends File
     /**
      * Extract the first embedded image found
      *
-     * @param type $outputFile
-     *
-     * @return type
+     * @param string $outputFile
+     * @param Logger $logger     A logger
      *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
-    public function extractFirstImage($outputFile)
+    public function extractFirstImage($outputFile, $logger = null)
     {
         if ( ! $this->pathfile) {
             throw new LogicException('No file open');
         }
-        
+
         if ( ! $outputFile) {
             throw new InvalidArgumentException('Bad destination');
         }
@@ -186,9 +203,14 @@ class FlashFile extends File
             throw new RuntimeException('Unable to extract an image');
         }
 
+        if ( ! $logger) {
+            $logger = new \Monolog\Logger('Null logger');
+            $logger->pushHandler(new \Monolog\Handler\NullHandler());
+        }
+
         foreach ($objects as $embedded) {
             if (in_array($embedded->getType(), array(\SwfTools\EmbeddedObject::TYPE_JPEG, \SwfTools\EmbeddedObject::TYPE_PNG))) {
-                $swfextract = $this->getBinaryAdapter('Swfextract');
+                $swfextract = $this->getBinaryAdapter('Swfextract', $logger);
 
                 switch ($embedded->getType()) {
                     case \SwfTools\EmbeddedObject::TYPE_JPEG:

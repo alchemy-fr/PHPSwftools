@@ -11,6 +11,7 @@
 
 namespace SwfTools\Binary;
 
+use Monolog\Logger;
 use SwfTools\Configuration;
 use SwfTools\EmbeddedObject;
 use SwfTools\Exception;
@@ -24,7 +25,7 @@ class Swfextract extends Binary
     /**
      * Execute the command to list the embedded objects
      *
-     * @param  string                         $pathfile
+     * @param  string                               $pathfile
      * @throws \SwfTools\Exception\RuntimeException
      * @return string|null                          The ouptut string, null on error
      */
@@ -32,19 +33,19 @@ class Swfextract extends Binary
     {
         $cmd = sprintf('%s %s', escapeshellcmd($this->binaryPathname), escapeshellarg($pathfile));
 
-        return self::run($cmd);
+        return $this->run($cmd);
     }
 
     /**
      *
      * Execute the command to extract an embedded object from a flash file
      *
-     * @param  string               $pathfile       the file
-     * @param  EmbeddedObject             $embedded   The id of the object
-     * @param  string                     $outputFile the path where to extract
+     * @param  string                             $pathfile   the file
+     * @param  EmbeddedObject                     $embedded   The id of the object
+     * @param  string                             $outputFile the path where to extract
      * @throws Exception\InvalidArgumentException
      * @throws Exception\RuntimeException
-     * @return string|null                The ouptut string, null on error
+     * @return string|null                        The ouptut string, null on error
      */
     public function extract($pathfile, EmbeddedObject $embedded, $outputFile)
     {
@@ -60,7 +61,7 @@ class Swfextract extends Binary
           , escapeshellarg($outputFile)
         );
 
-        return self::run($cmd);
+        return $this->run($cmd);
     }
 
     /**
@@ -69,12 +70,16 @@ class Swfextract extends Binary
      * Either pass a configuration file with the binary settings, or pass an
      * empty configuration, which will trigger the autodetection
      *
-     * @throws Exception\BinaryNotFoundException
+     * @param Configuration $configuration A Configuration
+     * @param Logger        $logger        A logger
+     *
      * @return Swfrender
+     *
+     * @throws Exception\BinaryNotFoundException
      */
-    public static function load(Configuration $configuration)
+    public static function load(Configuration $configuration, Logger $logger)
     {
-        return static::loadBinary('swfextract', $configuration);
+        return static::loadBinary('swfextract', $configuration, $logger);
     }
 
 }

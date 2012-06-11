@@ -11,12 +11,13 @@
 
 namespace SwfTools\Binary;
 
+use Monolog\Logger;
 use SwfTools\Configuration;
 use SwfTools\Exception;
 
 /**
  * The Pdf2Swf adapter
- * 
+ *
  * @author Romain Neutron imprec@gmail.com
  */
 class Pdf2swf extends Binary
@@ -32,17 +33,19 @@ class Pdf2swf extends Binary
     const OPTION_DISABLE_SIMPLEVIEWER = 'nosimpleviewer';
 
     /**
-     * 
-     * @param type $pathfile
-     * @param type $outputFile
-     * @param array $options
-     * @param type $convertType
-     * @param type $resolution
-     * @param type $pageRange
-     * @param type $frameRate
-     * @param type $jpegquality
-     * @param type $timelimit
-     * @return type
+     *
+     * @param string  $pathfile
+     * @param string  $outputFile
+     * @param array   $options
+     * @param string  $convertType
+     * @param integer $resolution
+     * @param integer $pageRange
+     * @param integer $frameRate
+     * @param integer $jpegquality
+     * @param integer $timelimit
+     *
+     * @return Pdf2swf
+     *
      * @throws Exception\InvalidArgumentException
      */
     public function toSwf($pathfile, $outputFile, Array $options = array(), $convertType = self::CONVERT_POLY2BITMAP, $resolution = 72, $pageRange = '1-', $frameRate = 15, $jpegquality = 75, $timelimit = 100)
@@ -114,7 +117,9 @@ class Pdf2swf extends Binary
             $cmd .= ' -Q ' . (int) $timelimit;
         }
 
-        return self::run($cmd);
+        $this->run($cmd);
+
+        return $this;
     }
 
     /**
@@ -123,13 +128,15 @@ class Pdf2swf extends Binary
      * Either pass a configuration file with the binary settings, or pass an
      * empty configuration, which will trigger the autodetection
      *
+     * @param  Configuration $configuration A Configuration
+     * @param  Logger        $logger        A logger
      * @return Pdf2swf
-     * 
+     *
      * @throws \SwfTools\Exception\BinaryNotFoundException
      */
-    public static function load(Configuration $configuration)
+    public static function load(Configuration $configuration, Logger $logger)
     {
-        return static::loadBinary('pdf2swf', $configuration);
+        return static::loadBinary('pdf2swf', $configuration, $logger);
     }
 
 }

@@ -2,6 +2,9 @@
 
 namespace SwfTools\Processor;
 
+use Monolog\Logger;
+use Monolog\Handler\NullHandler;
+
 class FileTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -36,7 +39,10 @@ class ExtendedFile extends File
 
     public function testGetBinaryAdapter()
     {
-        $this->getBinaryAdapter('Babebibobu');
+        $logger = new Logger('Null logger');
+        $logger->pushHandler(new NullHandler());
+
+        $this->getBinaryAdapter('Babebibobu', $logger);
     }
 
     public function change($pathname, $extension)

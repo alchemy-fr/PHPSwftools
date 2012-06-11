@@ -2,6 +2,10 @@
 
 namespace SwfTools\Binary;
 
+use Monolog\Logger;
+use Monolog\Handler\NullHandler;
+use SwfTools\Configuration;
+
 class BinaryTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -12,7 +16,10 @@ class BinaryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->object = BinaryTester::load(new \SwfTools\Configuration(array('php' => '/fakepath')));
+        $logger = new \Monolog\Logger('test');
+        $logger->pushHandler(new NullHandler());
+
+        $this->object = BinaryTester::load(new Configuration(array('php' => '/fakepath')), $logger);
     }
 
     /**
@@ -22,14 +29,17 @@ class BinaryTest extends \PHPUnit_Framework_TestCase
      */
     public function testBinaryPath()
     {
-        $object = BinaryTester::load(new \SwfTools\Configuration(array('php' => '/fakepath')));
+        $logger = new Logger('test');
+        $logger->pushHandler(new NullHandler());
+
+        $object = BinaryTester::load(new Configuration(array('php' => '/fakepath')), $logger);
         $this->assertEquals('/fakepath', $object->getBinaryPath());
 
-        $object = BinaryTester::load(new \SwfTools\Configuration());
+        $object = BinaryTester::load(new Configuration(), $logger);
         $this->assertTrue(is_executable($object->getBinaryPath()));
 
         try {
-            BinaryBadTester::load(new \SwfTools\Configuration());
+            BinaryBadTester::load(new Configuration(), $logger);
             $this->fail();
         } catch (\SwfTools\Exception\BinaryNotFoundException $e) {
 
@@ -46,7 +56,10 @@ class BinaryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetVersion()
     {
-        $object = Swfextract::load(new \SwfTools\Configuration());
+        $logger = new Logger('test');
+        $logger->pushHandler(new NullHandler());
+
+        $object = Swfextract::load(new Configuration(), $logger);
         $this->assertRegExp('/([0-9]+\.)+[0-9]+/', $object->getVersion());
     }
 
@@ -55,9 +68,9 @@ class BinaryTest extends \PHPUnit_Framework_TestCase
 class BinaryTester extends Binary
 {
 
-    public static function load(\SwfTools\Configuration $configuration)
+    public static function load(Configuration $configuration, Logger $logger)
     {
-        return static::loadBinary('php', $configuration);
+        return static::loadBinary('php', $configuration, $logger);
     }
 
     public function getBinaryPath()
@@ -75,14 +88,13 @@ class BinaryTester extends Binary
 class BinaryBadTester extends Binary
 {
 
-    public static function load(\SwfTools\Configuration $configuration)
+    public static function load(Configuration $configuration, Logger $logger)
     {
-        return static::loadBinary('randomprogramnamethatwouldnotexists', $configuration);
+        return static::loadBinary('randomprogramnamethatwouldnotexists', $configuration, $logger);
     }
 
     public function getBinaryPath()
     {
         return $this->binaryPath;
     }
-
 }

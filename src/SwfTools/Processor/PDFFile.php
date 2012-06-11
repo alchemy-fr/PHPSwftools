@@ -11,10 +11,9 @@
 
 namespace SwfTools\Processor;
 
+use Monolog\Logger;
 use SwfTools\Exception\Exception;
 use SwfTools\Exception\InvalidArgumentException;
-use SwfTools\Exception\LogicException;
-use SwfTools\Exception\RuntimeException;
 
 /**
  * @author Romain Neutron imprec@gmail.com
@@ -22,13 +21,25 @@ use SwfTools\Exception\RuntimeException;
 class PDFFile extends File
 {
 
-    public function toSwf($outputFile)
+    /**
+     *
+     * @param string $outputFile
+     * @param Logger $logger
+     *
+     * @throws InvalidArgumentException
+     */
+    public function toSwf($outputFile, Logger $logger = null)
     {
         if ( ! $outputFile) {
             throw new InvalidArgumentException('Bad destination');
         }
 
-        $pdf2swf = $this->getBinaryAdapter('Pdf2swf');
+        if ( ! $logger) {
+            $logger = new \Monolog\Logger('Null logger');
+            $logger->pushHandler(new \Monolog\Handler\NullHandler());
+        }
+
+        $pdf2swf = $this->getBinaryAdapter('Pdf2swf', $logger);
 
         /* @var $pdf2swf \SwfTools\Binary\Pdf2swf */
 

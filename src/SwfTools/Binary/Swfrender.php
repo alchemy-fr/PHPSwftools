@@ -11,6 +11,7 @@
 
 namespace SwfTools\Binary;
 
+use Monolog\Logger;
 use SwfTools\Configuration;
 use SwfTools\Exception;
 
@@ -22,9 +23,9 @@ class Swfrender extends Binary
 
     /**
      *
-     * @param  string               $file
-     * @param  type                       $outputFile
-     * @param  type                       $legacy
+     * @param  string                             $file
+     * @param  string                             $outputFile
+     * @param  Boolean                            $legacy
      * @return null
      * @throws Exception\InvalidArgumentException
      * @throws Exception\RuntimeException
@@ -36,14 +37,14 @@ class Swfrender extends Binary
         }
 
         $cmd = sprintf(
-          '%s %s %s -o %s'
-          , $this->binaryPathname
-          , ($legacy ? '-l' : '')
-          , $pathfile
-          , $outputFile
+            '%s %s %s -o %s'
+            , $this->binaryPathname
+            , ($legacy ? '-l' : '')
+            , $pathfile
+            , $outputFile
         );
 
-        return self::run($cmd);
+        return $this->run($cmd);
     }
 
     /**
@@ -52,12 +53,15 @@ class Swfrender extends Binary
      * Either pass a configuration file with the binary settings, or pass an
      * empty configuration, which will trigger the autodetection
      *
-     * @throws Exception\BinaryNotFoundException
+     * @param Configuration $configuration A Configuration
+     * @param Logger        $logger        A logger
+     *
      * @return Swfrender
+     *
+     * @throws Exception\BinaryNotFoundException
      */
-    public static function load(Configuration $configuration)
+    public static function load(Configuration $configuration, Logger $logger)
     {
-        return static::loadBinary('swfrender', $configuration);
+        return static::loadBinary('swfrender', $configuration, $logger);
     }
-
 }
