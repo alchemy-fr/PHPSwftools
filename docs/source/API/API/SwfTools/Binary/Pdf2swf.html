@@ -24,6 +24,10 @@
         <div class="content">
                 <p>class    <strong>Pdf2swf</strong>        extends <a href="../../SwfTools/Binary/Binary.html"><abbr title="SwfTools\Binary\Binary">Binary</abbr></a></p>
 
+            <div class="description">
+            <p>The Pdf2Swf adapter</p>
+            <p></p>
+        </div>
     
             <h2>Constants</h2>
 
@@ -103,31 +107,31 @@
             </tr>
                     <tr>
                 <td class="type">
-                    string
+                    string|null
                 </td>
                 <td class="last">
                     <a href="#method_getVersion">getVersion</a>()
-                    <p>Returns the version of the binary</p>
+                    <p>Try to get the version of the binary.</p>
                 </td>
                 <td><small>from&nbsp;<a href="../../SwfTools/Binary/Binary.html#method_getVersion"><abbr title="SwfTools\Binary\Binary">Binary</abbr></a></small></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    <abbr title="SwfTools\Binary\type">type</abbr>
                 </td>
                 <td class="last">
-                    <a href="#method_toSwf">toSwf</a>(<abbr title="SwfTools\Binary\SplFileInfo">SplFileInfo</abbr> $file, $outputFile, array $options = array(), $convertType = self::CONVERT_POLY2BITMAP, $resolution = 72, $pageRange = &#039;1-&#039;, $frameRate = 15, $jpegquality = 75, $timelimit = 100)
+                    <a href="#method_toSwf">toSwf</a>(<abbr title="SwfTools\Binary\type">type</abbr> $pathfile, <abbr title="SwfTools\Binary\type">type</abbr> $outputFile, array $options = array(), <abbr title="SwfTools\Binary\type">type</abbr> $convertType = self::CONVERT_POLY2BITMAP, <abbr title="SwfTools\Binary\type">type</abbr> $resolution = 72, <abbr title="SwfTools\Binary\type">type</abbr> $pageRange = &#039;1-&#039;, <abbr title="SwfTools\Binary\type">type</abbr> $frameRate = 15, <abbr title="SwfTools\Binary\type">type</abbr> $jpegquality = 75, <abbr title="SwfTools\Binary\type">type</abbr> $timelimit = 100)
                     <p></p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    static&nbsp;<a href="../../SwfTools/Binary/Swfrender.html"><abbr title="SwfTools\Binary\Swfrender">Swfrender</abbr></a>
+                    static&nbsp;<a href="../../SwfTools/Binary/Pdf2swf.html"><abbr title="SwfTools\Binary\Pdf2swf">Pdf2swf</abbr></a>
                 </td>
                 <td class="last">
                     <a href="#method_load">load</a>(<a href="../../SwfTools/Configuration.html"><abbr title="SwfTools\Configuration">Configuration</abbr></a> $configuration)
-                    <p>Factory method to build the binary</p>
+                    <p>Factory method to build the adapter</p>
                 </td>
                 <td></td>
             </tr>
@@ -137,7 +141,7 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">in <a href="../../SwfTools/Binary/Binary.html#method___construct"><abbr title="SwfTools\Binary\Binary">Binary</abbr></a> at line 31</div>
+        <div class="location">in <a href="../../SwfTools/Binary/Binary.html#method___construct"><abbr title="SwfTools\Binary\Binary">Binary</abbr></a> at line 35</div>
         <code>            public            
     <strong>__construct</strong>(<abbr title="SwfTools\Binary\type">type</abbr> $binaryPathname)</code>
     </h3>
@@ -162,21 +166,21 @@
     </div>
 
                 <h3 id="method_getVersion">
-        <div class="location">in <a href="../../SwfTools/Binary/Binary.html#method_getVersion"><abbr title="SwfTools\Binary\Binary">Binary</abbr></a> at line 41</div>
-        <code>            public            string
+        <div class="location">in <a href="../../SwfTools/Binary/Binary.html#method_getVersion"><abbr title="SwfTools\Binary\Binary">Binary</abbr></a> at line 45</div>
+        <code>            public            string|null
     <strong>getVersion</strong>()</code>
     </h3>
     <div class="details">
-        <p>Returns the version of the binary</p>
-        <p></p>
+        <p>Try to get the version of the binary.</p>
+        <p>If the detection fails, return null</p>
         <div class="tags">
             
                             <h4>Return Value</h4>
 
                     <table>
         <tr>
-            <td>string</td>
-            <td></td>
+            <td>string|null</td>
+            <td>The version of the binary adapter</td>
         </tr>
     </table>
 
@@ -186,9 +190,9 @@
     </div>
 
                 <h3 id="method_toSwf">
-        <div class="location">at line 32</div>
-        <code>            public            
-    <strong>toSwf</strong>(<abbr title="SwfTools\Binary\SplFileInfo">SplFileInfo</abbr> $file, $outputFile, array $options = array(), $convertType = self::CONVERT_POLY2BITMAP, $resolution = 72, $pageRange = &#039;1-&#039;, $frameRate = 15, $jpegquality = 75, $timelimit = 100)</code>
+        <div class="location">at line 48</div>
+        <code>            public            <abbr title="SwfTools\Binary\type">type</abbr>
+    <strong>toSwf</strong>(<abbr title="SwfTools\Binary\type">type</abbr> $pathfile, <abbr title="SwfTools\Binary\type">type</abbr> $outputFile, array $options = array(), <abbr title="SwfTools\Binary\type">type</abbr> $convertType = self::CONVERT_POLY2BITMAP, <abbr title="SwfTools\Binary\type">type</abbr> $resolution = 72, <abbr title="SwfTools\Binary\type">type</abbr> $pageRange = &#039;1-&#039;, <abbr title="SwfTools\Binary\type">type</abbr> $frameRate = 15, <abbr title="SwfTools\Binary\type">type</abbr> $jpegquality = 75, <abbr title="SwfTools\Binary\type">type</abbr> $timelimit = 100)</code>
     </h3>
     <div class="details">
         <p></p>
@@ -198,12 +202,12 @@
 
                     <table>
                     <tr>
-                <td><abbr title="SwfTools\Binary\SplFileInfo">SplFileInfo</abbr></td>
-                <td>$file</td>
+                <td><abbr title="SwfTools\Binary\type">type</abbr></td>
+                <td>$pathfile</td>
                 <td></td>
             </tr>
                     <tr>
-                <td></td>
+                <td><abbr title="SwfTools\Binary\type">type</abbr></td>
                 <td>$outputFile</td>
                 <td></td>
             </tr>
@@ -213,50 +217,68 @@
                 <td></td>
             </tr>
                     <tr>
-                <td></td>
+                <td><abbr title="SwfTools\Binary\type">type</abbr></td>
                 <td>$convertType</td>
                 <td></td>
             </tr>
                     <tr>
-                <td></td>
+                <td><abbr title="SwfTools\Binary\type">type</abbr></td>
                 <td>$resolution</td>
                 <td></td>
             </tr>
                     <tr>
-                <td></td>
+                <td><abbr title="SwfTools\Binary\type">type</abbr></td>
                 <td>$pageRange</td>
                 <td></td>
             </tr>
                     <tr>
-                <td></td>
+                <td><abbr title="SwfTools\Binary\type">type</abbr></td>
                 <td>$frameRate</td>
                 <td></td>
             </tr>
                     <tr>
-                <td></td>
+                <td><abbr title="SwfTools\Binary\type">type</abbr></td>
                 <td>$jpegquality</td>
                 <td></td>
             </tr>
                     <tr>
-                <td></td>
+                <td><abbr title="SwfTools\Binary\type">type</abbr></td>
                 <td>$timelimit</td>
                 <td></td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="SwfTools\Binary\type">type</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
             
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Exception\InvalidArgumentException">InvalidArgumentException</abbr></td>
+                <td></td>
+            </tr>
+            </table>
+
             
                     </div>
     </div>
 
                 <h3 id="method_load">
-        <div class="location">at line 113</div>
-        <code>        static    public            <a href="../../SwfTools/Binary/Swfrender.html"><abbr title="SwfTools\Binary\Swfrender">Swfrender</abbr></a>
+        <div class="location">at line 130</div>
+        <code>        static    public            <a href="../../SwfTools/Binary/Pdf2swf.html"><abbr title="SwfTools\Binary\Pdf2swf">Pdf2swf</abbr></a>
     <strong>load</strong>(<a href="../../SwfTools/Configuration.html"><abbr title="SwfTools\Configuration">Configuration</abbr></a> $configuration)</code>
     </h3>
     <div class="details">
-        <p>Factory method to build the binary</p>
+        <p>Factory method to build the adapter</p>
         <p>Either pass a configuration file with the binary settings, or pass an<br />
  empty configuration, which will trigger the autodetection</p>
         <div class="tags">
@@ -275,7 +297,7 @@
 
                     <table>
         <tr>
-            <td><a href="../../SwfTools/Binary/Swfrender.html"><abbr title="SwfTools\Binary\Swfrender">Swfrender</abbr></a></td>
+            <td><a href="../../SwfTools/Binary/Pdf2swf.html"><abbr title="SwfTools\Binary\Pdf2swf">Pdf2swf</abbr></a></td>
             <td></td>
         </tr>
     </table>
@@ -285,7 +307,7 @@
 
                     <table>
                     <tr>
-                <td><abbr title="Exception\BinaryNotFoundException">BinaryNotFoundException</abbr></td>
+                <td><a href="../../SwfTools/Exception/BinaryNotFoundException.html"><abbr title="SwfTools\Exception\BinaryNotFoundException">BinaryNotFoundException</abbr></a></td>
                 <td></td>
             </tr>
             </table>

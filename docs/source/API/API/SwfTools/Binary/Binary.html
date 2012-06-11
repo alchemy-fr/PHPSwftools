@@ -25,6 +25,10 @@
                 <p>abstract class    <strong>Binary</strong>        implements
         <a href="../../SwfTools/Binary/AdapterInterface.html"><abbr title="SwfTools\Binary\AdapterInterface">AdapterInterface</abbr></a></p>
 
+            <div class="description">
+            <p>The abstract binary adapter</p>
+            <p></p>
+        </div>
     
     
     
@@ -43,11 +47,11 @@
             </tr>
                     <tr>
                 <td class="type">
-                    string
+                    string|null
                 </td>
                 <td class="last">
                     <a href="#method_getVersion">getVersion</a>()
-                    <p>Returns the version of the binary</p>
+                    <p>Try to get the version of the binary.</p>
                 </td>
                 <td></td>
             </tr>
@@ -57,7 +61,7 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 31</div>
+        <div class="location">at line 35</div>
         <code>            public            
     <strong>__construct</strong>(<abbr title="SwfTools\Binary\type">type</abbr> $binaryPathname)</code>
     </h3>
@@ -82,21 +86,21 @@
     </div>
 
                 <h3 id="method_getVersion">
-        <div class="location">at line 41</div>
-        <code>            public            string
+        <div class="location">at line 45</div>
+        <code>            public            string|null
     <strong>getVersion</strong>()</code>
     </h3>
     <div class="details">
-        <p>Returns the version of the binary</p>
-        <p></p>
+        <p>Try to get the version of the binary.</p>
+        <p>If the detection fails, return null</p>
         <div class="tags">
             
                             <h4>Return Value</h4>
 
                     <table>
         <tr>
-            <td>string</td>
-            <td></td>
+            <td>string|null</td>
+            <td>The version of the binary adapter</td>
         </tr>
     </table>
 

@@ -42,11 +42,11 @@
             </tr>
                     <tr>
                 <td class="type">
-                    string
+                    string|null
                 </td>
                 <td class="last">
                     <a href="#method_getVersion">getVersion</a>()
-                    <p>Returns the version of the binary</p>
+                    <p>Try to get the version of the binary.</p>
                 </td>
                 <td><small>from&nbsp;<a href="../../SwfTools/Binary/Binary.html#method_getVersion"><abbr title="SwfTools\Binary\Binary">Binary</abbr></a></small></td>
             </tr>
@@ -55,7 +55,7 @@
                     null
                 </td>
                 <td class="last">
-                    <a href="#method_render">render</a>(<abbr title="SwfTools\Binary\SplFileInfo">SplFileInfo</abbr> $file, <abbr title="SwfTools\Binary\type">type</abbr> $outputFile, <abbr title="SwfTools\Binary\type">type</abbr> $legacy)
+                    <a href="#method_render">render</a>($pathfile, $outputFile, $legacy)
                     <p></p>
                 </td>
                 <td></td>
@@ -76,7 +76,7 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">in <a href="../../SwfTools/Binary/Binary.html#method___construct"><abbr title="SwfTools\Binary\Binary">Binary</abbr></a> at line 31</div>
+        <div class="location">in <a href="../../SwfTools/Binary/Binary.html#method___construct"><abbr title="SwfTools\Binary\Binary">Binary</abbr></a> at line 35</div>
         <code>            public            
     <strong>__construct</strong>(<abbr title="SwfTools\Binary\type">type</abbr> $binaryPathname)</code>
     </h3>
@@ -101,21 +101,21 @@
     </div>
 
                 <h3 id="method_getVersion">
-        <div class="location">in <a href="../../SwfTools/Binary/Binary.html#method_getVersion"><abbr title="SwfTools\Binary\Binary">Binary</abbr></a> at line 41</div>
-        <code>            public            string
+        <div class="location">in <a href="../../SwfTools/Binary/Binary.html#method_getVersion"><abbr title="SwfTools\Binary\Binary">Binary</abbr></a> at line 45</div>
+        <code>            public            string|null
     <strong>getVersion</strong>()</code>
     </h3>
     <div class="details">
-        <p>Returns the version of the binary</p>
-        <p></p>
+        <p>Try to get the version of the binary.</p>
+        <p>If the detection fails, return null</p>
         <div class="tags">
             
                             <h4>Return Value</h4>
 
                     <table>
         <tr>
-            <td>string</td>
-            <td></td>
+            <td>string|null</td>
+            <td>The version of the binary adapter</td>
         </tr>
     </table>
 
@@ -127,7 +127,7 @@
                 <h3 id="method_render">
         <div class="location">at line 32</div>
         <code>            public            null
-    <strong>render</strong>(<abbr title="SwfTools\Binary\SplFileInfo">SplFileInfo</abbr> $file, <abbr title="SwfTools\Binary\type">type</abbr> $outputFile, <abbr title="SwfTools\Binary\type">type</abbr> $legacy)</code>
+    <strong>render</strong>($pathfile, $outputFile, $legacy)</code>
     </h3>
     <div class="details">
         <p></p>
@@ -137,17 +137,17 @@
 
                     <table>
                     <tr>
-                <td><abbr title="SwfTools\Binary\SplFileInfo">SplFileInfo</abbr></td>
-                <td>$file</td>
+                <td></td>
+                <td>$pathfile</td>
                 <td></td>
             </tr>
                     <tr>
-                <td><abbr title="SwfTools\Binary\type">type</abbr></td>
+                <td></td>
                 <td>$outputFile</td>
                 <td></td>
             </tr>
                     <tr>
-                <td><abbr title="SwfTools\Binary\type">type</abbr></td>
+                <td></td>
                 <td>$legacy</td>
                 <td></td>
             </tr>

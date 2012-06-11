@@ -42,11 +42,11 @@
             </tr>
                     <tr>
                 <td class="type">
-                    string
+                    string|null
                 </td>
                 <td class="last">
                     <a href="#method_getVersion">getVersion</a>()
-                    <p>Returns the version of the binary</p>
+                    <p>Try to get the version of the binary.</p>
                 </td>
                 <td><small>from&nbsp;<a href="../../SwfTools/Binary/Binary.html#method_getVersion"><abbr title="SwfTools\Binary\Binary">Binary</abbr></a></small></td>
             </tr>
@@ -55,7 +55,7 @@
                     string|null
                 </td>
                 <td class="last">
-                    <a href="#method_listEmbedded">listEmbedded</a>(<abbr title="SwfTools\Binary\SplFileInfo">SplFileInfo</abbr> $file)
+                    <a href="#method_listEmbedded">listEmbedded</a>(string $pathfile)
                     <p>Execute the command to list the embedded objects</p>
                 </td>
                 <td></td>
@@ -65,7 +65,7 @@
                     string|null
                 </td>
                 <td class="last">
-                    <a href="#method_extract">extract</a>(<abbr title="SwfTools\Binary\SplFileInfo">SplFileInfo</abbr> $file, <a href="../../SwfTools/EmbeddedObject.html"><abbr title="SwfTools\EmbeddedObject">EmbeddedObject</abbr></a> $embedded, string $outputFile)
+                    <a href="#method_extract">extract</a>(string $pathfile, <a href="../../SwfTools/EmbeddedObject.html"><abbr title="SwfTools\EmbeddedObject">EmbeddedObject</abbr></a> $embedded, string $outputFile)
                     <p>Execute the command to extract an embedded object from a flash file</p>
                 </td>
                 <td></td>
@@ -86,7 +86,7 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">in <a href="../../SwfTools/Binary/Binary.html#method___construct"><abbr title="SwfTools\Binary\Binary">Binary</abbr></a> at line 31</div>
+        <div class="location">in <a href="../../SwfTools/Binary/Binary.html#method___construct"><abbr title="SwfTools\Binary\Binary">Binary</abbr></a> at line 35</div>
         <code>            public            
     <strong>__construct</strong>(<abbr title="SwfTools\Binary\type">type</abbr> $binaryPathname)</code>
     </h3>
@@ -111,21 +111,21 @@
     </div>
 
                 <h3 id="method_getVersion">
-        <div class="location">in <a href="../../SwfTools/Binary/Binary.html#method_getVersion"><abbr title="SwfTools\Binary\Binary">Binary</abbr></a> at line 41</div>
-        <code>            public            string
+        <div class="location">in <a href="../../SwfTools/Binary/Binary.html#method_getVersion"><abbr title="SwfTools\Binary\Binary">Binary</abbr></a> at line 45</div>
+        <code>            public            string|null
     <strong>getVersion</strong>()</code>
     </h3>
     <div class="details">
-        <p>Returns the version of the binary</p>
-        <p></p>
+        <p>Try to get the version of the binary.</p>
+        <p>If the detection fails, return null</p>
         <div class="tags">
             
                             <h4>Return Value</h4>
 
                     <table>
         <tr>
-            <td>string</td>
-            <td></td>
+            <td>string|null</td>
+            <td>The version of the binary adapter</td>
         </tr>
     </table>
 
@@ -137,7 +137,7 @@
                 <h3 id="method_listEmbedded">
         <div class="location">at line 31</div>
         <code>            public            string|null
-    <strong>listEmbedded</strong>(<abbr title="SwfTools\Binary\SplFileInfo">SplFileInfo</abbr> $file)</code>
+    <strong>listEmbedded</strong>(string $pathfile)</code>
     </h3>
     <div class="details">
         <p>Execute the command to list the embedded objects</p>
@@ -147,8 +147,8 @@
 
                     <table>
                     <tr>
-                <td><abbr title="SwfTools\Binary\SplFileInfo">SplFileInfo</abbr></td>
-                <td>$file</td>
+                <td>string</td>
+                <td>$pathfile</td>
                 <td></td>
             </tr>
             </table>
@@ -180,7 +180,7 @@
                 <h3 id="method_extract">
         <div class="location">at line 49</div>
         <code>            public            string|null
-    <strong>extract</strong>(<abbr title="SwfTools\Binary\SplFileInfo">SplFileInfo</abbr> $file, <a href="../../SwfTools/EmbeddedObject.html"><abbr title="SwfTools\EmbeddedObject">EmbeddedObject</abbr></a> $embedded, string $outputFile)</code>
+    <strong>extract</strong>(string $pathfile, <a href="../../SwfTools/EmbeddedObject.html"><abbr title="SwfTools\EmbeddedObject">EmbeddedObject</abbr></a> $embedded, string $outputFile)</code>
     </h3>
     <div class="details">
         <p>Execute the command to extract an embedded object from a flash file</p>
@@ -190,8 +190,8 @@
 
                     <table>
                     <tr>
-                <td><abbr title="SwfTools\Binary\SplFileInfo">SplFileInfo</abbr></td>
-                <td>$file</td>
+                <td>string</td>
+                <td>$pathfile</td>
                 <td>the file</td>
             </tr>
                     <tr>
