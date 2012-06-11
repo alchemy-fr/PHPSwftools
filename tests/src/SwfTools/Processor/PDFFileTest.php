@@ -1,6 +1,6 @@
 <?php
 
-namespace SwfTools;
+namespace SwfTools\Processor;
 
 class PDFFileTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,8 +13,9 @@ class PDFFileTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->destination = __DIR__ . '/../../files/tmp.swf';
-        $this->object = new PDFFile(__DIR__ . '/../../files/PDF.pdf');
+        $this->destination = __DIR__ . '/../../../files/tmp.swf';
+        $this->object = new PDFFile();
+        $this->object->open(__DIR__ . '/../../../files/PDF.pdf');
     }
 
     /**
@@ -28,7 +29,7 @@ class PDFFileTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SwfTools\PDFFile::toSwf
+     * @covers SwfTools\Processor\PDFFile::toSwf
      */
     public function testToSwf()
     {
@@ -39,7 +40,7 @@ class PDFFileTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SwfTools\PDFFile::toSwf
+     * @covers SwfTools\Processor\PDFFile::toSwf
      * @expectedException \SwfTools\Exception\InvalidArgumentException
      */
     public function testToSwfFailed()

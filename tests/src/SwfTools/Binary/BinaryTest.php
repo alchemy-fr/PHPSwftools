@@ -17,7 +17,7 @@ class BinaryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers SwfTools\Binary\Binary::__construct
-     * @covers SwfTools\Binary\Binary::findBinary
+     * @covers SwfTools\Binary\Binary::loadBinary
      * @covers SwfTools\Binary\Binary::run
      */
     public function testBinaryPath()
@@ -57,7 +57,7 @@ class BinaryTester extends Binary
 
     public static function load(\SwfTools\Configuration $configuration)
     {
-        return static::findBinary('php', $configuration);
+        return static::loadBinary('php', $configuration);
     }
 
     public function getBinaryPath()
@@ -77,7 +77,7 @@ class BinaryBadTester extends Binary
 
     public static function load(\SwfTools\Configuration $configuration)
     {
-        return static::findBinary('randomprogramnamethatwouldnotexists', $configuration);
+        return static::loadBinary('randomprogramnamethatwouldnotexists', $configuration);
     }
 
     public function getBinaryPath()

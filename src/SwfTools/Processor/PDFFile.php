@@ -9,7 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace SwfTools;
+namespace SwfTools\Processor;
+
+use SwfTools\Exception\Exception;
+use SwfTools\Exception\InvalidArgumentException;
+use SwfTools\Exception\LogicException;
+use SwfTools\Exception\RuntimeException;
 
 /**
  * @author Romain Neutron imprec@gmail.com
@@ -20,14 +25,14 @@ class PDFFile extends File
     public function toSwf($outputFile)
     {
         if ( ! $outputFile) {
-            throw new Exception\InvalidArgumentException('Bad destination');
+            throw new InvalidArgumentException('Bad destination');
         }
 
         $pdf2swf = $this->getBinaryAdapter('Pdf2swf');
 
         /* @var $pdf2swf \SwfTools\Binary\Pdf2swf */
 
-        $pdf2swf->toSwf($this, $outputFile);
+        $pdf2swf->toSwf($this->pathfile, $outputFile);
     }
 
 }

@@ -41,7 +41,9 @@ class SwfextractTest extends \PHPUnit_Framework_TestCase
      */
     public function testExtract()
     {
-        $flash     = new \SwfTools\FlashFile(__DIR__ . '/../../../files/flashfile.swf');
+        $file = __DIR__ . '/../../../files/flashfile.swf';
+        $flash     = new \SwfTools\Processor\FlashFile();
+        $flash->open($file);
         $embeddeds = $flash->listEmbeddedObjects();
 
         $embedded = null;
@@ -55,14 +57,14 @@ class SwfextractTest extends \PHPUnit_Framework_TestCase
 
         $dest_file = __DIR__ . '/../../../files/tmp.jpg';
 
-        $this->object->extract($flash, $embedded, $dest_file);
+        $this->object->extract($file, $embedded, $dest_file);
         $sizes = getimagesize($dest_file);
         $this->assertTrue(file_exists($dest_file));
 
         unlink($dest_file);
 
         try {
-            $this->object->extract($flash, $embedded, '');
+            $this->object->extract($file, $embedded, '');
             $this->fail('Should fail on invalid destination');
         } catch (\SwfTools\Exception\InvalidArgumentException $exception) {
 
@@ -71,7 +73,7 @@ class SwfextractTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1440, $sizes[0]);
         $this->assertEquals(420, $sizes[1]);
 
-        $fakeFile = new \SplFileInfo(__DIR__ . '/../../../files/nofile');
+        $fakeFile = __DIR__ . '/../../../files/nofile';
 
         try {
             $this->object->extract($fakeFile, $embedded, $dest_file);

@@ -12,10 +12,14 @@
 namespace SwfTools\Binary;
 
 use SwfTools\Configuration;
-use SwfTools\Exception;
+use SwfTools\Exception\BinaryNotFoundException;
+use SwfTools\Exception\RuntimeException;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Process\ExecutableFinder;
 
 /**
+ * The abstract binary adapter
+ * 
  * @author Romain Neutron imprec@gmail.com
  */
 abstract class Binary implements AdapterInterface
@@ -34,9 +38,9 @@ abstract class Binary implements AdapterInterface
     }
 
     /**
-     * Returns the version of the binary
+     * Try to get the version of the binary. If the detection fails, return null
      *
-     * @return string
+     * @return string|null
      */
     public function getVersion()
     {
@@ -50,35 +54,36 @@ abstract class Binary implements AdapterInterface
     }
 
     /**
+     * Load a Binary with configuration value, otherwise try to detect it.
      *
-     * @param string $binaryName the name of the executable (used as a key
-     *                              in the configuration)
+     * @param string $binaryName the name of the executable (used as a keyin the configuration)
      * @param  Configuration                               $configuration The configuration
-     * @return \SwfTools\Binary\Binary
-     * @throws \SwfTools\Exception\BinaryNotFoundException
+     * @return Binary
+     * 
+     * @throws BinaryNotFoundException When no binary found
      */
-    protected static function findBinary($binaryName, Configuration $configuration)
+    protected static function loadBinary($binaryName, Configuration $configuration)
     {
         if ($configuration->has($binaryName)) {
             return new static($configuration->get($binaryName));
         }
 
-        $finder = new \Symfony\Component\Process\ExecutableFinder();
+        $finder = new ExecutableFinder();
 
         if (null !== $exec_path = $finder->find($binaryName)) {
             return new static($exec_path);
         }
 
-        throw new Exception\BinaryNotFoundException(sprintf('Binary %s not found', $binaryName));
+        throw new BinaryNotFoundException(sprintf('Binary %s not found', $binaryName));
     }
 
     /**
      * Run a command
      *
      * @param  string           $command       The command to execute
-     * @param  boolean          $bypass_errors if true, No exception are thrown
+     * @param  Boolean          $bypass_errors if true, No exception are thrown
      * @return string           The output of the command
-     * @throws RuntimeException
+     * @throws RuntimeException When the command failed
      */
     protected static function run($command, $bypass_errors = false)
     {
@@ -86,7 +91,7 @@ abstract class Binary implements AdapterInterface
         $process->run();
 
         if ( ! $process->isSuccessful() && ! $bypass_errors) {
-            throw new Exception\RuntimeException('Failed to execute ' . $command);
+            throw new RuntimeException('Failed to execute ' . $command);
         }
 
         $result = $process->getOutput();

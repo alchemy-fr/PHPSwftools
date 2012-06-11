@@ -1,12 +1,12 @@
 <?php
 
-namespace SwfTools;
+namespace SwfTools\Processor;
 
 class FileTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @covers SwfTools\File::getBinaryAdapter
+     * @covers SwfTools\Processor\File::getBinaryAdapter
      * @expectedException  \SwfTools\Exception\RuntimeException
      */
     public function testGetBinaryAdapter()
@@ -16,7 +16,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SwfTools\File::changePathnameExtension
+     * @covers SwfTools\Processor\File::changePathnameExtension
      */
     public function testGetChangePathnameExtension()
     {

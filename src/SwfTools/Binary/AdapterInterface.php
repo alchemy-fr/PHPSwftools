@@ -14,13 +14,26 @@ namespace SwfTools\Binary;
 use SwfTools\Configuration;
 
 /**
+ * The adapter interface. SwfTools binaries adapters should implement this
+ * interface
+ * 
  * @author Romain Neutron imprec@gmail.com
  */
 interface AdapterInterface
 {
 
+    /**
+     * Return the version of the binary adapter
+     * 
+     * @return string The version of the binary adapter
+     */
     public function getVersion();
 
+    /**
+     * Load the binary adapter. If the configuration contains a parameter, use
+     * it as pathfile, otherwise, autodetect the binary
+     * 
+     * @param Configuration $configuration
+     */
     public static function load(Configuration $configuration);
-
 }

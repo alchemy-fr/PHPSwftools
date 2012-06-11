@@ -15,6 +15,8 @@ use SwfTools\Configuration;
 use SwfTools\Exception;
 
 /**
+ * The Pdf2Swf adapter
+ * 
  * @author Romain Neutron imprec@gmail.com
  */
 class Pdf2swf extends Binary
@@ -29,7 +31,21 @@ class Pdf2swf extends Binary
     const OPTION_ENABLE_SIMPLEVIEWER  = 'simpleviewer';
     const OPTION_DISABLE_SIMPLEVIEWER = 'nosimpleviewer';
 
-    public function toSwf(\SplFileInfo $file, $outputFile, Array $options = array(), $convertType = self::CONVERT_POLY2BITMAP, $resolution = 72, $pageRange = '1-', $frameRate = 15, $jpegquality = 75, $timelimit = 100)
+    /**
+     * 
+     * @param type $pathfile
+     * @param type $outputFile
+     * @param array $options
+     * @param type $convertType
+     * @param type $resolution
+     * @param type $pageRange
+     * @param type $frameRate
+     * @param type $jpegquality
+     * @param type $timelimit
+     * @return type
+     * @throws Exception\InvalidArgumentException
+     */
+    public function toSwf($pathfile, $outputFile, Array $options = array(), $convertType = self::CONVERT_POLY2BITMAP, $resolution = 72, $pageRange = '1-', $frameRate = 15, $jpegquality = 75, $timelimit = 100)
     {
         if ( ! trim($outputFile)) {
             throw new Exception\InvalidArgumentException('Invalid resolution argument');
@@ -89,7 +105,7 @@ class Pdf2swf extends Binary
         $cmd = sprintf(
           '%s %s %s -o %s -T 9 -f'
           , escapeshellcmd($this->binaryPathname)
-          , escapeshellarg($file->getPathname())
+          , escapeshellarg($pathfile)
           , $option_string
           , escapeshellarg($outputFile)
         );
@@ -102,17 +118,18 @@ class Pdf2swf extends Binary
     }
 
     /**
-     * Factory method to build the binary
+     * Factory method to build the adapter
      *
      * Either pass a configuration file with the binary settings, or pass an
      * empty configuration, which will trigger the autodetection
      *
-     * @throws Exception\BinaryNotFoundException
-     * @return Swfrender
+     * @return Pdf2swf
+     * 
+     * @throws \SwfTools\Exception\BinaryNotFoundException
      */
     public static function load(Configuration $configuration)
     {
-        return static::findBinary('pdf2swf', $configuration);
+        return static::loadBinary('pdf2swf', $configuration);
     }
 
 }

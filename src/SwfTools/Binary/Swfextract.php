@@ -24,13 +24,13 @@ class Swfextract extends Binary
     /**
      * Execute the command to list the embedded objects
      *
-     * @param  \SplFileInfo                         $file
+     * @param  string                         $pathfile
      * @throws \SwfTools\Exception\RuntimeException
      * @return string|null                          The ouptut string, null on error
      */
-    public function listEmbedded(\SplFileInfo $file)
+    public function listEmbedded($pathfile)
     {
-        $cmd = sprintf('%s %s', escapeshellcmd($this->binaryPathname), escapeshellarg($file->getPathname()));
+        $cmd = sprintf('%s %s', escapeshellcmd($this->binaryPathname), escapeshellarg($pathfile));
 
         return self::run($cmd);
     }
@@ -39,14 +39,14 @@ class Swfextract extends Binary
      *
      * Execute the command to extract an embedded object from a flash file
      *
-     * @param  \SplFileInfo               $file       the file
+     * @param  string               $pathfile       the file
      * @param  EmbeddedObject             $embedded   The id of the object
      * @param  string                     $outputFile the path where to extract
      * @throws Exception\InvalidArgumentException
      * @throws Exception\RuntimeException
      * @return string|null                The ouptut string, null on error
      */
-    public function extract(\SplFileInfo $file, EmbeddedObject $embedded, $outputFile)
+    public function extract($pathfile, EmbeddedObject $embedded, $outputFile)
     {
         if (trim($outputFile) === '') {
             throw new Exception\InvalidArgumentException('Invalid output file');
@@ -56,7 +56,7 @@ class Swfextract extends Binary
           , escapeshellcmd($this->binaryPathname)
           , $embedded->getOption()
           , $embedded->getId()
-          , escapeshellarg($file->getPathname())
+          , escapeshellarg($pathfile)
           , escapeshellarg($outputFile)
         );
 
@@ -74,7 +74,7 @@ class Swfextract extends Binary
      */
     public static function load(Configuration $configuration)
     {
-        return static::findBinary('swfextract', $configuration);
+        return static::loadBinary('swfextract', $configuration);
     }
 
 }

@@ -22,14 +22,14 @@ class Swfrender extends Binary
 
     /**
      *
-     * @param  \SplFileInfo               $file
+     * @param  string               $file
      * @param  type                       $outputFile
      * @param  type                       $legacy
      * @return null
      * @throws Exception\InvalidArgumentException
      * @throws Exception\RuntimeException
      */
-    public function render(\SplFileInfo $file, $outputFile, $legacy)
+    public function render($pathfile, $outputFile, $legacy)
     {
         if (trim($outputFile) === '') {
             throw new Exception\InvalidArgumentException('Invalid output file');
@@ -39,7 +39,7 @@ class Swfrender extends Binary
           '%s %s %s -o %s'
           , $this->binaryPathname
           , ($legacy ? '-l' : '')
-          , $file->getPathname()
+          , $pathfile
           , $outputFile
         );
 
@@ -57,7 +57,7 @@ class Swfrender extends Binary
      */
     public static function load(Configuration $configuration)
     {
-        return static::findBinary('swfrender', $configuration);
+        return static::loadBinary('swfrender', $configuration);
     }
 
 }

@@ -11,12 +11,29 @@
 
 namespace SwfTools;
 
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
-
 /**
  * @author Romain Neutron imprec@gmail.com
  */
-class Configuration extends ParameterBag
+class Configuration
 {
+    protected $configuration;
 
+    public function __construct(Array $configuration = null)
+    {
+        $this->configuration = $configuration;
+    }
+
+    public function has($key)
+    {
+        return isset($this->configuration[$key]);
+    }
+
+    public function get($key)
+    {
+        if ( ! isset($this->configuration[$key])) {
+            throw new Exception\InvalidArgumentException(sprintf('No configuration for %s', $key));
+        }
+
+        return $this->configuration[$key];
+    }
 }
