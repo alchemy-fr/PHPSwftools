@@ -10,16 +10,14 @@ class BinaryTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var Binary
+     * @expectedException SwfTools\Exception\BinaryNotFoundException
      */
-    protected $object;
-
-    protected function setUp()
+    public function testWrongPath()
     {
-        $logger = new \Monolog\Logger('test');
+        $logger = new Logger('test');
         $logger->pushHandler(new NullHandler());
 
-        $this->object = BinaryTester::load(new Configuration(array('php' => '/fakepath')), $logger);
+        BinaryTester::load(new Configuration(array('php' => '/fakepath')), $logger);
     }
 
     /**
@@ -31,9 +29,6 @@ class BinaryTest extends \PHPUnit_Framework_TestCase
     {
         $logger = new Logger('test');
         $logger->pushHandler(new NullHandler());
-
-        $object = BinaryTester::load(new Configuration(array('php' => '/fakepath')), $logger);
-        $this->assertEquals('/fakepath', $object->getBinaryPath());
 
         $object = BinaryTester::load(new Configuration(), $logger);
         $this->assertTrue(is_executable($object->getBinaryPath()));
