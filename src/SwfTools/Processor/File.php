@@ -12,6 +12,7 @@
 namespace SwfTools\Processor;
 
 use Monolog\Logger;
+use Monolog\Handler\NullHandler;
 use SwfTools\Configuration;
 use SwfTools\Exception\InvalidArgumentException;
 use SwfTools\Exception\RuntimeException;
@@ -21,7 +22,7 @@ use SwfTools\Exception\RuntimeException;
  */
 abstract class File
 {
-
+    protected $logger;
     protected $configuration;
     protected $pathfile;
     protected $binaryAdapters;
@@ -31,10 +32,17 @@ abstract class File
      *
      * @param Configuration $configuration
      */
-    public function __construct(Configuration $configuration = null)
+    public function __construct(Configuration $configuration = null, Logger $logger = null)
     {
         $this->configuration = $configuration ? : new Configuration();
         $this->binaryAdapters = array();
+
+        if ( ! $logger) {
+            $logger = new Logger('SwfTools');
+            $logger->pushHandler(new NullHandler());
+        }
+
+        $this->logger = $logger;
     }
 
     public function __destruct()
@@ -81,13 +89,12 @@ abstract class File
      * Return the BinaryAdapter given a BinaryName
      *
      * @param string $binaryName
-     * @param Logger $logger     A logger
      *
      * @return Binary\Binary The requested binary
      *
      * @throws Exception\RuntimeException
      */
-    protected function getBinaryAdapter($binaryName, Logger $logger)
+    protected function getBinaryAdapter($binaryName)
     {
         if (isset($this->binaryAdapters[$binaryName])) {
             return $this->binaryAdapters[$binaryName];
@@ -97,7 +104,7 @@ abstract class File
 
         try {
             if (class_exists($classname)) {
-                $this->binaryAdapters[$binaryName] = $classname::load($this->configuration, $logger);
+                $this->binaryAdapters[$binaryName] = $classname::load($this->configuration, $this->logger);
 
                 return $this->binaryAdapters[$binaryName];
             }
@@ -107,5 +114,4 @@ abstract class File
 
         throw new RuntimeException(sprintf('Unable to load %s', $binaryName));
     }
-
 }

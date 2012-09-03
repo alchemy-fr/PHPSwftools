@@ -11,8 +11,6 @@
 
 namespace SwfTools\Processor;
 
-use Monolog\Logger;
-use Monolog\Handler\NullHandler;
 use SwfTools\EmbeddedObject;
 use SwfTools\Exception\Exception;
 use SwfTools\Exception\InvalidArgumentException;
@@ -37,22 +35,16 @@ class FlashFile extends File
      *
      * @param  string                   $outputFile
      * @param  Boolean                  $legacy_rendering
-     * @param  Logger                   $logger           A logger
      * @return Boolean
      * @throws InvalidArgumentException
      */
-    public function render($outputFile, $legacy_rendering = false, Logger $logger = null)
+    public function render($outputFile, $legacy_rendering = false)
     {
         if ( ! $this->pathfile) {
             throw new LogicException('No file open');
         }
 
-        if ( ! $logger) {
-            $logger = new Logger('Null logger');
-            $logger->pushHandler(new NullHandler());
-        }
-
-        $swfrender = $this->getBinaryAdapter('Swfrender', $logger);
+        $swfrender = $this->getBinaryAdapter('Swfrender');
 
         if ( ! $outputFile) {
             throw new InvalidArgumentException('Invalid argument');
@@ -75,11 +67,10 @@ class FlashFile extends File
      * List all embedded object of the current flash file
      *
      * @param  Boolean          $useCache
-     * @param  Logger           $logger   A logger
      * @return type
      * @throws RuntimeException
      */
-    public function listEmbeddedObjects($useCache = false, Logger $logger = null)
+    public function listEmbeddedObjects($useCache = false)
     {
         if ( ! $this->pathfile) {
             throw new LogicException('No file open');
@@ -89,14 +80,9 @@ class FlashFile extends File
             return $this->embedded;
         }
 
-        if ( ! $logger) {
-            $logger = new Logger('Null logger');
-            $logger->pushHandler(new NullHandler());
-        }
-
         $this->embedded = array();
 
-        $swfextract = $this->getBinaryAdapter('Swfextract', $logger);
+        $swfextract = $this->getBinaryAdapter('Swfextract');
 
         try {
             $datas = explode("\n", $swfextract->listEmbedded($this->pathfile));
@@ -141,13 +127,12 @@ class FlashFile extends File
      *
      * @param integer $id
      * @param string  $outputFile
-     * @param Logger  $logger     A logger
      *
      * @return string
      *
      * @throws RuntimeException
      */
-    public function extractEmbedded($id, $outputFile, Logger $logger = null)
+    public function extractEmbedded($id, $outputFile)
     {
         if ( ! $this->pathfile) {
             throw new LogicException('No file open');
@@ -157,14 +142,9 @@ class FlashFile extends File
             throw new InvalidArgumentException('Bad destination');
         }
 
-        if ( ! $logger) {
-            $logger = new Logger('Null logger');
-            $logger->pushHandler(new NullHandler());
-        }
-
         foreach ($this->listEmbeddedObjects(true) as $embedded) {
             if ($embedded->getId() == $id) {
-                $swfextract = $this->getBinaryAdapter('Swfextract', $logger);
+                $swfextract = $this->getBinaryAdapter('Swfextract');
 
                 try {
                     $swfextract->extract($this->pathfile, $embedded, $outputFile);
@@ -185,12 +165,11 @@ class FlashFile extends File
      * Extract the first embedded image found
      *
      * @param string $outputFile
-     * @param Logger $logger     A logger
      *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
-    public function extractFirstImage($outputFile, $logger = null)
+    public function extractFirstImage($outputFile)
     {
         if ( ! $this->pathfile) {
             throw new LogicException('No file open');
@@ -206,14 +185,9 @@ class FlashFile extends File
             throw new RuntimeException('Unable to extract an image');
         }
 
-        if ( ! $logger) {
-            $logger = new Logger('Null logger');
-            $logger->pushHandler(new NullHandler());
-        }
-
         foreach ($objects as $embedded) {
             if (in_array($embedded->getType(), array(EmbeddedObject::TYPE_JPEG, EmbeddedObject::TYPE_PNG))) {
-                $swfextract = $this->getBinaryAdapter('Swfextract', $logger);
+                $swfextract = $this->getBinaryAdapter('Swfextract');
 
                 switch ($embedded->getType()) {
                     case EmbeddedObject::TYPE_JPEG:
