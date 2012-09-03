@@ -147,7 +147,7 @@ class FlashFileTest extends \PHPUnit_Framework_TestCase
      */
     public function testExtractEmbeddedWrongOutput()
     {
-        $this->object->extractEmbedded(1, '/dsmsdf');
+        $this->object->extractEmbedded(1, '/dsmsdf/dslgfsdm');
     }
 
 }

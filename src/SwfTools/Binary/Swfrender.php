@@ -13,7 +13,9 @@ namespace SwfTools\Binary;
 
 use Monolog\Logger;
 use SwfTools\Configuration;
-use SwfTools\Exception;
+use SwfTools\Exception\BinaryNotFoundException;
+use SwfTools\Exception\InvalidArgumentException;
+use SwfTools\Exception\RuntimeException;
 
 /**
  * @author Romain Neutron imprec@gmail.com
@@ -27,13 +29,13 @@ class Swfrender extends Binary
      * @param  string                             $outputFile
      * @param  Boolean                            $legacy
      * @return null
-     * @throws Exception\InvalidArgumentException
-     * @throws Exception\RuntimeException
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function render($pathfile, $outputFile, $legacy)
     {
         if (trim($outputFile) === '') {
-            throw new Exception\InvalidArgumentException('Invalid output file');
+            throw new InvalidArgumentException('Invalid output file');
         }
 
         $cmd = sprintf(
@@ -58,7 +60,7 @@ class Swfrender extends Binary
      *
      * @return Swfrender
      *
-     * @throws Exception\BinaryNotFoundException
+     * @throws BinaryNotFoundException
      */
     public static function load(Configuration $configuration, Logger $logger)
     {

@@ -11,6 +11,9 @@
 
 namespace SwfTools\Processor;
 
+use Monolog\Logger;
+use Monolog\Handler\NullHandler;
+use SwfTools\EmbeddedObject;
 use SwfTools\Exception\Exception;
 use SwfTools\Exception\InvalidArgumentException;
 use SwfTools\Exception\LogicException;
@@ -45,8 +48,8 @@ class FlashFile extends File
         }
 
         if ( ! $logger) {
-            $logger = new \Monolog\Logger('Null logger');
-            $logger->pushHandler(new \Monolog\Handler\NullHandler());
+            $logger = new Logger('Null logger');
+            $logger->pushHandler(new NullHandler());
         }
 
         $swfrender = $this->getBinaryAdapter('Swfrender', $logger);
@@ -60,7 +63,7 @@ class FlashFile extends File
         try {
             $swfrender->render($this->pathfile, $outputFile, $legacy_rendering);
         } catch (Exception $e) {
-            throw new RuntimeException('Unable to render', $e->getCode(), $e);
+            throw new RuntimeException('Unable to render');
         }
 
         unset($swfrender);
@@ -87,8 +90,8 @@ class FlashFile extends File
         }
 
         if ( ! $logger) {
-            $logger = new \Monolog\Logger('Null logger');
-            $logger->pushHandler(new \Monolog\Handler\NullHandler());
+            $logger = new Logger('Null logger');
+            $logger->pushHandler(new NullHandler());
         }
 
         $this->embedded = array();
@@ -113,7 +116,7 @@ class FlashFile extends File
                 continue;
 
             $option = $matches[1];
-            $type = \SwfTools\EmbeddedObject::detectType($matches[2]);
+            $type = EmbeddedObject::detectType($matches[2]);
 
             if ( ! $type) {
                 continue;
@@ -122,10 +125,10 @@ class FlashFile extends File
             foreach (explode(",", $matches[3]) as $id) {
                 if (false !== $offset = strpos($id, '-')) {
                     for ($i = substr($id, 0, $offset); $i <= substr($id, $offset + 1); $i ++ ) {
-                        $this->embedded[] = new \SwfTools\EmbeddedObject($option, $matches[2], $i);
+                        $this->embedded[] = new EmbeddedObject($option, $matches[2], $i);
                     }
                 } else {
-                    $this->embedded[] = new \SwfTools\EmbeddedObject($option, $type, $id);
+                    $this->embedded[] = new EmbeddedObject($option, $type, $id);
                 }
             }
         }
@@ -155,8 +158,8 @@ class FlashFile extends File
         }
 
         if ( ! $logger) {
-            $logger = new \Monolog\Logger('Null logger');
-            $logger->pushHandler(new \Monolog\Handler\NullHandler());
+            $logger = new Logger('Null logger');
+            $logger->pushHandler(new NullHandler());
         }
 
         foreach ($this->listEmbeddedObjects(true) as $embedded) {
@@ -204,19 +207,19 @@ class FlashFile extends File
         }
 
         if ( ! $logger) {
-            $logger = new \Monolog\Logger('Null logger');
-            $logger->pushHandler(new \Monolog\Handler\NullHandler());
+            $logger = new Logger('Null logger');
+            $logger->pushHandler(new NullHandler());
         }
 
         foreach ($objects as $embedded) {
-            if (in_array($embedded->getType(), array(\SwfTools\EmbeddedObject::TYPE_JPEG, \SwfTools\EmbeddedObject::TYPE_PNG))) {
+            if (in_array($embedded->getType(), array(EmbeddedObject::TYPE_JPEG, EmbeddedObject::TYPE_PNG))) {
                 $swfextract = $this->getBinaryAdapter('Swfextract', $logger);
 
                 switch ($embedded->getType()) {
-                    case \SwfTools\EmbeddedObject::TYPE_JPEG:
+                    case EmbeddedObject::TYPE_JPEG:
                         $outputFile = static::changePathnameExtension($outputFile, 'jpg');
                         break;
-                    case \SwfTools\EmbeddedObject::TYPE_PNG:
+                    case EmbeddedObject::TYPE_PNG:
                         $outputFile = static::changePathnameExtension($outputFile, 'png');
                         break;
                     default:

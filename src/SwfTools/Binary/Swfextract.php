@@ -14,7 +14,9 @@ namespace SwfTools\Binary;
 use Monolog\Logger;
 use SwfTools\Configuration;
 use SwfTools\EmbeddedObject;
-use SwfTools\Exception;
+use SwfTools\Exception\BinaryNotFoundException;
+use SwfTools\Exception\InvalidArgumentException;
+use SwfTools\Exception\RuntimeException;
 
 /**
  * @author Romain Neutron imprec@gmail.com
@@ -26,7 +28,7 @@ class Swfextract extends Binary
      * Execute the command to list the embedded objects
      *
      * @param  string                               $pathfile
-     * @throws \SwfTools\Exception\RuntimeException
+     * @throws RuntimeException
      * @return string|null                          The ouptut string, null on error
      */
     public function listEmbedded($pathfile)
@@ -43,14 +45,14 @@ class Swfextract extends Binary
      * @param  string                             $pathfile   the file
      * @param  EmbeddedObject                     $embedded   The id of the object
      * @param  string                             $outputFile the path where to extract
-     * @throws Exception\InvalidArgumentException
-     * @throws Exception\RuntimeException
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      * @return string|null                        The ouptut string, null on error
      */
     public function extract($pathfile, EmbeddedObject $embedded, $outputFile)
     {
         if (trim($outputFile) === '') {
-            throw new Exception\InvalidArgumentException('Invalid output file');
+            throw new InvalidArgumentException('Invalid output file');
         }
 
         $cmd = sprintf('%s -%s %d %s -o %s'
@@ -75,7 +77,7 @@ class Swfextract extends Binary
      *
      * @return Swfrender
      *
-     * @throws Exception\BinaryNotFoundException
+     * @throws BinaryNotFoundException
      */
     public static function load(Configuration $configuration, Logger $logger)
     {

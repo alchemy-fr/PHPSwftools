@@ -13,7 +13,8 @@ namespace SwfTools\Binary;
 
 use Monolog\Logger;
 use SwfTools\Configuration;
-use SwfTools\Exception;
+use SwfTools\Exception\BinaryNotFoundException;
+use SwfTools\Exception\InvalidArgumentException;
 
 /**
  * The Pdf2Swf adapter
@@ -46,32 +47,32 @@ class Pdf2swf extends Binary
      *
      * @return Pdf2swf
      *
-     * @throws Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function toSwf($pathfile, $outputFile, Array $options = array(), $convertType = self::CONVERT_POLY2BITMAP, $resolution = 72, $pageRange = '1-', $frameRate = 15, $jpegquality = 75, $timelimit = 100)
     {
         if ( ! trim($outputFile)) {
-            throw new Exception\InvalidArgumentException('Invalid resolution argument');
+            throw new InvalidArgumentException('Invalid resolution argument');
         }
 
         if ((int) $resolution < 1) {
-            throw new Exception\InvalidArgumentException('Invalid resolution argument');
+            throw new InvalidArgumentException('Invalid resolution argument');
         }
 
         if ((int) $frameRate < 1) {
-            throw new Exception\InvalidArgumentException('Invalid framerate argument');
+            throw new InvalidArgumentException('Invalid framerate argument');
         }
 
         if ((int) $jpegquality < 0 || (int) $jpegquality > 100) {
-            throw new Exception\InvalidArgumentException('Invalid jpegquality argument');
+            throw new InvalidArgumentException('Invalid jpegquality argument');
         }
 
         if ( ! preg_match('/\d+-\d?/', $pageRange)) {
-            throw new Exception\InvalidArgumentException('Invalid pages argument');
+            throw new InvalidArgumentException('Invalid pages argument');
         }
 
         if ((int) $timelimit < 1) {
-            throw new Exception\InvalidArgumentException('Invalid time limit argument');
+            throw new InvalidArgumentException('Invalid time limit argument');
         }
 
         $option_cmd = array();
@@ -132,7 +133,7 @@ class Pdf2swf extends Binary
      * @param  Logger        $logger        A logger
      * @return Pdf2swf
      *
-     * @throws \SwfTools\Exception\BinaryNotFoundException
+     * @throws BinaryNotFoundException
      */
     public static function load(Configuration $configuration, Logger $logger)
     {

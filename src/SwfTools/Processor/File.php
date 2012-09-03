@@ -12,6 +12,7 @@
 namespace SwfTools\Processor;
 
 use Monolog\Logger;
+use SwfTools\Configuration;
 use SwfTools\Exception\InvalidArgumentException;
 use SwfTools\Exception\RuntimeException;
 
@@ -30,9 +31,9 @@ abstract class File
      *
      * @param Configuration $configuration
      */
-    public function __construct(\SwfTools\Configuration $configuration = null)
+    public function __construct(Configuration $configuration = null)
     {
-        $this->configuration = $configuration ? : new \SwfTools\Configuration();
+        $this->configuration = $configuration ? : new Configuration();
         $this->binaryAdapters = array();
     }
 

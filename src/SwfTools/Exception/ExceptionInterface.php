@@ -14,7 +14,7 @@ namespace SwfTools\Exception;
 /**
  * @author Romain Neutron imprec@gmail.com
  */
-interface Exception
+interface ExceptionInterface
 {
 
 }

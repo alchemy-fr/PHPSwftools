@@ -11,6 +11,8 @@
 
 namespace SwfTools;
 
+use SwfTools\Exception\InvalidArgumentException;
+
 /**
  * @author Romain Neutron imprec@gmail.com
  */
@@ -31,7 +33,7 @@ class Configuration
     public function get($key)
     {
         if ( ! isset($this->configuration[$key])) {
-            throw new Exception\InvalidArgumentException(sprintf('No configuration for %s', $key));
+            throw new InvalidArgumentException(sprintf('No configuration for %s', $key));
         }
 
         return $this->configuration[$key];

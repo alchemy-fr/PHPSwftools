@@ -12,6 +12,7 @@
 namespace SwfTools\Processor;
 
 use Monolog\Logger;
+use Monolog\Handler\NullHandler;
 use SwfTools\Exception\Exception;
 use SwfTools\Exception\InvalidArgumentException;
 
@@ -35,8 +36,8 @@ class PDFFile extends File
         }
 
         if ( ! $logger) {
-            $logger = new \Monolog\Logger('Null logger');
-            $logger->pushHandler(new \Monolog\Handler\NullHandler());
+            $logger = new Logger('Null logger');
+            $logger->pushHandler(new NullHandler());
         }
 
         $pdf2swf = $this->getBinaryAdapter('Pdf2swf', $logger);

@@ -14,7 +14,7 @@ namespace SwfTools\Exception;
 /**
  * @author Romain Neutron imprec@gmail.com
  */
-class LogicException extends \LogicException implements Exception
+class LogicException extends \LogicException implements ExceptionInterface
 {
 
 }
