@@ -31,13 +31,14 @@ abstract class File
      * Build the File processor given the configuration
      *
      * @param Configuration $configuration
+     * @param Logger        $logger
      */
     public function __construct(Configuration $configuration = null, Logger $logger = null)
     {
         $this->configuration = $configuration ? : new Configuration();
         $this->binaryAdapters = array();
 
-        if ( ! $logger) {
+        if (! $logger) {
             $logger = new Logger('SwfTools');
             $logger->pushHandler(new NullHandler());
         }

@@ -40,13 +40,13 @@ class FlashFile extends File
      */
     public function render($outputFile, $legacy_rendering = false)
     {
-        if ( ! $this->pathfile) {
+        if (! $this->pathfile) {
             throw new LogicException('No file open');
         }
 
         $swfrender = $this->getBinaryAdapter('Swfrender');
 
-        if ( ! $outputFile) {
+        if (! $outputFile) {
             throw new InvalidArgumentException('Invalid argument');
         }
 
@@ -72,7 +72,7 @@ class FlashFile extends File
      */
     public function listEmbeddedObjects($useCache = false)
     {
-        if ( ! $this->pathfile) {
+        if (! $this->pathfile) {
             throw new LogicException('No file open');
         }
 
@@ -104,7 +104,7 @@ class FlashFile extends File
             $option = $matches[1];
             $type = EmbeddedObject::detectType($matches[2]);
 
-            if ( ! $type) {
+            if (! $type) {
                 continue;
             }
 
@@ -134,11 +134,11 @@ class FlashFile extends File
      */
     public function extractEmbedded($id, $outputFile)
     {
-        if ( ! $this->pathfile) {
+        if (! $this->pathfile) {
             throw new LogicException('No file open');
         }
 
-        if ( ! $outputFile) {
+        if (! $outputFile) {
             throw new InvalidArgumentException('Bad destination');
         }
 
@@ -171,17 +171,17 @@ class FlashFile extends File
      */
     public function extractFirstImage($outputFile)
     {
-        if ( ! $this->pathfile) {
+        if (! $this->pathfile) {
             throw new LogicException('No file open');
         }
 
-        if ( ! $outputFile) {
+        if (! $outputFile) {
             throw new InvalidArgumentException('Bad destination');
         }
 
         $objects = $this->listEmbeddedObjects();
 
-        if ( ! $objects) {
+        if (! $objects) {
             throw new RuntimeException('Unable to extract an image');
         }
 

@@ -27,9 +27,9 @@ class Swfextract extends Binary
     /**
      * Execute the command to list the embedded objects
      *
-     * @param  string                               $pathfile
+     * @param  string           $pathfile
      * @throws RuntimeException
-     * @return string|null                          The ouptut string, null on error
+     * @return string|null      The ouptut string, null on error
      */
     public function listEmbedded($pathfile)
     {
@@ -42,12 +42,12 @@ class Swfextract extends Binary
      *
      * Execute the command to extract an embedded object from a flash file
      *
-     * @param  string                             $pathfile   the file
-     * @param  EmbeddedObject                     $embedded   The id of the object
-     * @param  string                             $outputFile the path where to extract
+     * @param  string                   $pathfile   the file
+     * @param  EmbeddedObject           $embedded   The id of the object
+     * @param  string                   $outputFile the path where to extract
      * @throws InvalidArgumentException
      * @throws RuntimeException
-     * @return string|null                        The ouptut string, null on error
+     * @return string|null              The ouptut string, null on error
      */
     public function extract($pathfile, EmbeddedObject $embedded, $outputFile)
     {

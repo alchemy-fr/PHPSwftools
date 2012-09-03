@@ -27,7 +27,7 @@ class PDFFile extends File
      */
     public function toSwf($outputFile)
     {
-        if ( ! $outputFile) {
+        if (! $outputFile) {
             throw new InvalidArgumentException('Bad destination');
         }
 

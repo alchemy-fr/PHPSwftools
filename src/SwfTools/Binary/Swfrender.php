@@ -25,9 +25,9 @@ class Swfrender extends Binary
 
     /**
      *
-     * @param  string                             $file
-     * @param  string                             $outputFile
-     * @param  Boolean                            $legacy
+     * @param  string                   $pathfile
+     * @param  string                   $outputFile
+     * @param  Boolean                  $legacy
      * @return null
      * @throws InvalidArgumentException
      * @throws RuntimeException
