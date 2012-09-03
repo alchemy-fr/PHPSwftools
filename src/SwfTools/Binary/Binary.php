@@ -25,7 +25,6 @@ use Symfony\Component\Process\ExecutableFinder;
  */
 abstract class Binary implements AdapterInterface
 {
-
     protected $binaryPathname;
 
     /**
@@ -42,6 +41,10 @@ abstract class Binary implements AdapterInterface
      */
     public function __construct($binaryPathname, Logger $logger)
     {
+        if ( ! is_executable($binaryPathname)) {
+            throw new BinaryNotFoundException(sprintf('Binary %s appears to be not executable', $binaryPathname));
+        }
+
         $this->binaryPathname = $binaryPathname;
         $this->logger = $logger;
     }
@@ -114,5 +117,4 @@ abstract class Binary implements AdapterInterface
 
         return $result;
     }
-
 }
