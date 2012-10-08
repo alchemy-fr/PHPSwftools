@@ -5,6 +5,7 @@ namespace SwfTools\Binary;
 use Monolog\Logger;
 use Monolog\Handler\NullHandler;
 use SwfTools\Configuration;
+use Symfony\Component\Process\Process;
 
 class BinaryTest extends \PHPUnit_Framework_TestCase
 {
@@ -41,12 +42,12 @@ class BinaryTest extends \PHPUnit_Framework_TestCase
         }
 
         try {
-            $object->runIt('mycommand');
+            $object->runIt(new Process('mycommand'));
             $this->fail('should fail on bad command');
         } catch (\SwfTools\Exception\RuntimeException $e) {
 
         }
-        $object->runIt('mycommand', true);
+        $object->runIt(new Process('mycommand'), true);
     }
 
     public function testGetVersion()
@@ -73,9 +74,9 @@ class BinaryTester extends Binary
         return $this->binaryPathname;
     }
 
-    public function runIt($command, $bypass = false)
+    public function runIt(Process $process, $bypass = false)
     {
-        return $this->run($command, $bypass);
+        return $this->run($process, $bypass);
     }
 
 }
