@@ -38,7 +38,7 @@ abstract class File
         $this->configuration = $configuration ? : new Configuration();
         $this->binaryAdapters = array();
 
-        if (! $logger) {
+        if (!$logger) {
             $logger = new Logger('SwfTools');
             $logger->pushHandler(new NullHandler());
         }
@@ -54,7 +54,7 @@ abstract class File
 
     public function open($pathfile)
     {
-        if ( ! file_exists($pathfile)) {
+        if (!file_exists($pathfile)) {
             throw new InvalidArgumentException(sprintf('File %s does not exist', $pathfile));
         }
 

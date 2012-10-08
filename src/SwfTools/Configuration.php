@@ -32,7 +32,7 @@ class Configuration
 
     public function get($key)
     {
-        if ( ! isset($this->configuration[$key])) {
+        if (!isset($this->configuration[$key])) {
             throw new InvalidArgumentException(sprintf('No configuration for %s', $key));
         }
 

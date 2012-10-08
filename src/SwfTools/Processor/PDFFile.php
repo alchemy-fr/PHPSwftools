@@ -27,7 +27,7 @@ class PDFFile extends File
      */
     public function toSwf($outputFile)
     {
-        if (! $outputFile) {
+        if (!$outputFile) {
             throw new InvalidArgumentException('Bad destination');
         }
 
@@ -36,5 +36,4 @@ class PDFFile extends File
         /* @var $pdf2swf \SwfTools\Binary\Pdf2swf */
         $pdf2swf->toSwf($this->pathfile, $outputFile);
     }
-
 }

@@ -16,17 +16,16 @@ namespace SwfTools;
  */
 class EmbeddedObject
 {
-
     protected $option;
     protected $type;
     protected $id;
 
-    const TYPE_SHAPE     = 'Shape';
+    const TYPE_SHAPE = 'Shape';
     const TYPE_MOVIECLIP = 'MovieClip';
-    const TYPE_JPEG      = 'JPEG';
-    const TYPE_PNG       = 'PNG';
-    const TYPE_FRAME     = 'Frame';
-    const TYPE_SOUND     = 'Sound';
+    const TYPE_JPEG = 'JPEG';
+    const TYPE_PNG = 'PNG';
+    const TYPE_FRAME = 'Frame';
+    const TYPE_SOUND = 'Sound';
 
     /**
      *
@@ -107,5 +106,4 @@ class EmbeddedObject
 
         return null;
     }
-
 }

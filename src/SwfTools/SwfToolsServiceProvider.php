@@ -28,30 +28,26 @@ class SwfToolsServiceProvider implements ServiceProviderInterface
         $app['swftools.options'] = array();
 
         $optionsResolver = function($options) {
-            return array_filter(array_replace(
-                        array(
-                        'pdf2swf'    => '',
-                        'swfrender'  => '',
-                        'swfextract' => '',
-                        ), $options
-                    ), function($value) {
-                        return $value !== '';
-                    });
-        };
+                return array_filter(array_replace(
+                            array(
+                            'pdf2swf'    => '',
+                            'swfrender'  => '',
+                            'swfextract' => '',
+                            ), $options
+                        ), function($value) {
+                            return $value !== '';
+                        });
+            };
 
         $app['swftools.pdf-file'] = $app->share(function(Application $app) use ($optionsResolver) {
-
             $app['swftools.options'] = $optionsResolver($app['swftools.options']);
-
             $logger = isset($app['monolog']) ? $app['monolog'] : null;
 
             return new PDFFile(new Configuration($app['swftools.options']), $logger);
         });
 
         $app['swftools.flash-file'] = $app->share(function(Application $app) use ($optionsResolver) {
-
             $app['swftools.options'] = $optionsResolver($app['swftools.options']);
-
             $logger = isset($app['monolog']) ? $app['monolog'] : null;
 
             return new FlashFile(new Configuration($app['swftools.options']), $logger);
