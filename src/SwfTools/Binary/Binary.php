@@ -16,6 +16,7 @@ use SwfTools\Configuration;
 use SwfTools\Exception\BinaryNotFoundException;
 use SwfTools\Exception\RuntimeException;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\ExecutableFinder;
 
 /**
@@ -41,7 +42,7 @@ abstract class Binary implements AdapterInterface
      */
     public function __construct($binaryPathname, Logger $logger)
     {
-        if ( ! is_executable($binaryPathname)) {
+        if (!is_executable($binaryPathname)) {
             throw new BinaryNotFoundException(sprintf('Binary %s appears to be not executable', $binaryPathname));
         }
 
@@ -56,9 +57,10 @@ abstract class Binary implements AdapterInterface
      */
     public function getVersion()
     {
-        $cmd = sprintf('%s --version', $this->binaryPathname);
+        $builder = ProcessBuilder::create(array($this->binaryPathname, '--version'));
 
-        $datas = $this->run($cmd, true);
+        $datas = $this->run($builder->getProcess(), true);
+        unset($builder);
 
         preg_match('/[a-z]+\ -\ part of swftools ([0-9\.]+)/i', $datas, $matches);
 
@@ -84,6 +86,8 @@ abstract class Binary implements AdapterInterface
         $finder = new ExecutableFinder();
 
         if (null !== $exec_path = $finder->find($binaryName)) {
+            unset($finder);
+
             return new static($exec_path, $logger);
         }
 
@@ -93,25 +97,23 @@ abstract class Binary implements AdapterInterface
     /**
      * Run a command
      *
-     * @param  string           $command       The command to execute
+     * @param  Process          $process       The command to execute
      * @param  Boolean          $bypass_errors if true, No exception are thrown
      * @return string           The output of the command
      * @throws RuntimeException When the command failed
      */
-    protected function run($command, $bypass_errors = false)
+    protected function run(Process $process, $bypass_errors = false)
     {
-        $this->logger->addInfo(sprintf('SwfTools running command %s', $command));
+        $this->logger->addInfo(sprintf('SwfTools running command %s', $process->getCommandLine()));
 
-        $process = new Process($command);
         $process->run();
 
-        if ( ! $process->isSuccessful() && ! $bypass_errors) {
+        if (!$process->isSuccessful() && !$bypass_errors) {
             $this->logger->addError(sprintf('SwfTools command failed %s', $process->getErrorOutput()));
-            throw new RuntimeException('Failed to execute ' . $command);
+            throw new RuntimeException('Failed to execute ' . $process->getCommandLine());
         }
 
         $result = $process->getOutput();
-        unset($process);
 
         $this->logger->addInfo('SwfTools command successful');
 

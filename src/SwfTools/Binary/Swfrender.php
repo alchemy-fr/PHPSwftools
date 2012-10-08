@@ -16,6 +16,7 @@ use SwfTools\Configuration;
 use SwfTools\Exception\BinaryNotFoundException;
 use SwfTools\Exception\InvalidArgumentException;
 use SwfTools\Exception\RuntimeException;
+use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * @author Romain Neutron imprec@gmail.com
@@ -38,15 +39,14 @@ class Swfrender extends Binary
             throw new InvalidArgumentException('Invalid output file');
         }
 
-        $cmd = sprintf(
-            '%s %s %s -o %s'
-            , $this->binaryPathname
-            , ($legacy ? '-l' : '')
-            , $pathfile
-            , $outputFile
-        );
+        $builder = ProcessBuilder::create(array(
+            $this->binaryPathname,
+            ($legacy ? '-l' : ''),
+            $pathfile, '-o',
+            $outputFile,
+        ));
 
-        return $this->run($cmd);
+        return $this->run($builder->getProcess());
     }
 
     /**

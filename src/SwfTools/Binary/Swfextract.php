@@ -17,6 +17,7 @@ use SwfTools\EmbeddedObject;
 use SwfTools\Exception\BinaryNotFoundException;
 use SwfTools\Exception\InvalidArgumentException;
 use SwfTools\Exception\RuntimeException;
+use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * @author Romain Neutron imprec@gmail.com
@@ -33,9 +34,11 @@ class Swfextract extends Binary
      */
     public function listEmbedded($pathfile)
     {
-        $cmd = sprintf('%s %s', escapeshellcmd($this->binaryPathname), escapeshellarg($pathfile));
+        $builder = ProcessBuilder::create(array(
+            $this->binaryPathname, $pathfile
+        ));
 
-        return $this->run($cmd);
+        return $this->run($builder->getProcess());
     }
 
     /**
@@ -55,15 +58,16 @@ class Swfextract extends Binary
             throw new InvalidArgumentException('Invalid output file');
         }
 
-        $cmd = sprintf('%s -%s %d %s -o %s'
-          , escapeshellcmd($this->binaryPathname)
-          , $embedded->getOption()
-          , $embedded->getId()
-          , escapeshellarg($pathfile)
-          , escapeshellarg($outputFile)
-        );
+        $builder = ProcessBuilder::create(array(
+            $this->binaryPathname,
+            '-' . $embedded->getOption(),
+            $embedded->getId(),
+            $pathfile,
+            '-o',
+            $outputFile,
+        ));
 
-        return $this->run($cmd);
+        return $this->run($builder->getProcess());
     }
 
     /**
@@ -83,5 +87,4 @@ class Swfextract extends Binary
     {
         return static::loadBinary('swfextract', $configuration, $logger);
     }
-
 }

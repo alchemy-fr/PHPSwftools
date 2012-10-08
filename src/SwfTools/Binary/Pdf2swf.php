@@ -15,6 +15,7 @@ use Monolog\Logger;
 use SwfTools\Configuration;
 use SwfTools\Exception\BinaryNotFoundException;
 use SwfTools\Exception\InvalidArgumentException;
+use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * The Pdf2Swf adapter
@@ -23,14 +24,13 @@ use SwfTools\Exception\InvalidArgumentException;
  */
 class Pdf2swf extends Binary
 {
-
-    const CONVERT_POLY2BITMAP         = 'poly2bitmap';
-    const CONVERT_BITMAP              = 'bitmap';
-    const OPTION_LINKS_DISABLE        = 'disablelinks';
-    const OPTION_LINKS_OPENNEWWINDOW  = 'linksopennewwindow';
-    const OPTION_ZLIB_ENABLE          = 'enablezlib';
-    const OPTION_ZLIB_DISABLE         = 'disablezlib';
-    const OPTION_ENABLE_SIMPLEVIEWER  = 'simpleviewer';
+    const CONVERT_POLY2BITMAP = 'poly2bitmap';
+    const CONVERT_BITMAP = 'bitmap';
+    const OPTION_LINKS_DISABLE = 'disablelinks';
+    const OPTION_LINKS_OPENNEWWINDOW = 'linksopennewwindow';
+    const OPTION_ZLIB_ENABLE = 'enablezlib';
+    const OPTION_ZLIB_DISABLE = 'disablezlib';
+    const OPTION_ENABLE_SIMPLEVIEWER = 'simpleviewer';
     const OPTION_DISABLE_SIMPLEVIEWER = 'nosimpleviewer';
 
     /**
@@ -51,7 +51,7 @@ class Pdf2swf extends Binary
      */
     public function toSwf($pathfile, $outputFile, Array $options = array(), $convertType = self::CONVERT_POLY2BITMAP, $resolution = 72, $pageRange = '1-', $frameRate = 15, $jpegquality = 75, $timelimit = 100)
     {
-        if ( ! trim($outputFile)) {
+        if (!trim($outputFile)) {
             throw new InvalidArgumentException('Invalid resolution argument');
         }
 
@@ -67,7 +67,7 @@ class Pdf2swf extends Binary
             throw new InvalidArgumentException('Invalid jpegquality argument');
         }
 
-        if ( ! preg_match('/\d+-\d?/', $pageRange)) {
+        if (!preg_match('/\d+-\d?/', $pageRange)) {
             throw new InvalidArgumentException('Invalid pages argument');
         }
 
@@ -89,10 +89,10 @@ class Pdf2swf extends Binary
         $option_cmd [] = 'jpegquality=' . (int) $jpegquality;
         $option_cmd [] = 'pages=' . $pageRange;
 
-        if ( ! in_array(self::OPTION_ZLIB_DISABLE, $options) && in_array(self::OPTION_ZLIB_ENABLE, $options)) {
+        if (!in_array(self::OPTION_ZLIB_DISABLE, $options) && in_array(self::OPTION_ZLIB_ENABLE, $options)) {
             $option_cmd [] = 'enablezlib';
         }
-        if ( ! in_array(self::OPTION_DISABLE_SIMPLEVIEWER, $options) && in_array(self::OPTION_ENABLE_SIMPLEVIEWER, $options)) {
+        if (!in_array(self::OPTION_DISABLE_SIMPLEVIEWER, $options) && in_array(self::OPTION_ENABLE_SIMPLEVIEWER, $options)) {
             $option_cmd [] = 'simpleviewer';
         }
         if (in_array(self::OPTION_LINKS_DISABLE, $options)) {
@@ -103,22 +103,22 @@ class Pdf2swf extends Binary
         }
 
         $option_string = escapeshellarg(implode('&', $option_cmd));
+        $option_string = !$option_string ? : '-s ' . $option_string;
 
-        $option_string = ! $option_string ? : '-s ' . $option_string;
+        $builder = ProcessBuilder::create(array(
+            $this->binaryPathname,
+            $pathfile,
+            $option_string,
+            '-o',
+            $outputFile,
+            '-T', '9', '-f'
+        ));
 
-        $cmd = sprintf(
-          '%s %s %s -o %s -T 9 -f'
-          , escapeshellcmd($this->binaryPathname)
-          , escapeshellarg($pathfile)
-          , $option_string
-          , escapeshellarg($outputFile)
-        );
-
-        if ( ! defined('PHP_WINDOWS_VERSION_BUILD') && $timelimit > 0) {
-            $cmd .= ' -Q ' . (int) $timelimit;
+        if (!defined('PHP_WINDOWS_VERSION_BUILD') && $timelimit > 0) {
+            $builder->add('-Q')->add((int) $timelimit);
         }
 
-        $this->run($cmd);
+        $this->run($builder->getProcess());
 
         return $this;
     }
@@ -139,5 +139,4 @@ class Pdf2swf extends Binary
     {
         return static::loadBinary('pdf2swf', $configuration, $logger);
     }
-
 }
