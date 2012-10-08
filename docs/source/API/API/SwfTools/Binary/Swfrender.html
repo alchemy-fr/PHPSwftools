@@ -55,7 +55,7 @@
                     null
                 </td>
                 <td class="last">
-                    <a href="#method_render">render</a>($pathfile, $outputFile, $legacy)
+                    <a href="#method_render">render</a>(string $pathfile, string $outputFile, Boolean $legacy)
                     <p></p>
                 </td>
                 <td></td>
@@ -106,7 +106,7 @@
     </div>
 
                 <h3 id="method_getVersion">
-        <div class="location">in <a href="../../SwfTools/Binary/Binary.html#method_getVersion"><abbr title="SwfTools\Binary\Binary">Binary</abbr></a> at line 54</div>
+        <div class="location">in <a href="../../SwfTools/Binary/Binary.html#method_getVersion"><abbr title="SwfTools\Binary\Binary">Binary</abbr></a> at line 58</div>
         <code>            public            string|null
     <strong>getVersion</strong>()</code>
     </h3>
@@ -130,9 +130,9 @@
     </div>
 
                 <h3 id="method_render">
-        <div class="location">at line 33</div>
+        <div class="location">at line 36</div>
         <code>            public            null
-    <strong>render</strong>($pathfile, $outputFile, $legacy)</code>
+    <strong>render</strong>(string $pathfile, string $outputFile, Boolean $legacy)</code>
     </h3>
     <div class="details">
         <p></p>
@@ -142,17 +142,17 @@
 
                     <table>
                     <tr>
-                <td></td>
+                <td>string</td>
                 <td>$pathfile</td>
                 <td></td>
             </tr>
                     <tr>
-                <td></td>
+                <td>string</td>
                 <td>$outputFile</td>
                 <td></td>
             </tr>
                     <tr>
-                <td></td>
+                <td>Boolean</td>
                 <td>$legacy</td>
                 <td></td>
             </tr>
@@ -173,11 +173,11 @@
 
                     <table>
                     <tr>
-                <td><abbr title="Exception\InvalidArgumentException">InvalidArgumentException</abbr></td>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
                 <td></td>
             </tr>
                     <tr>
-                <td><abbr title="Exception\RuntimeException">RuntimeException</abbr></td>
+                <td><a href="http://php.net/RuntimeException"><abbr title="RuntimeException">RuntimeException</abbr></a></td>
                 <td></td>
             </tr>
             </table>
@@ -187,7 +187,7 @@
     </div>
 
                 <h3 id="method_load">
-        <div class="location">at line 63</div>
+        <div class="location">at line 65</div>
         <code>        static    public            <a href="../../SwfTools/Binary/Swfrender.html"><abbr title="SwfTools\Binary\Swfrender">Swfrender</abbr></a>
     <strong>load</strong>(<a href="../../SwfTools/Configuration.html"><abbr title="SwfTools\Configuration">Configuration</abbr></a> $configuration, <abbr title="Monolog\Logger">Logger</abbr> $logger)</code>
     </h3>
@@ -226,7 +226,7 @@
 
                     <table>
                     <tr>
-                <td><abbr title="Exception\BinaryNotFoundException">BinaryNotFoundException</abbr></td>
+                <td><abbr title="BinaryNotFoundException">BinaryNotFoundException</abbr></td>
                 <td></td>
             </tr>
             </table>

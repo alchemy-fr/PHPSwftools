@@ -35,7 +35,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method___construct">__construct</a>(<abbr title="SwfTools\Processor\SwfTools\Configuration">Configuration</abbr> $configuration = null)
+                    <a href="#method___construct">__construct</a>(<a href="../../SwfTools/Configuration.html"><abbr title="SwfTools\Configuration">Configuration</abbr></a> $configuration = null, <abbr title="Monolog\Logger">Logger</abbr> $logger = null)
                     <p>Build the File processor given the configuration</p>
                 </td>
                 <td><small>from&nbsp;<a href="../../SwfTools/Processor/File.html#method___construct"><abbr title="SwfTools\Processor\File">File</abbr></a></small></td>
@@ -75,7 +75,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method_toSwf">toSwf</a>(string $outputFile, <abbr title="Monolog\Logger">Logger</abbr> $logger = null)
+                    <a href="#method_toSwf">toSwf</a>(string $outputFile)
                     <p></p>
                 </td>
                 <td></td>
@@ -86,9 +86,9 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">in <a href="../../SwfTools/Processor/File.html#method___construct"><abbr title="SwfTools\Processor\File">File</abbr></a> at line 33</div>
+        <div class="location">in <a href="../../SwfTools/Processor/File.html#method___construct"><abbr title="SwfTools\Processor\File">File</abbr></a> at line 36</div>
         <code>            public            
-    <strong>__construct</strong>(<abbr title="SwfTools\Processor\SwfTools\Configuration">Configuration</abbr> $configuration = null)</code>
+    <strong>__construct</strong>(<a href="../../SwfTools/Configuration.html"><abbr title="SwfTools\Configuration">Configuration</abbr></a> $configuration = null, <abbr title="Monolog\Logger">Logger</abbr> $logger = null)</code>
     </h3>
     <div class="details">
         <p>Build the File processor given the configuration</p>
@@ -98,8 +98,13 @@
 
                     <table>
                     <tr>
-                <td><abbr title="SwfTools\Processor\SwfTools\Configuration">Configuration</abbr></td>
+                <td><a href="../../SwfTools/Configuration.html"><abbr title="SwfTools\Configuration">Configuration</abbr></a></td>
                 <td>$configuration</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><abbr title="Monolog\Logger">Logger</abbr></td>
+                <td>$logger</td>
                 <td></td>
             </tr>
             </table>
@@ -111,7 +116,7 @@
     </div>
 
                 <h3 id="method___destruct">
-        <div class="location">in <a href="../../SwfTools/Processor/File.html#method___destruct"><abbr title="SwfTools\Processor\File">File</abbr></a> at line 39</div>
+        <div class="location">in <a href="../../SwfTools/Processor/File.html#method___destruct"><abbr title="SwfTools\Processor\File">File</abbr></a> at line 49</div>
         <code>            public            
     <strong>__destruct</strong>()</code>
     </h3>
@@ -126,7 +131,7 @@
     </div>
 
                 <h3 id="method_open">
-        <div class="location">in <a href="../../SwfTools/Processor/File.html#method_open"><abbr title="SwfTools\Processor\File">File</abbr></a> at line 45</div>
+        <div class="location">in <a href="../../SwfTools/Processor/File.html#method_open"><abbr title="SwfTools\Processor\File">File</abbr></a> at line 55</div>
         <code>            public            
     <strong>open</strong>($pathfile)</code>
     </h3>
@@ -151,7 +156,7 @@
     </div>
 
                 <h3 id="method_close">
-        <div class="location">in <a href="../../SwfTools/Processor/File.html#method_close"><abbr title="SwfTools\Processor\File">File</abbr></a> at line 56</div>
+        <div class="location">in <a href="../../SwfTools/Processor/File.html#method_close"><abbr title="SwfTools\Processor\File">File</abbr></a> at line 66</div>
         <code>            public            
     <strong>close</strong>()</code>
     </h3>
@@ -166,9 +171,9 @@
     </div>
 
                 <h3 id="method_toSwf">
-        <div class="location">at line 31</div>
+        <div class="location">at line 28</div>
         <code>            public            
-    <strong>toSwf</strong>(string $outputFile, <abbr title="Monolog\Logger">Logger</abbr> $logger = null)</code>
+    <strong>toSwf</strong>(string $outputFile)</code>
     </h3>
     <div class="details">
         <p></p>
@@ -180,11 +185,6 @@
                     <tr>
                 <td>string</td>
                 <td>$outputFile</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td><abbr title="Monolog\Logger">Logger</abbr></td>
-                <td>$logger</td>
                 <td></td>
             </tr>
             </table>
