@@ -58,6 +58,8 @@ FlashFile and PDFFile.
 FlashFile
 *********
 
+The following code extracts various data from a Swf file :
+
 .. code-block:: php
 
     <?php
@@ -67,45 +69,37 @@ FlashFile
 
     $flash = new FlashFile('file.swf');
 
-    /**
-     * Renders the flash file with swfrender
-     */
+    // Renders the flash file with swfrender
     $flash->render('output.jpg');
 
-    /**
-     * List all embedded objects
-     *
-     * Available object types are one EmbeddedObject::TYPE_* constants
-     */
+    // List all embedded objects
+    // Available object types are one EmbeddedObject::TYPE_* constants
     foreach($flash->listEmbeddedObjects() as $embeddedObject)
     {
         $id = $embeddedObject->getId();
 
-        /**
-         * Extract an embedded object
-         */
+        // Extract an embedded object
         $flash->extractEmbedded($id, sprintf('output%d.jpg', $id));
     }
 
-    /**
-     * Extract the first image obecjt found (jpeg or png)
-     */
+    // Extract the first image obecjt found (jpeg or png)
     $flash->extractFirstImage('output.jpg');
 
 
 PDFFile
 *******
 
+The following code converts a PDF to a Swf file :
 
 .. code-block:: php
 
     <?php
 
-    use SwfTools\FlashFile;
+    use SwfTools\PDFFile;
     use SwfTools\Configuration;
 
-
-
+    $pdf = new PDFFile('file.pdf');
+    $pdf->toSwf('target.swf');
 
 Using Custom Configuration
 --------------------------
@@ -128,6 +122,21 @@ PHP SwfTools autodetects SWFTools binaries on most \*nix systems with the comman
     /* Will use /my/custom/path/to/pdf2swf */
     $PDF->toSwf('destination.swf');
 
+Process Timeout
+---------------
+
+PHPSwfTools uses underlying processes to execute commands. You can set a timeout
+to prevent these processes to run more than a defined duration.
+
+To disable timeout, set it to `0` (default value).
+
+.. code-block:: php
+
+    $configuration = new SwfTools\Configuration(array(
+        'timeout' => 0
+    ));
+
+    $file = new SwfTools\FlashFile('Animation.swf', $configuration);
 
 Handling Exceptions
 -------------------

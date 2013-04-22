@@ -49,6 +49,21 @@ $file->extractEmbedded(1, 'Object1.png');
 $file->extractFirstImage('renderedAnimation.jpg');
 ```
 
+##Setting timeout
+
+PHPSwfTools uses underlying processes to execute commands. You can set a timeout
+to prevent these processes to run more than a defined duration.
+
+To disable timeout, set it to `0` (default value).
+
+```php
+$configuration = new SwfTools\Configuration(array(
+    'timeout' => 0
+));
+
+$file = new SwfTools\FlashFile('Animation.swf', $configuration);
+```
+
 ##Using various binaries versions
 
 PHPSwfTools uses ``swfextract`` an ``swfrender`` provided by SWFTools. If you
