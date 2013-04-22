@@ -6,6 +6,7 @@ use Monolog\Logger;
 use Monolog\Handler\NullHandler;
 use SwfTools\Configuration;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Process\ExecutableFinder;
 
 class BinaryTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,6 +21,22 @@ class BinaryTest extends \PHPUnit_Framework_TestCase
         BinaryTester::load(new Configuration(array('php' => '/fakepath')), $logger);
     }
 
+    public function testDefaultTimeoutIsZeroOnConstruction()
+    {
+        $logger = new Logger('test');
+        $logger->pushHandler(new NullHandler());
+
+        $finder = new ExecutableFinder();
+        $php = $finder->find('php');
+
+        if (!$php) {
+            $this->markTestSkipped('An executable is required for this test');
+        }
+
+        $object = new BinaryTester($php, $logger);
+        $this->assertTrue(0 === $object->getTimeout());
+    }
+
     public function testDefaultTimeoutIsZero()
     {
         $logger = new Logger('test');
@@ -29,7 +46,7 @@ class BinaryTest extends \PHPUnit_Framework_TestCase
 
         $binary = BinaryTester::load($configuration, $logger);
 
-        $this->assertEquals(0, $binary->getTimeout());
+        $this->assertTrue(0 === $binary->getTimeout());
     }
 
     public function testTimeoutSetter()

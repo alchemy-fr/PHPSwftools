@@ -46,7 +46,7 @@ abstract class Binary implements AdapterInterface
      * @param type   $binaryPathname
      * @param Logger $logger         A logger
      */
-    public function __construct($binaryPathname, Logger $logger, $timeout)
+    public function __construct($binaryPathname, Logger $logger, $timeout = 0)
     {
         if (!is_executable($binaryPathname)) {
             throw new BinaryNotFoundException(sprintf('Binary %s appears to be not executable', $binaryPathname));
@@ -54,6 +54,8 @@ abstract class Binary implements AdapterInterface
 
         $this->binaryPathname = $binaryPathname;
         $this->logger = $logger;
+
+        $this->setTimeout($timeout);
     }
 
     /**
