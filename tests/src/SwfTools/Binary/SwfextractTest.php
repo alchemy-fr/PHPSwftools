@@ -27,7 +27,7 @@ class SwfextractTest extends \PHPUnit_Framework_TestCase
      */
     public function testListEmbedded()
     {
-        $flash = new \SplFileObject(__DIR__ . '/../../../files/flashfile.swf');
+        $flash = __DIR__ . '/../../../files/flashfile.swf';
         $embed = $this->object->listEmbedded($flash);
 
         $this->assertTrue(strpos($embed, 'Objects in file ') !== false);
@@ -39,7 +39,7 @@ class SwfextractTest extends \PHPUnit_Framework_TestCase
      */
     public function testListEmbeddedWrongFile()
     {
-        $wrongFile = new \SplFileInfo(__DIR__ . '/../../../files/unknownflashfile.swf');
+        $wrongFile = __DIR__ . '/../../../files/unknownflashfile.swf';
         $this->object->listEmbedded($wrongFile);
     }
 

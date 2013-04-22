@@ -14,6 +14,7 @@ namespace SwfTools\Binary;
 use Monolog\Logger;
 use SwfTools\Configuration;
 use SwfTools\Exception\BinaryNotFoundException;
+use SwfTools\Exception\InvalidArgumentException;
 use SwfTools\Exception\RuntimeException;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
@@ -35,12 +36,17 @@ abstract class Binary implements AdapterInterface
     protected $logger;
 
     /**
+     * @var integer
+     */
+    protected $timeout;
+
+    /**
      * The path to the binary
      *
      * @param type   $binaryPathname
      * @param Logger $logger         A logger
      */
-    public function __construct($binaryPathname, Logger $logger)
+    public function __construct($binaryPathname, Logger $logger, $timeout)
     {
         if (!is_executable($binaryPathname)) {
             throw new BinaryNotFoundException(sprintf('Binary %s appears to be not executable', $binaryPathname));
@@ -48,6 +54,35 @@ abstract class Binary implements AdapterInterface
 
         $this->binaryPathname = $binaryPathname;
         $this->logger = $logger;
+    }
+
+    /**
+     * Set the timeout for the underlying processes ; 0 means no timeout
+     *
+     * @param integer $timeout The timeout value
+     * @return Binary
+     *
+     * @throws InvalidArgumentException In case the timeout value is not valid
+     */
+    public function setTimeout($timeout)
+    {
+        if (0 > $timeout) {
+            throw new InvalidArgumentException('Timeout must be a positive value');
+        }
+
+        $this->timeout = $timeout;
+
+        return $this;
+    }
+
+    /**
+     * Get the timeout for the underlyning processes ; 0 means no timeout
+     *
+     * @return integer The timeout value.
+     */
+    public function getTimeout()
+    {
+        return $this->timeout;
     }
 
     /**
@@ -80,7 +115,7 @@ abstract class Binary implements AdapterInterface
     protected static function loadBinary($binaryName, Configuration $configuration, Logger $logger)
     {
         if ($configuration->has($binaryName)) {
-            return new static($configuration->get($binaryName), $logger);
+            return new static($configuration->get($binaryName), $logger, $configuration->get('timeout'));
         }
 
         $finder = new ExecutableFinder();
@@ -88,7 +123,7 @@ abstract class Binary implements AdapterInterface
         if (null !== $exec_path = $finder->find($binaryName)) {
             unset($finder);
 
-            return new static($exec_path, $logger);
+            return new static($exec_path, $logger, $configuration->get('timeout'));
         }
 
         throw new BinaryNotFoundException(sprintf('Binary %s not found', $binaryName));
@@ -106,6 +141,7 @@ abstract class Binary implements AdapterInterface
     {
         $this->logger->addInfo(sprintf('SwfTools running command %s', $process->getCommandLine()));
 
+        $process->setTimeout($this->timeout);
         $process->run();
 
         if (!$process->isSuccessful() && !$bypass_errors) {

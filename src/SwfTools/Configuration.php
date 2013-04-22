@@ -20,9 +20,11 @@ class Configuration
 {
     protected $configuration;
 
-    public function __construct(Array $configuration = null)
+    public function __construct(Array $configuration = array())
     {
-        $this->configuration = $configuration;
+        $this->configuration = array_merge(array(
+            'timeout' => 100,
+        ), $configuration);
     }
 
     public function has($key)

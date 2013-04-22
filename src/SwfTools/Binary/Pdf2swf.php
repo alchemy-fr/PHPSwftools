@@ -43,14 +43,17 @@ class Pdf2swf extends Binary
      * @param integer $pageRange
      * @param integer $frameRate
      * @param integer $jpegquality
-     * @param integer $timelimit
      *
      * @return Pdf2swf
      *
      * @throws InvalidArgumentException
      */
-    public function toSwf($pathfile, $outputFile, Array $options = array(), $convertType = self::CONVERT_POLY2BITMAP, $resolution = 72, $pageRange = '1-', $frameRate = 15, $jpegquality = 75, $timelimit = 100)
+    public function toSwf($pathfile, $outputFile, Array $options = array(), $convertType = self::CONVERT_POLY2BITMAP, $resolution = 72, $pageRange = '1-', $frameRate = 15, $jpegquality = 75, $timelimit = null)
     {
+        if (!file_exists($pathfile) || !is_file($pathfile) || !is_readable($pathfile)) {
+            throw new InvalidArgumentException('Provided file does not exists or is not readable.');
+        }
+
         if (!trim($outputFile)) {
             throw new InvalidArgumentException('Invalid resolution argument');
         }
@@ -69,10 +72,6 @@ class Pdf2swf extends Binary
 
         if (!preg_match('/\d+-\d?/', $pageRange)) {
             throw new InvalidArgumentException('Invalid pages argument');
-        }
-
-        if ((int) $timelimit < 1) {
-            throw new InvalidArgumentException('Invalid time limit argument');
         }
 
         $option_cmd = array();
@@ -114,8 +113,10 @@ class Pdf2swf extends Binary
             '-T', '9', '-f'
         ));
 
-        if (!defined('PHP_WINDOWS_VERSION_BUILD') && $timelimit > 0) {
-            $builder->add('-Q')->add((int) $timelimit);
+        if (null !== $timelimit) {
+            trigger_error('Use Configuration timeout instead of Pdf2Swf timelimit', E_USER_DEPRECATED);
+
+            $builder->setTimeout($timelimit);
         }
 
         $this->run($builder->getProcess());

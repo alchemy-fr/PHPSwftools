@@ -26,7 +26,7 @@ class Pdf2swfTest extends \PHPUnit_Framework_TestCase
      */
     public function testToSwf()
     {
-        $pdf   = new \SplFileObject(__DIR__ . '/../../../files/PDF.pdf');
+        $pdf   = __DIR__ . '/../../../files/PDF.pdf';
         $swf   = __DIR__ . '/../../../files/PDF.swf';
         $embed = $this->object->toSwf($pdf, $swf);
 
@@ -39,7 +39,7 @@ class Pdf2swfTest extends \PHPUnit_Framework_TestCase
      */
     public function testToSwfInvalidFile()
     {
-        $pdf   = new \SplFileObject(__DIR__ . '/../../../files/PDF.pdf');
+        $pdf   = __DIR__ . '/../../../files/PDF.pdf';
         $embed = $this->object->toSwf($pdf, '');
     }
 
@@ -48,18 +48,40 @@ class Pdf2swfTest extends \PHPUnit_Framework_TestCase
      * @dataProvider getWrongOptions
      * @expectedException \SwfTools\Exception\InvalidArgumentException
      */
-    public function testToSwfInvalidRes($pdf, $dest, $opts, $convert, $res, $pages, $framerate, $quality, $timelimit)
+    public function testToSwfInvalidRes($pdf, $dest, $opts, $convert, $res, $pages, $framerate, $quality)
     {
-        $this->object->toSwf($pdf, $dest, $opts, $convert, $res, $pages, $framerate, $quality, $timelimit);
+        $this->object->toSwf($pdf, $dest, $opts, $convert, $res, $pages, $framerate, $quality);
     }
 
     /**
      * @covers SwfTools\Binary\Pdf2swf::toSwf
      * @dataProvider getGoodOptions
      */
-    public function testToSwfValidRes($pdf, $dest, $opts, $convert, $res, $pages, $framerate, $quality, $timelimit)
+    public function testToSwfValidRes($pdf, $dest, $opts, $convert, $res, $pages, $framerate, $quality)
     {
-        $this->object->toSwf($pdf, $dest, $opts, $convert, $res, $pages, $framerate, $quality, $timelimit);
+        $this->object->toSwf($pdf, $dest, $opts, $convert, $res, $pages, $framerate, $quality);
+    }
+
+    public function testToSwfWithTimetLimit()
+    {
+        $dest     = __DIR__ . '/../../../files/tmp.file';
+        $pdf      = __DIR__ . '/../../../files/PDF.pdf';
+        $convert  = Pdf2swf::CONVERT_POLY2BITMAP;
+
+        $phpunit = $this;
+        $caught = false;
+
+        set_error_handler(function ($errno, $errstr) use ($phpunit, &$caught) {
+            $caught = true;
+            $phpunit->assertEquals(E_USER_DEPRECATED, $errno);
+            $phpunit->assertEquals('Use Configuration timeout instead of Pdf2Swf timelimit', $errstr);
+        });
+
+        $this->object->toSwf($pdf, $dest, array(Pdf2swf::OPTION_DISABLE_SIMPLEVIEWER), $convert, 1, '1-', 15, 75, 10);
+
+        restore_error_handler();
+
+        $this->assertTrue($caught);
     }
 
     /**
@@ -70,34 +92,33 @@ class Pdf2swfTest extends \PHPUnit_Framework_TestCase
     public function getWrongOptions()
     {
         $dest     = __DIR__ . '/../../../files/tmp.file';
-        $pdf      = new \SplFileObject(__DIR__ . '/../../../files/PDF.pdf');
-        $wrongpdf = new \SplFileInfo(__DIR__ . '/../../../files/wrongPDF.pdf');
+        $pdf      = __DIR__ . '/../../../files/PDF.pdf';
+        $wrongpdf = __DIR__ . '/../../../files/wrongPDF.pdf';
         $convert  = Pdf2swf::CONVERT_POLY2BITMAP;
 
         return array(
-          array($pdf, $dest, array(), $convert, 0, '1-', 15, 75, 100),
-          array($pdf, $dest, array(), $convert, 1, '1', 15, 75, 100),
-          array($pdf, $dest, array(), $convert, 1, '1-', 0, 75, 100),
-          array($pdf, $dest, array(), $convert, 1, '1-', 15, 110, 100),
-          array($pdf, $dest, array(), $convert, 1, '1-', 15, 75, -1),
-          array($wrongpdf, $dest, array(), $convert, 1, '1-', 15, 75, -1),
-          array($pdf, '', array(), $convert, 1, '1-', 15, 75, -1),
+          array($pdf, $dest, array(), $convert, 0, '1-', 15, 75),
+          array($pdf, $dest, array(), $convert, 1, '1', 15, 75),
+          array($pdf, $dest, array(), $convert, 1, '1-', 0, 75),
+          array($pdf, $dest, array(), $convert, 1, '1-', 15, 110),
+          array($wrongpdf, $dest, array(), $convert, 1, '1-', 15, 75),
+          array($pdf, '', array(), $convert, 1, '1-', 15, 75),
         );
     }
 
     public function getGoodOptions()
     {
         $dest    = __DIR__ . '/../../../files/tmp.file';
-        $pdf     = new \SplFileObject(__DIR__ . '/../../../files/PDF.pdf');
+        $pdf     = __DIR__ . '/../../../files/PDF.pdf';
         $convert = Pdf2swf::CONVERT_POLY2BITMAP;
 
         return array(
-          array($pdf, $dest, array(Pdf2swf::OPTION_DISABLE_SIMPLEVIEWER), $convert, 1, '1-', 15, 75, 10),
-          array($pdf, $dest, array(Pdf2swf::OPTION_ENABLE_SIMPLEVIEWER), $convert, 1, '1-', 15, 75, 10),
-          array($pdf, $dest, array(Pdf2swf::OPTION_LINKS_DISABLE), $convert, 1, '1-', 15, 75, 10),
-          array($pdf, $dest, array(Pdf2swf::OPTION_LINKS_OPENNEWWINDOW), $convert, 1, '1-', 15, 75, 10),
-          array($pdf, $dest, array(Pdf2swf::OPTION_ZLIB_DISABLE), $convert, 1, '1-', 15, 75, 10),
-          array($pdf, $dest, array(Pdf2swf::OPTION_ZLIB_ENABLE), $convert, 1, '1-', 15, 75, 10),
+          array($pdf, $dest, array(Pdf2swf::OPTION_DISABLE_SIMPLEVIEWER), $convert, 1, '1-', 15, 75),
+          array($pdf, $dest, array(Pdf2swf::OPTION_ENABLE_SIMPLEVIEWER), $convert, 1, '1-', 15, 75),
+          array($pdf, $dest, array(Pdf2swf::OPTION_LINKS_DISABLE), $convert, 1, '1-', 15, 75),
+          array($pdf, $dest, array(Pdf2swf::OPTION_LINKS_OPENNEWWINDOW), $convert, 1, '1-', 15, 75),
+          array($pdf, $dest, array(Pdf2swf::OPTION_ZLIB_DISABLE), $convert, 1, '1-', 15, 75),
+          array($pdf, $dest, array(Pdf2swf::OPTION_ZLIB_ENABLE), $convert, 1, '1-', 15, 75),
         );
     }
 

@@ -27,7 +27,7 @@ class SwfrenderTest extends \PHPUnit_Framework_TestCase
      */
     public function testRender()
     {
-        $flash = new \SplFileInfo(__DIR__ . '/../../../files/flashfile.swf');
+        $flash = __DIR__ . '/../../../files/flashfile.swf';
 
         $dest_file = __DIR__ . '/../../../files/tmp.jpg';
 
@@ -51,7 +51,7 @@ class SwfrenderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1250, $sizes[0]);
         $this->assertEquals(580, $sizes[1]);
 
-        $fakeFlash = new \SplFileInfo(__DIR__ . '/../../../files/noflashfile.swf');
+        $fakeFlash = __DIR__ . '/../../../files/noflashfile.swf';
 
         try {
             $this->object->render($fakeFlash, $dest_file, true);
