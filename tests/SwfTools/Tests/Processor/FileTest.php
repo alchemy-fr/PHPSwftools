@@ -1,7 +1,8 @@
 <?php
 
-namespace SwfTools\Processor;
+namespace SwfTools\Tests\Processor;
 
+use SwfTools\Processor\File;
 use Monolog\Logger;
 use Monolog\Handler\NullHandler;
 

@@ -1,8 +1,9 @@
 <?php
 
-namespace SwfTools;
+namespace SwfTools\Tests;
 
 use Silex\Application;
+use SwfTools\SwfToolsServiceProvider;
 
 class SwfToolsServiceProviderTest extends \PHPUnit_Framework_TestCase
 {

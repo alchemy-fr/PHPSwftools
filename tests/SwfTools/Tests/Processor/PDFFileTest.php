@@ -1,6 +1,8 @@
 <?php
 
-namespace SwfTools\Processor;
+namespace SwfTools\Tests\Processor;
+
+use SwfTools\Processor\PDFFile;
 
 class PDFFileTest extends \PHPUnit_Framework_TestCase
 {

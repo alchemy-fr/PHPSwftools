@@ -1,7 +1,9 @@
 <?php
 
-namespace SwfTools\Binary;
+namespace SwfTools\Tests\Binary;
 
+use SwfTools\Binary\Binary;
+use SwfTools\Binary\Swfextract;
 use Monolog\Logger;
 use Monolog\Handler\NullHandler;
 use SwfTools\Configuration;

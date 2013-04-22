@@ -1,8 +1,8 @@
 <?php
 
-namespace SwfTools;
+namespace SwfTools\Tests;
 
-require_once dirname(__FILE__) . '/../../../src/SwfTools/EmbeddedObject.php';
+use SwfTools\EmbeddedObject;
 
 class EmbeddedObjectTest extends \PHPUnit_Framework_TestCase
 {
