@@ -29,14 +29,14 @@ class SwfToolsServiceProvider implements ServiceProviderInterface
 
         $optionsResolver = function($options) {
                 return array_filter(array_replace(
-                            array(
-                            'pdf2swf'    => '',
-                            'swfrender'  => '',
-                            'swfextract' => '',
-                            ), $options
-                        ), function($value) {
-                            return $value !== '';
-                        });
+                    array(
+                    'pdf2swf'    => '',
+                    'swfrender'  => '',
+                    'swfextract' => '',
+                    ), $options
+                ), function($value) {
+                    return $value !== '';
+                });
             };
 
         $app['swftools.pdf-file'] = $app->share(function(Application $app) use ($optionsResolver) {
