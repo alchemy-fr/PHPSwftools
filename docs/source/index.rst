@@ -53,7 +53,7 @@ Recipes
 -------
 
 API is quite simple : Two objects should be mainly used and cover the needs :
-FlashFile and PDFFile. These objects extends \SplFileInfo.
+FlashFile and PDFFile.
 
 FlashFile
 *********
