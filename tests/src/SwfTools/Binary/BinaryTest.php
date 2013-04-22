@@ -9,7 +9,6 @@ use Symfony\Component\Process\Process;
 
 class BinaryTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @expectedException SwfTools\Exception\BinaryNotFoundException
      */
@@ -19,6 +18,58 @@ class BinaryTest extends \PHPUnit_Framework_TestCase
         $logger->pushHandler(new NullHandler());
 
         BinaryTester::load(new Configuration(array('php' => '/fakepath')), $logger);
+    }
+
+    public function testDefaultTimeoutIsZero()
+    {
+        $logger = new Logger('test');
+        $logger->pushHandler(new NullHandler());
+
+        $configuration = new Configuration();
+
+        $binary = BinaryTester::load($configuration, $logger);
+
+        $this->assertEquals(0, $binary->getTimeout());
+    }
+
+    public function testTimeoutSetter()
+    {
+        $logger = new Logger('test');
+        $logger->pushHandler(new NullHandler());
+
+        $configuration = new Configuration();
+
+        $binary = BinaryTester::load($configuration, $logger);
+        $binary->setTimeout(60);
+        $this->assertEquals(60, $binary->getTimeout());
+    }
+
+    /**
+     * @expectedException SwfTools\Exception\InvalidArgumentException
+     */
+    public function testInvalidTimeoutSetter()
+    {
+        $logger = new Logger('test');
+        $logger->pushHandler(new NullHandler());
+
+        $configuration = new Configuration();
+
+        $binary = BinaryTester::load($configuration, $logger);
+        $binary->setTimeout(-1);
+    }
+
+    /**
+     * @expectedException SwfTools\Exception\InvalidArgumentException
+     */
+    public function testInvalidStringTimeoutSetter()
+    {
+        $logger = new Logger('test');
+        $logger->pushHandler(new NullHandler());
+
+        $configuration = new Configuration();
+
+        $binary = BinaryTester::load($configuration, $logger);
+        $binary->setTimeout('lambda');
     }
 
     /**
