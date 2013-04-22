@@ -30,9 +30,9 @@ class SwfToolsServiceProvider implements ServiceProviderInterface
         $optionsResolver = function($options) {
                 return array_filter(array_replace(
                     array(
-                    'pdf2swf'    => '',
-                    'swfrender'  => '',
-                    'swfextract' => '',
+                        'pdf2swf'    => '',
+                        'swfrender'  => '',
+                        'swfextract' => '',
                     ), $options
                 ), function($value) {
                     return $value !== '';
@@ -56,6 +56,5 @@ class SwfToolsServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
-
     }
 }
