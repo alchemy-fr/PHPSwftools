@@ -23,7 +23,7 @@ class Configuration
     public function __construct(Array $configuration = array())
     {
         $this->configuration = array_merge(array(
-            'timeout' => 100,
+            'timeout' => 0,
         ), $configuration);
     }
 
