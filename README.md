@@ -68,6 +68,23 @@ $file = new SwfTools\FlashFile('Animation.swf', $configuration);
 
 ## Silex Service Provider
 
+PHP-Swtools provides a [Silex](http://silex.sensiolabs.org) service provider.
+Every option is optional, use them depending of your configuration. By default,
+PHP-Swftools will try to find the executable in the environment PATH and timeout
+is set to 0 (no timeout).
+
+```php
+$app = new Silex\Application();
+$app->register(new SwfTools\SwfToolsServiceProvider(), array(
+    'swftools.options' => array(
+        'pdf2swf'    => '/usr/local/bin/pdf2swf',
+        'swfrender'  => '/usr/local/bin/swfrender',
+        'swfextract' => '/usr/local/bin/swfextract',
+        'timeout'    => 300,
+    )
+));
+```
+
 ##License
 
 PHPSwftools are released under MIT License http://opensource.org/licenses/MIT
