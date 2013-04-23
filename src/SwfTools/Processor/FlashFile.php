@@ -17,9 +17,6 @@ use SwfTools\Exception\InvalidArgumentException;
 use SwfTools\Exception\LogicException;
 use SwfTools\Exception\RuntimeException;
 
-/**
- * @author Romain Neutron imprec@gmail.com
- */
 class FlashFile extends File
 {
     protected $embedded;

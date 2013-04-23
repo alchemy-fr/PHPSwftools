@@ -11,9 +11,6 @@
 
 namespace SwfTools;
 
-/**
- * @author Romain Neutron imprec@gmail.com
- */
 class EmbeddedObject
 {
     protected $option;

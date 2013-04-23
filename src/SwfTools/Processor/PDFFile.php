@@ -13,12 +13,8 @@ namespace SwfTools\Processor;
 
 use SwfTools\Exception\InvalidArgumentException;
 
-/**
- * @author Romain Neutron imprec@gmail.com
- */
 class PDFFile extends File
 {
-
     /**
      *
      * @param string $outputFile

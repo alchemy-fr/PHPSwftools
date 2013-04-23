@@ -19,12 +19,8 @@ use SwfTools\Exception\InvalidArgumentException;
 use SwfTools\Exception\RuntimeException;
 use Symfony\Component\Process\ProcessBuilder;
 
-/**
- * @author Romain Neutron imprec@gmail.com
- */
 class Swfextract extends Binary
 {
-
     /**
      * Execute the command to list the embedded objects
      *

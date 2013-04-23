@@ -11,10 +11,6 @@
 
 namespace SwfTools\Exception;
 
-/**
- * @author Romain Neutron imprec@gmail.com
- */
 class BinaryNotFoundException extends \RuntimeException implements ExceptionInterface
 {
-
 }

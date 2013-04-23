@@ -17,12 +17,8 @@ use SwfTools\Configuration;
 use SwfTools\Processor\FlashFile;
 use SwfTools\Processor\PDFFile;
 
-/**
- * @author Romain Neutron imprec@gmail.com
- */
 class SwfToolsServiceProvider implements ServiceProviderInterface
 {
-
     public function register(Application $app)
     {
         $app['swftools.options'] = array();

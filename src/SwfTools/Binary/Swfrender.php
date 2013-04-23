@@ -18,12 +18,8 @@ use SwfTools\Exception\InvalidArgumentException;
 use SwfTools\Exception\RuntimeException;
 use Symfony\Component\Process\ProcessBuilder;
 
-/**
- * @author Romain Neutron imprec@gmail.com
- */
 class Swfrender extends Binary
 {
-
     /**
      *
      * @param  string                   $pathfile

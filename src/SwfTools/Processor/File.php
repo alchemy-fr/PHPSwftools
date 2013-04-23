@@ -17,9 +17,6 @@ use SwfTools\Configuration;
 use SwfTools\Exception\InvalidArgumentException;
 use SwfTools\Exception\RuntimeException;
 
-/**
- * @author Romain Neutron imprec@gmail.com
- */
 abstract class File
 {
     protected $logger;

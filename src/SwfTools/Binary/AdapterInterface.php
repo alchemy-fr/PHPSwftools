@@ -17,12 +17,9 @@ use SwfTools\Configuration;
 /**
  * The adapter interface. SwfTools binaries adapters should implement this
  * interface
- *
- * @author Romain Neutron imprec@gmail.com
  */
 interface AdapterInterface
 {
-
     /**
      * Return the version of the binary adapter
      *

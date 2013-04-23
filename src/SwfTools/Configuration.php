@@ -13,9 +13,6 @@ namespace SwfTools;
 
 use SwfTools\Exception\InvalidArgumentException;
 
-/**
- * @author Romain Neutron imprec@gmail.com
- */
 class Configuration
 {
     protected $configuration;

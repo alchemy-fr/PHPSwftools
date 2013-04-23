@@ -19,8 +19,6 @@ use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * The Pdf2Swf adapter
- *
- * @author Romain Neutron imprec@gmail.com
  */
 class Pdf2swf extends Binary
 {
