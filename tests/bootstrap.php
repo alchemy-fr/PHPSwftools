@@ -1,4 +1,4 @@
 <?php
 
 $loader = require __DIR__.'/../vendor/autoload.php';
-$loader->add('SwfTool\Tests', __DIR__);
+$loader->add('SwfTools\Tests', __DIR__);
