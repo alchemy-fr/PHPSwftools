@@ -98,6 +98,16 @@ $app->register(new SwfTools\SwfToolsServiceProvider(), array(
         'timeout'    => 300,
     )
 ));
+
+$app['swftools.flash-file']
+    ->open('file.swf')
+    ->render('output.jpg')
+    ->close();
+
+$app['swftools.pdf-file']
+    ->open('file.pdf')
+    ->toSwf('output.swf')
+    ->close();
 ```
 
 ##License
