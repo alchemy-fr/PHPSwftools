@@ -41,8 +41,11 @@ abstract class Binary implements AdapterInterface
     /**
      * The path to the binary
      *
-     * @param type   $binaryPathname
-     * @param Logger $logger         A logger
+     * @param type    $binaryPathname the path to a binary executable
+     * @param Logger  $logger         A logger
+     * @param integer $timeout        The timeout for the binary
+     *
+     * @throws BinaryNotFoundException In case the binary does not exists or is not executable
      */
     public function __construct($binaryPathname, Logger $logger, $timeout = 0)
     {

@@ -41,6 +41,7 @@ class Pdf2swf extends Binary
      * @param integer $pageRange
      * @param integer $frameRate
      * @param integer $jpegquality
+     * @param integer $timelimit   The time limit for the process (deprecated)
      *
      * @return Pdf2swf
      *
