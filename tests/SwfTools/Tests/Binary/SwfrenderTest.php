@@ -3,8 +3,6 @@
 namespace SwfTools\Tests\Binary;
 
 use SwfTools\Binary\Swfrender;
-use Monolog\Logger;
-use Monolog\Handler\NullHandler;
 use SwfTools\Configuration;
 use SwfTools\Tests\TestCase;
 
@@ -18,10 +16,7 @@ class SwfrenderTest extends TestCase
 
     protected function setUp()
     {
-        $logger = new Logger('test');
-        $logger->pushHandler(new NullHandler());
-
-        $this->object = Swfrender::load(new Configuration(), $logger);
+        $this->object = Swfrender::load(new Configuration(), $this->createLoggerMock());
     }
 
     /**
@@ -74,10 +69,7 @@ class SwfrenderTest extends TestCase
      */
     public function testLoad()
     {
-        $logger = new Logger('Null logger');
-        $logger->pushHandler(new NullHandler());
-
-        $swfextract = Swfrender::load(new Configuration(), $logger);
+        $swfextract = Swfrender::load(new Configuration(), $this->createLoggerMock());
 
         $this->assertInstanceOf('SwfTools\Binary\Swfrender', $swfextract);
     }

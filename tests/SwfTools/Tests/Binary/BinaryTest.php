@@ -5,7 +5,6 @@ namespace SwfTools\Tests\Binary;
 use SwfTools\Binary\Binary;
 use SwfTools\Binary\Swfextract;
 use Monolog\Logger;
-use Monolog\Handler\NullHandler;
 use SwfTools\Configuration;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ExecutableFinder;
@@ -18,17 +17,11 @@ class BinaryTest extends TestCase
      */
     public function testWrongPath()
     {
-        $logger = new Logger('test');
-        $logger->pushHandler(new NullHandler());
-
-        BinaryTester::load(new Configuration(array('php' => '/fakepath')), $logger);
+        BinaryTester::load(new Configuration(array('php' => '/fakepath')), $this->createLoggerMock());
     }
 
     public function testDefaultTimeoutIsZeroOnConstruction()
     {
-        $logger = new Logger('test');
-        $logger->pushHandler(new NullHandler());
-
         $finder = new ExecutableFinder();
         $php = $finder->find('php');
 
@@ -36,30 +29,24 @@ class BinaryTest extends TestCase
             $this->markTestSkipped('An executable is required for this test');
         }
 
-        $object = new BinaryTester($php, $logger);
+        $object = new BinaryTester($php, $this->createLoggerMock());
         $this->assertTrue(0 === $object->getTimeout());
     }
 
     public function testDefaultTimeoutIsZero()
     {
-        $logger = new Logger('test');
-        $logger->pushHandler(new NullHandler());
-
         $configuration = new Configuration();
 
-        $binary = BinaryTester::load($configuration, $logger);
+        $binary = BinaryTester::load($configuration, $this->createLoggerMock());
 
         $this->assertTrue(0 === $binary->getTimeout());
     }
 
     public function testTimeoutSetter()
     {
-        $logger = new Logger('test');
-        $logger->pushHandler(new NullHandler());
-
         $configuration = new Configuration();
 
-        $binary = BinaryTester::load($configuration, $logger);
+        $binary = BinaryTester::load($configuration, $this->createLoggerMock());
         $binary->setTimeout(60);
         $this->assertEquals(60, $binary->getTimeout());
     }
@@ -69,12 +56,9 @@ class BinaryTest extends TestCase
      */
     public function testInvalidTimeoutSetter()
     {
-        $logger = new Logger('test');
-        $logger->pushHandler(new NullHandler());
-
         $configuration = new Configuration();
 
-        $binary = BinaryTester::load($configuration, $logger);
+        $binary = BinaryTester::load($configuration, $this->createLoggerMock());
         $binary->setTimeout(-1);
     }
 
@@ -83,12 +67,9 @@ class BinaryTest extends TestCase
      */
     public function testInvalidStringTimeoutSetter()
     {
-        $logger = new Logger('test');
-        $logger->pushHandler(new NullHandler());
-
         $configuration = new Configuration();
 
-        $binary = BinaryTester::load($configuration, $logger);
+        $binary = BinaryTester::load($configuration, $this->createLoggerMock());
         $binary->setTimeout('lambda');
     }
 
@@ -99,14 +80,11 @@ class BinaryTest extends TestCase
      */
     public function testBinaryPath()
     {
-        $logger = new Logger('test');
-        $logger->pushHandler(new NullHandler());
-
-        $object = BinaryTester::load(new Configuration(), $logger);
+        $object = BinaryTester::load(new Configuration(), $this->createLoggerMock());
         $this->assertTrue(is_executable($object->getBinaryPath()));
 
         try {
-            BinaryBadTester::load(new Configuration(), $logger);
+            BinaryBadTester::load(new Configuration(), $this->createLoggerMock());
             $this->fail();
         } catch (\SwfTools\Exception\BinaryNotFoundException $e) {
 
@@ -123,10 +101,7 @@ class BinaryTest extends TestCase
 
     public function testGetVersion()
     {
-        $logger = new Logger('test');
-        $logger->pushHandler(new NullHandler());
-
-        $object = Swfextract::load(new Configuration(), $logger);
+        $object = Swfextract::load(new Configuration(), $this->createLoggerMock());
         $this->assertRegExp('/([0-9]+\.)+[0-9]+/', $object->getVersion());
     }
 

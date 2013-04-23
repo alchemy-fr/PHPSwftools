@@ -33,12 +33,6 @@ class FileTest extends TestCase
 
 class ExtendedFile extends File
 {
-
-    public function __construct()
-    {
-
-    }
-
     public function testGetBinaryAdapter()
     {
         $logger = new Logger('Null logger');
@@ -51,5 +45,4 @@ class ExtendedFile extends File
     {
         return static::changePathnameExtension($pathname, $extension);
     }
-
 }
