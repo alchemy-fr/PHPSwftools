@@ -1,7 +1,13 @@
 CHANGELOG
 ---------
 
-* 0.2.0 (xx-xx-2013)
+* 0.2.1 (04-23-2013)
+
+  * Code cleanup
+  * Use a dedicated TestCase for all unit tests
+  * Documentation API update
+
+* 0.2.0 (04-22-2013)
 
   * Add support for underlying processes timeout.
   * Deprecate the use of Pdf2Swf::toSwf `$timelimit` parameter
