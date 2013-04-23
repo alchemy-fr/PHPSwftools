@@ -7,7 +7,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     protected function createLoggerMock()
     {
         return $this
-            ->getMockBuilder('Monolog\logger')
+            ->getMockBuilder('Monolog\Logger')
             ->disableOriginalConstructor()
             ->getMock();
     }
