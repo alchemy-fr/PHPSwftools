@@ -61,7 +61,7 @@ abstract class Binary implements AdapterInterface
     /**
      * Set the timeout for the underlying processes ; 0 means no timeout
      *
-     * @param integer $timeout The timeout value
+     * @param  integer $timeout The timeout value
      * @return Binary
      *
      * @throws InvalidArgumentException In case the timeout value is not valid

@@ -25,7 +25,6 @@ class SwfToolsServiceProviderTest extends TestCase
         $app = new Application();
         $app->register(new SwfToolsServiceProvider(), array('swftools.options' => array('swfrender' => '/no/swf/render')));
 
-
         $app['swftools.flash-file']->open(__FILE__)->render(tempnam(sys_get_temp_dir(), 'test'));
     }
 }
