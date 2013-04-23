@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
-        <title>SwfTools\Configuration | PHP-SwfTools API</title>
+        <title>SwfTools\SwfToolsServiceProvider | PHP-SwfTools API</title>
                     <link rel="stylesheet" type="text/css" href="../stylesheet.css">
                             </head>
         <body id="class">
@@ -19,10 +19,11 @@
         <div id="title">PHP-SwfTools API</div>
 
             <div class="type">Class</div>
-    <h1><a href="../SwfTools.html">SwfTools</a>\Configuration</h1>
+    <h1><a href="../SwfTools.html">SwfTools</a>\SwfToolsServiceProvider</h1>
     </div>
         <div class="content">
-                <p>class    <strong>Configuration</strong></p>
+                <p>class    <strong>SwfToolsServiceProvider</strong>        implements
+        <abbr title="Silex\ServiceProviderInterface">ServiceProviderInterface</abbr></p>
 
     
     
@@ -35,7 +36,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method___construct">__construct</a>(array $configuration = array())
+                    <a href="#method_register">register</a>(<abbr title="Silex\Application">Application</abbr> $app)
                     <p></p>
                 </td>
                 <td></td>
@@ -45,17 +46,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method_has">has</a>($key)
-                    <p></p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    
-                </td>
-                <td class="last">
-                    <a href="#method_get">get</a>($key)
+                    <a href="#method_boot">boot</a>(<abbr title="Silex\Application">Application</abbr> $app)
                     <p></p>
                 </td>
                 <td></td>
@@ -65,10 +56,10 @@
 
         <h2>Details</h2>
 
-                        <h3 id="method___construct">
-        <div class="location">at line 20</div>
+                        <h3 id="method_register">
+        <div class="location">at line 22</div>
         <code>            public            
-    <strong>__construct</strong>(array $configuration = array())</code>
+    <strong>register</strong>(<abbr title="Silex\Application">Application</abbr> $app)</code>
     </h3>
     <div class="details">
         <p></p>
@@ -78,8 +69,8 @@
 
                     <table>
                     <tr>
-                <td>array</td>
-                <td>$configuration</td>
+                <td><abbr title="Silex\Application">Application</abbr></td>
+                <td>$app</td>
                 <td></td>
             </tr>
             </table>
@@ -90,10 +81,10 @@
                     </div>
     </div>
 
-                <h3 id="method_has">
-        <div class="location">at line 27</div>
+                <h3 id="method_boot">
+        <div class="location">at line 53</div>
         <code>            public            
-    <strong>has</strong>($key)</code>
+    <strong>boot</strong>(<abbr title="Silex\Application">Application</abbr> $app)</code>
     </h3>
     <div class="details">
         <p></p>
@@ -103,33 +94,8 @@
 
                     <table>
                     <tr>
-                <td></td>
-                <td>$key</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_get">
-        <div class="location">at line 32</div>
-        <code>            public            
-    <strong>get</strong>($key)</code>
-    </h3>
-    <div class="details">
-        <p></p>
-        <p></p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td></td>
-                <td>$key</td>
+                <td><abbr title="Silex\Application">Application</abbr></td>
+                <td>$app</td>
                 <td></td>
             </tr>
             </table>
