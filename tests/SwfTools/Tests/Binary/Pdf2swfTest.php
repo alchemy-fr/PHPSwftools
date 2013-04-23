@@ -6,8 +6,9 @@ use SwfTools\Binary\Pdf2swf;
 use Monolog\Logger;
 use Monolog\Handler\NullHandler;
 use SwfTools\Configuration;
+use SwfTools\Tests\TestCase;
 
-class Pdf2swfTest extends \PHPUnit_Framework_TestCase
+class Pdf2swfTest extends TestCase
 {
 
     /**

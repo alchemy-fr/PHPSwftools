@@ -6,8 +6,9 @@ use SwfTools\Binary\Swfextract;
 use Monolog\Logger;
 use Monolog\Handler\NullHandler;
 use SwfTools\Configuration;
+use SwfTools\Tests\TestCase;
 
-class SwfextractTest extends \PHPUnit_Framework_TestCase
+class SwfextractTest extends TestCase
 {
 
     /**

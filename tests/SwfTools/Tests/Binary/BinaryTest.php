@@ -9,8 +9,9 @@ use Monolog\Handler\NullHandler;
 use SwfTools\Configuration;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ExecutableFinder;
+use SwfTools\Tests\TestCase;
 
-class BinaryTest extends \PHPUnit_Framework_TestCase
+class BinaryTest extends TestCase
 {
     /**
      * @expectedException SwfTools\Exception\BinaryNotFoundException

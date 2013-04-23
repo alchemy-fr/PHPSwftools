@@ -3,8 +3,9 @@
 namespace SwfTools\Tests\Processor;
 
 use SwfTools\Processor\FlashFile;
+use SwfTools\Tests\TestCase;
 
-class FlashFileTest extends \PHPUnit_Framework_TestCase
+class FlashFileTest extends TestCase
 {
     /**
      * @var FlashFile

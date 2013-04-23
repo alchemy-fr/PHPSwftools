@@ -4,7 +4,7 @@ namespace SwfTools\Tests;
 
 use SwfTools\EmbeddedObject;
 
-class EmbeddedObjectTest extends \PHPUnit_Framework_TestCase
+class EmbeddedObjectTest extends TestCase
 {
 
     /**

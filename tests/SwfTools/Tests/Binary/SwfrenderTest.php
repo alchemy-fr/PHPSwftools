@@ -6,8 +6,9 @@ use SwfTools\Binary\Swfrender;
 use Monolog\Logger;
 use Monolog\Handler\NullHandler;
 use SwfTools\Configuration;
+use SwfTools\Tests\TestCase;
 
-class SwfrenderTest extends \PHPUnit_Framework_TestCase
+class SwfrenderTest extends TestCase
 {
 
     /**

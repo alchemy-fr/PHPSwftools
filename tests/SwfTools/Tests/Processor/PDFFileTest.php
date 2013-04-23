@@ -3,8 +3,9 @@
 namespace SwfTools\Tests\Processor;
 
 use SwfTools\Processor\PDFFile;
+use SwfTools\Tests\TestCase;
 
-class PDFFileTest extends \PHPUnit_Framework_TestCase
+class PDFFileTest extends TestCase
 {
 
     /**

@@ -5,7 +5,7 @@ namespace SwfTools\Tests;
 use Silex\Application;
 use SwfTools\SwfToolsServiceProvider;
 
-class SwfToolsServiceProviderTest extends \PHPUnit_Framework_TestCase
+class SwfToolsServiceProviderTest extends TestCase
 {
 
     public function testInitialize()

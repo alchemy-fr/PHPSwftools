@@ -5,8 +5,9 @@ namespace SwfTools\Tests\Processor;
 use SwfTools\Processor\File;
 use Monolog\Logger;
 use Monolog\Handler\NullHandler;
+use SwfTools\Tests\TestCase;
 
-class FileTest extends \PHPUnit_Framework_TestCase
+class FileTest extends TestCase
 {
 
     /**
