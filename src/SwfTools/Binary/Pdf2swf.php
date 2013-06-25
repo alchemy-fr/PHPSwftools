@@ -11,11 +11,11 @@
 
 namespace SwfTools\Binary;
 
-use Monolog\Logger;
-use SwfTools\Configuration;
-use SwfTools\Exception\BinaryNotFoundException;
+use Alchemy\BinaryDriver\Configuration;
+use Alchemy\BinaryDriver\ConfigurationInterface;
+use Alchemy\BinaryDriver\Exception\ExecutionFailureException;
 use SwfTools\Exception\InvalidArgumentException;
-use Symfony\Component\Process\ProcessBuilder;
+use SwfTools\Exception\RuntimeException;
 
 /**
  * The Pdf2Swf adapter
@@ -32,6 +32,15 @@ class Pdf2swf extends Binary
     const OPTION_DISABLE_SIMPLEVIEWER = 'nosimpleviewer';
 
     /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'Pdf2swf';
+    }
+
+    /**
+     * Transcode a PDF to SWF
      *
      * @param string  $pathfile
      * @param string  $outputFile
@@ -103,40 +112,45 @@ class Pdf2swf extends Binary
         $option_string = escapeshellarg(implode('&', $option_cmd));
         $option_string = !$option_string ? : '-s ' . $option_string;
 
-        $builder = ProcessBuilder::create(array(
-            $this->binaryPathname,
-            $pathfile,
-            $option_string,
-            '-o',
-            $outputFile,
-            '-T', '9', '-f'
-        ));
-
         if (null !== $timelimit) {
             trigger_error('Use Configuration timeout instead of Pdf2Swf timelimit', E_USER_DEPRECATED);
-
-            $builder->setTimeout($timelimit);
         }
 
-        $this->run($builder->getProcess());
+        try {
+            $this->command(array(
+                $pathfile,
+                $option_string,
+                '-o',
+                $outputFile,
+                '-T', '9', '-f'
+            ));
+        } catch (ExecutionFailureException $e) {
+            throw new RuntimeException(sprintf(
+                '%s failed to run command', $this->getName()
+            ), $e->getCode(), $e);
+        }
 
         return $this;
     }
 
     /**
-     * Factory method to build the adapter
+     * Creates the Pdf2swf binary driver
      *
-     * Either pass a configuration file with the binary settings, or pass an
-     * empty configuration, which will trigger the autodetection
+     * @param array|ConfigurationInterface $conf
+     * @param LoggerInterface              $logger
      *
-     * @param  Configuration $configuration A Configuration
-     * @param  Logger        $logger        A logger
      * @return Pdf2swf
      *
-     * @throws BinaryNotFoundException
+     * @throws ExecutableNotFound In case the executable is not found
      */
-    public static function load(Configuration $configuration, Logger $logger)
+    public static function create($conf = array(), LoggerInterface $logger = null)
     {
-        return static::loadBinary('pdf2swf', $configuration, $logger);
+        if (!$conf instanceof ConfigurationInterface) {
+            $conf = new Configuration($conf);
+        }
+
+        $binaries = $conf->get('pdf2swf.binaries', array('pdf2swf'));
+
+        return static::load($binaries, $logger, $conf);
     }
 }

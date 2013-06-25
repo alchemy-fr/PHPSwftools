@@ -11,11 +11,9 @@
 
 namespace SwfTools;
 
-use Monolog\Logger;
-use Monolog\Handler\NullHandler;
+use SwfTools\Binary\DriverContainer;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use SwfTools\Configuration;
 use SwfTools\Processor\FlashFile;
 use SwfTools\Processor\PDFFile;
 
@@ -23,41 +21,29 @@ class SwfToolsServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['swftools.options'] = array();
+        $app['swftools.default.configuration'] = array(
+            'pdf2swf.binaries'    => 'pdf2swf',
+            'swfrender.binaries'  => 'swfrender',
+            'swfextract.binaries' => 'swfextract',
+            'timeout'             => 60,
+        );
+        $app['swftools.configuration'] = array();
+        $app['swftools.logger'] = null;
 
-        $optionsResolver = function($options) {
-            return array_filter(array_replace(
-                array(
-                    'pdf2swf'    => '',
-                    'swfrender'  => '',
-                    'swfextract' => '',
-                ), $options
-            ), function($value) {
-                return $value !== '';
-            });
-        };
+        $app['swftools.driver-container'] = $app->share(function(Application $app) {
+            $app['swftools.configuration'] = array_replace(
+                $app['swftools.default.configuration'], $app['swftools.configuration']
+            );
 
-        $app['swftools.logger'] = $app->share(function (Application $app) {
-            if (isset($app['monolog'])) {
-                return $app['monolog'];
-            }
-
-            $logger = new Logger('swftools-logger');
-            $logger->pushHandler(new NullHandler());
-
-            return $logger;
-        });
-
-        $app['swftools.configuration'] = $app->share(function (Application $app) use ($optionsResolver) {
-            return new Configuration($optionsResolver($app['swftools.options']));
+            return DriverContainer::create($app['swftools.configuration'], $app['swftools.logger']);
         });
 
         $app['swftools.pdf-file'] = $app->share(function(Application $app) {
-            return new PDFFile($app['swftools.configuration'], $app['swftools.logger']);
+            return new PDFFile($app['swftools.driver-container']);
         });
 
         $app['swftools.flash-file'] = $app->share(function(Application $app) {
-            return new FlashFile($app['swftools.configuration'], $app['swftools.logger']);
+            return new FlashFile($app['swftools.driver-container']);
         });
     }
 

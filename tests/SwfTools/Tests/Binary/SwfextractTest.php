@@ -3,10 +3,9 @@
 namespace SwfTools\Tests\Binary;
 
 use SwfTools\Binary\Swfextract;
-use SwfTools\Configuration;
-use SwfTools\Tests\TestCase;
+use SwfTools\Binary\DriverContainer;
 
-class SwfextractTest extends TestCase
+class SwfextractTest extends BinaryTestCase
 {
 
     /**
@@ -16,7 +15,12 @@ class SwfextractTest extends TestCase
 
     protected function setUp()
     {
-        $this->object = Swfextract::load(new Configuration(), $this->createLoggerMock());
+        $this->object = Swfextract::create();
+    }
+
+    public function getClassName()
+    {
+        return 'SwfTools\Binary\Swfextract';
     }
 
     /**
@@ -46,9 +50,8 @@ class SwfextractTest extends TestCase
     public function testExtract()
     {
         $file = __DIR__ . '/../../../files/flashfile.swf';
-        $flash     = new \SwfTools\Processor\FlashFile();
-        $flash->open($file);
-        $embeddeds = $flash->listEmbeddedObjects();
+        $flash     = new \SwfTools\Processor\FlashFile(DriverContainer::create());
+        $embeddeds = $flash->listEmbeddedObjects($file);
 
         $embedded = null;
 
@@ -86,20 +89,4 @@ class SwfextractTest extends TestCase
 
         }
     }
-
-    public function testExtractWrongDest()
-    {
-
-    }
-
-    /**
-     * @covers SwfTools\Binary\Swfextract::load
-     */
-    public function testLoad()
-    {
-        $swfextract = Swfextract::load(new Configuration(), $this->createLoggerMock());
-
-        $this->assertInstanceOf('SwfTools\Binary\Swfextract', $swfextract);
-    }
-
 }

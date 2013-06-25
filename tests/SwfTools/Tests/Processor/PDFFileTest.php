@@ -2,12 +2,12 @@
 
 namespace SwfTools\Tests\Processor;
 
+use SwfTools\Binary\DriverContainer;
 use SwfTools\Processor\PDFFile;
 use SwfTools\Tests\TestCase;
 
 class PDFFileTest extends TestCase
 {
-
     /**
      * @var PDFFile
      */
@@ -17,8 +17,7 @@ class PDFFileTest extends TestCase
     protected function setUp()
     {
         $this->destination = __DIR__ . '/../../../files/tmp.swf';
-        $this->object = new PDFFile();
-        $this->object->open(__DIR__ . '/../../../files/PDF.pdf');
+        $this->object = new PDFFile(DriverContainer::create());
     }
 
     /**
@@ -36,7 +35,7 @@ class PDFFileTest extends TestCase
      */
     public function testToSwf()
     {
-        $this->object->toSwf($this->destination);
+        $this->object->toSwf(__DIR__ . '/../../../files/PDF.pdf', $this->destination);
         $this->assertTrue(file_exists($this->destination));
 
         unlink($this->destination);
@@ -48,7 +47,6 @@ class PDFFileTest extends TestCase
      */
     public function testToSwfFailed()
     {
-        $this->object->toSwf('');
+        $this->object->toSwf(__DIR__ . '/../../../files/PDF.pdf', '');
     }
-
 }

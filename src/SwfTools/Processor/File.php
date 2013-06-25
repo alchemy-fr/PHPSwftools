@@ -12,59 +12,22 @@
 namespace SwfTools\Processor;
 
 use Monolog\Logger;
-use Monolog\Handler\NullHandler;
-use SwfTools\Configuration;
-use SwfTools\Exception\InvalidArgumentException;
-use SwfTools\Exception\RuntimeException;
+use Alchemy\BinaryDriver\ConfigurationInterface;
+use SwfTools\Binary\DriverContainer;
 
 abstract class File
 {
-    protected $logger;
-    protected $configuration;
-    protected $pathfile;
-    protected $binaryAdapters;
+    protected $container;
 
     /**
      * Build the File processor given the configuration
      *
-     * @param Configuration $configuration
-     * @param Logger        $logger
+     * @param array|ConfigurationInterface $configuration
+     * @param Logger                       $logger
      */
-    public function __construct(Configuration $configuration = null, Logger $logger = null)
+    public function __construct(DriverContainer $container)
     {
-        $this->configuration = $configuration ? : new Configuration();
-        $this->binaryAdapters = array();
-
-        if (!$logger) {
-            $logger = new Logger('SwfTools');
-            $logger->pushHandler(new NullHandler());
-        }
-
-        $this->logger = $logger;
-    }
-
-    public function __destruct()
-    {
-        $this->close();
-        $this->configuration = $this->binaryAdapters = null;
-    }
-
-    public function open($pathfile)
-    {
-        if (!file_exists($pathfile)) {
-            throw new InvalidArgumentException(sprintf('File %s does not exist', $pathfile));
-        }
-
-        $this->pathfile = $pathfile;
-
-        return $this;
-    }
-
-    public function close()
-    {
-        $this->pathfile = null;
-
-        return $this;
+        $this->container = $container;
     }
 
     /**
@@ -81,35 +44,5 @@ abstract class File
     protected static function changePathnameExtension($pathname, $extension)
     {
         return dirname($pathname) . '/' . pathinfo($pathname, PATHINFO_FILENAME) . '.' . $extension;
-    }
-
-    /**
-     * Return the BinaryAdapter given a BinaryName
-     *
-     * @param string $binaryName
-     *
-     * @return Binary\Binary The requested binary
-     *
-     * @throws Exception\RuntimeException
-     */
-    protected function getBinaryAdapter($binaryName)
-    {
-        if (isset($this->binaryAdapters[$binaryName])) {
-            return $this->binaryAdapters[$binaryName];
-        }
-
-        $classname = 'SwfTools\\Binary\\' . $binaryName;
-
-        try {
-            if (class_exists($classname)) {
-                $this->binaryAdapters[$binaryName] = $classname::load($this->configuration, $this->logger);
-
-                return $this->binaryAdapters[$binaryName];
-            }
-        } catch (RuntimeException $e) {
-
-        }
-
-        throw new RuntimeException(sprintf('Unable to load %s', $binaryName));
     }
 }

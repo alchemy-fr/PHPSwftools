@@ -17,19 +17,17 @@ class PDFFile extends File
 {
     /**
      *
+     * @param string $inputfile
      * @param string $outputFile
      *
      * @throws InvalidArgumentException
      */
-    public function toSwf($outputFile)
+    public function toSwf($inputfile, $outputFile)
     {
         if (!$outputFile) {
             throw new InvalidArgumentException('Bad destination');
         }
 
-        $pdf2swf = $this->getBinaryAdapter('Pdf2swf');
-
-        /* @var $pdf2swf \SwfTools\Binary\Pdf2swf */
-        $pdf2swf->toSwf($this->pathfile, $outputFile);
+        $this->container['pdf2swf']->toSwf($inputfile, $outputFile);
     }
 }

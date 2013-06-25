@@ -11,42 +11,52 @@
 
 namespace SwfTools\Binary;
 
-use Monolog\Logger;
-use SwfTools\Configuration;
+use Alchemy\BinaryDriver\Configuration;
+use Alchemy\BinaryDriver\ConfigurationInterface;
+use Alchemy\BinaryDriver\Exception\ExecutionFailureException;
 use SwfTools\EmbeddedObject;
-use SwfTools\Exception\BinaryNotFoundException;
 use SwfTools\Exception\InvalidArgumentException;
 use SwfTools\Exception\RuntimeException;
-use Symfony\Component\Process\ProcessBuilder;
 
 class Swfextract extends Binary
 {
+    public function getName()
+    {
+        return 'Swfextract';
+    }
+
     /**
-     * Execute the command to list the embedded objects
+     * Executes the command to list the embedded objects
      *
-     * @param  string           $pathfile
+     * @param string $pathfile
+     *
+     * @return string|null The ouptut string, null on error
+     *
      * @throws RuntimeException
-     * @return string|null      The ouptut string, null on error
      */
     public function listEmbedded($pathfile)
     {
-        $builder = ProcessBuilder::create(array(
-            $this->binaryPathname, $pathfile
-        ));
-
-        return $this->run($builder->getProcess());
+        try {
+            return $this->command(array($pathfile));
+        } catch (ExecutionFailureException $e) {
+            throw new RuntimeException(sprintf(
+                '%s failed to run command', $this->getName()
+            ), $e->getCode(), $e);
+        }
     }
 
     /**
      *
      * Execute the command to extract an embedded object from a flash file
      *
-     * @param  string                   $pathfile   the file
-     * @param  EmbeddedObject           $embedded   The id of the object
-     * @param  string                   $outputFile the path where to extract
+     * @param string         $pathfile   the file
+     * @param EmbeddedObject $embedded   The id of the object
+     * @param string         $outputFile the path where to extract
+     *
+     * @return string|null The ouptut string, null on error
+     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
-     * @return string|null              The ouptut string, null on error
      */
     public function extract($pathfile, EmbeddedObject $embedded, $outputFile)
     {
@@ -54,33 +64,39 @@ class Swfextract extends Binary
             throw new InvalidArgumentException('Invalid output file');
         }
 
-        $builder = ProcessBuilder::create(array(
-            $this->binaryPathname,
-            '-' . $embedded->getOption(),
-            $embedded->getId(),
-            $pathfile,
-            '-o',
-            $outputFile,
-        ));
-
-        return $this->run($builder->getProcess());
+        try {
+            return $this->command(array(
+                '-' . $embedded->getOption(),
+                $embedded->getId(),
+                $pathfile,
+                '-o',
+                $outputFile,
+            ));
+        } catch (ExecutionFailureException $e) {
+            throw new RuntimeException(sprintf(
+                '%s failed to run command', $this->getName()
+            ), $e->getCode(), $e);
+        }
     }
 
     /**
-     * Factory method to build the binary
+     * Creates the Swfextract binary driver
      *
-     * Either pass a configuration file with the binary settings, or pass an
-     * empty configuration, which will trigger the autodetection
+     * @param array|ConfigurationInterface $conf
+     * @param LoggerInterface              $logger
      *
-     * @param Configuration $configuration A Configuration
-     * @param Logger        $logger        A logger
+     * @return Swfextract
      *
-     * @return Swfrender
-     *
-     * @throws BinaryNotFoundException
+     * @throws ExecutableNotFound In case the executable is not found
      */
-    public static function load(Configuration $configuration, Logger $logger)
+    public static function create($conf = array(), LoggerInterface $logger = null)
     {
-        return static::loadBinary('swfextract', $configuration, $logger);
+        if (!$conf instanceof ConfigurationInterface) {
+            $conf = new Configuration($conf);
+        }
+
+        $binaries = $conf->get('swfextract.binaries', array('swfextract'));
+
+        return static::load($binaries, $logger, $conf);
     }
 }

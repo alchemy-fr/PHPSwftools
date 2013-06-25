@@ -2,6 +2,7 @@
 
 namespace SwfTools\Tests\Processor;
 
+use SwfTools\Binary\DriverContainer;
 use SwfTools\Processor\FlashFile;
 use SwfTools\Tests\TestCase;
 
@@ -16,25 +17,14 @@ class FlashFileTest extends TestCase
     protected function setUp()
     {
         $this->destination = __DIR__ . '/../../../files/tmp.jpg';
-        $this->object = new FlashFile();
-        $this->object->open(__DIR__ . '/../../../files/flashfile.swf');
+        $this->object = new FlashFile(DriverContainer::create());
     }
 
     protected function tearDown()
     {
-        $this->object->close();
         if (file_exists($this->destination)) {
             unlink($this->destination);
         }
-    }
-
-    /**
-     * @expectedException \SwfTools\Exception\InvalidArgumentException
-     */
-    public function testWrongFile()
-    {
-        $file = new FlashFile();
-        $file->open('bad file');
     }
 
     /**
@@ -43,7 +33,7 @@ class FlashFileTest extends TestCase
      */
     public function testRender()
     {
-        $this->destination = $this->object->render($this->destination);
+        $this->destination = $this->object->render(__DIR__ . '/../../../files/flashfile.swf', $this->destination);
         $this->assertTrue(file_exists($this->destination));
 
         unlink($this->destination);
@@ -55,7 +45,7 @@ class FlashFileTest extends TestCase
      */
     public function testRenderWrongDestination()
     {
-        $this->object->render('');
+        $this->object->render(__DIR__ . '/../../../files/flashfile.swf', '');
     }
 
     /**
@@ -63,7 +53,7 @@ class FlashFileTest extends TestCase
      */
     public function testListEmbeddedObjects()
     {
-        $this->object->listEmbeddedObjects();
+        $this->object->listEmbeddedObjects(__DIR__ . '/../../../files/flashfile.swf');
     }
 
     /**
@@ -71,7 +61,7 @@ class FlashFileTest extends TestCase
      */
     public function testExtractEmbedded()
     {
-        $this->object->extractEmbedded(1, $this->destination);
+        $this->object->extractEmbedded(1, __DIR__ . '/../../../files/flashfile.swf', $this->destination);
         $this->assertTrue(file_exists($this->destination));
 
         unlink($this->destination);
@@ -83,17 +73,16 @@ class FlashFileTest extends TestCase
      */
     public function testNoFirstImage()
     {
-        $object = $this->getMock(
-            '\\SwfTools\\Processor\\FlashFile'
-            , array('listEmbeddedObjects')
-        );
+        $object = $this->getMockBuilder('SwfTools\Processor\FlashFile')
+            ->setMethods(array('listEmbeddedObjects'))
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $object->expects($this->any())
             ->method('listEmbeddedObjects')
             ->will($this->returnValue(array()));
 
-        $object->open(__DIR__ . '/../../../files/flashfile.swf');
-        $object->extractFirstImage($this->destination);
+        $object->extractFirstImage(__DIR__ . '/../../../files/flashfile.swf', $this->destination);
     }
 
     /**
@@ -102,17 +91,16 @@ class FlashFileTest extends TestCase
      */
     public function testEmbeddedFailed()
     {
-        $object = $this->getMock(
-            '\\SwfTools\\Processor\\FlashFile'
-            , array('listEmbeddedObjects')
-        );
+        $object = $this->getMockBuilder('SwfTools\Processor\FlashFile')
+            ->setMethods(array('listEmbeddedObjects'))
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $object->expects($this->any())
             ->method('listEmbeddedObjects')
             ->will($this->returnValue(null));
 
-        $object->open(__DIR__ . '/../../../files/flashfile.swf');
-        $object->extractFirstImage($this->destination);
+        $object->extractFirstImage(__DIR__ . '/../../../files/flashfile.swf', $this->destination);
     }
 
     /**
@@ -120,7 +108,7 @@ class FlashFileTest extends TestCase
      */
     public function testExtractFirstImage()
     {
-        $this->object->extractFirstImage($this->destination);
+        $this->object->extractFirstImage(__DIR__ . '/../../../files/flashfile.swf', $this->destination);
         $this->assertTrue(file_exists($this->destination));
 
         unlink($this->destination);
@@ -132,7 +120,7 @@ class FlashFileTest extends TestCase
      */
     public function testExtractFirstImageFailWithoutDestination()
     {
-        $this->object->extractFirstImage('');
+        $this->object->extractFirstImage(__DIR__ . '/../../../files/flashfile.swf', '');
     }
 
     /**
@@ -141,7 +129,7 @@ class FlashFileTest extends TestCase
      */
     public function testExtractEmbeddedWrongId()
     {
-        $this->object->extractEmbedded(-4, $this->destination);
+        $this->object->extractEmbedded(-4, __DIR__ . '/../../../files/flashfile.swf', $this->destination);
     }
 
     /**
@@ -150,7 +138,7 @@ class FlashFileTest extends TestCase
      */
     public function testExtractEmbeddedWrongOutput()
     {
-        $this->object->extractEmbedded(1, '/dsmsdf/dslgfsdm');
+        $this->object->extractEmbedded(1, __DIR__ . '/../../../files/flashfile.swf', '/dsmsdf/dslgfsdm');
     }
 
 }

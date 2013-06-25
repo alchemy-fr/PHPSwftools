@@ -3,25 +3,22 @@
 namespace SwfTools\Tests\Binary;
 
 use SwfTools\Binary\Pdf2swf;
-use SwfTools\Configuration;
-use SwfTools\Tests\TestCase;
+use Alchemy\BinaryDriver\Configuration;
 
-class Pdf2swfTest extends TestCase
+class Pdf2swfTest extends BinaryTestCase
 {
-
-    /**
-     * @var Pdf2swf
-     */
     protected $object;
 
     protected function setUp()
     {
-        $this->object = Pdf2swf::load(new Configuration(), $this->createLoggerMock());
+        $this->object = Pdf2swf::create();
     }
 
-    /**
-     * @covers SwfTools\Binary\Pdf2swf::toSwf
-     */
+    public function getClassName()
+    {
+        return 'SwfTools\Binary\Pdf2swf';
+    }
+
     public function testToSwf()
     {
         $pdf   = __DIR__ . '/../../../files/PDF.pdf';
@@ -32,7 +29,6 @@ class Pdf2swfTest extends TestCase
     }
 
     /**
-     * @covers SwfTools\Binary\Pdf2swf::toSwf
      * @expectedException \SwfTools\Exception\InvalidArgumentException
      */
     public function testToSwfInvalidFile()
@@ -44,7 +40,7 @@ class Pdf2swfTest extends TestCase
     /**
      * @covers SwfTools\Binary\Pdf2swf::toSwf
      * @dataProvider getWrongOptions
-     * @expectedException \SwfTools\Exception\InvalidArgumentException
+     * @expectedException SwfTools\Exception\InvalidArgumentException
      */
     public function testToSwfInvalidRes($pdf, $dest, $opts, $convert, $res, $pages, $framerate, $quality)
     {
@@ -82,11 +78,6 @@ class Pdf2swfTest extends TestCase
         $this->assertTrue($caught);
     }
 
-    /**
-     * Data provider for testToSwfWrongOptions
-     *
-     * @return array
-     */
     public function getWrongOptions()
     {
         $dest     = __DIR__ . '/../../../files/tmp.file';
@@ -95,12 +86,12 @@ class Pdf2swfTest extends TestCase
         $convert  = Pdf2swf::CONVERT_POLY2BITMAP;
 
         return array(
-          array($pdf, $dest, array(), $convert, 0, '1-', 15, 75),
-          array($pdf, $dest, array(), $convert, 1, '1', 15, 75),
-          array($pdf, $dest, array(), $convert, 1, '1-', 0, 75),
-          array($pdf, $dest, array(), $convert, 1, '1-', 15, 110),
-          array($wrongpdf, $dest, array(), $convert, 1, '1-', 15, 75),
-          array($pdf, '', array(), $convert, 1, '1-', 15, 75),
+            array($pdf, $dest, array(), $convert, 0, '1-', 15, 75),
+            array($pdf, $dest, array(), $convert, 1, '1', 15, 75),
+            array($pdf, $dest, array(), $convert, 1, '1-', 0, 75),
+            array($pdf, $dest, array(), $convert, 1, '1-', 15, 110),
+            array($wrongpdf, $dest, array(), $convert, 1, '1-', 15, 75),
+            array($pdf, '', array(), $convert, 1, '1-', 15, 75),
         );
     }
 
@@ -111,23 +102,12 @@ class Pdf2swfTest extends TestCase
         $convert = Pdf2swf::CONVERT_POLY2BITMAP;
 
         return array(
-          array($pdf, $dest, array(Pdf2swf::OPTION_DISABLE_SIMPLEVIEWER), $convert, 1, '1-', 15, 75),
-          array($pdf, $dest, array(Pdf2swf::OPTION_ENABLE_SIMPLEVIEWER), $convert, 1, '1-', 15, 75),
-          array($pdf, $dest, array(Pdf2swf::OPTION_LINKS_DISABLE), $convert, 1, '1-', 15, 75),
-          array($pdf, $dest, array(Pdf2swf::OPTION_LINKS_OPENNEWWINDOW), $convert, 1, '1-', 15, 75),
-          array($pdf, $dest, array(Pdf2swf::OPTION_ZLIB_DISABLE), $convert, 1, '1-', 15, 75),
-          array($pdf, $dest, array(Pdf2swf::OPTION_ZLIB_ENABLE), $convert, 1, '1-', 15, 75),
+            array($pdf, $dest, array(Pdf2swf::OPTION_DISABLE_SIMPLEVIEWER), $convert, 1, '1-', 15, 75),
+            array($pdf, $dest, array(Pdf2swf::OPTION_ENABLE_SIMPLEVIEWER), $convert, 1, '1-', 15, 75),
+            array($pdf, $dest, array(Pdf2swf::OPTION_LINKS_DISABLE), $convert, 1, '1-', 15, 75),
+            array($pdf, $dest, array(Pdf2swf::OPTION_LINKS_OPENNEWWINDOW), $convert, 1, '1-', 15, 75),
+            array($pdf, $dest, array(Pdf2swf::OPTION_ZLIB_DISABLE), $convert, 1, '1-', 15, 75),
+            array($pdf, $dest, array(Pdf2swf::OPTION_ZLIB_ENABLE), $convert, 1, '1-', 15, 75),
         );
     }
-
-    /**
-     * @covers SwfTools\Binary\Pdf2swf::load
-     */
-    public function testLoad()
-    {
-        $pdf2swf = Pdf2swf::load(new Configuration(), $this->createLoggerMock());
-
-        $this->assertInstanceOf('SwfTools\Binary\Pdf2swf', $pdf2swf);
-    }
-
 }

@@ -2,30 +2,15 @@
 
 namespace SwfTools\Tests\Processor;
 
+use SwfTools\Binary\DriverContainer;
 use SwfTools\Processor\File;
-use Monolog\Logger;
-use Monolog\Handler\NullHandler;
 use SwfTools\Tests\TestCase;
 
 class FileTest extends TestCase
 {
-
-    /**
-     * @covers SwfTools\Processor\File::getBinaryAdapter
-     * @expectedException  \SwfTools\Exception\RuntimeException
-     */
-    public function testGetBinaryAdapter()
-    {
-        $object = new ExtendedFile();
-        $object->testGetBinaryAdapter();
-    }
-
-    /**
-     * @covers SwfTools\Processor\File::changePathnameExtension
-     */
     public function testGetChangePathnameExtension()
     {
-        $object = new ExtendedFile();
+        $object = new ExtendedFile(DriverContainer::create());
         $this->assertEquals('/path/kawabunga.plus', $object->change('/path/kawabunga.png', 'plus'));
     }
 
@@ -33,14 +18,6 @@ class FileTest extends TestCase
 
 class ExtendedFile extends File
 {
-    public function testGetBinaryAdapter()
-    {
-        $logger = new Logger('Null logger');
-        $logger->pushHandler(new NullHandler());
-
-        $this->getBinaryAdapter('Babebibobu', $logger);
-    }
-
     public function change($pathname, $extension)
     {
         return static::changePathnameExtension($pathname, $extension);

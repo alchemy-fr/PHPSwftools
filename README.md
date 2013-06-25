@@ -31,22 +31,22 @@ http://wiki.swftools.org/wiki/Installation.
 ##Main API usage :
 
 ```php
-$file = new SwfTools\FlashFile('Animation.swf');
+$file = new SwfTools\FlashFile(SwfTools\Binary\DriverContainer::create());
 
 // Render the animation to a PNG file
-$file->render('renderedAnimation.png');
+$file->render('Animation.swf', 'renderedAnimation.png');
 
 // List all embedded object found in the animation.
 // Available object types are : Shapes, Fonts, PNGs, JPEGs, Frames, MovieClip
-foreach($File->listEmbeddedObjects() as $embeddedObject) {
+foreach($File->listEmbeddedObjects('Animation.swf') as $embeddedObject) {
     echo sprintf("found an object type %s with id %d\n", $embeddedObject->getType(), $embeddedObject->getId());
 }
 
 // Extract embedded Object #1
-$file->extractEmbedded(1, 'Object1.png');
+$file->extractEmbedded(1, 'Animation.swf', 'Object1.png');
 
 // Extract the first embedded image found
-$file->extractFirstImage('renderedAnimation.jpg');
+$file->extractFirstImage('Animation.swf', 'renderedAnimation.jpg');
 ```
 
 ##Setting timeout
@@ -57,11 +57,9 @@ to prevent these processes to run more than a defined duration.
 To disable timeout, set it to `0` (default value).
 
 ```php
-$configuration = new SwfTools\Configuration(array(
-    'timeout' => 0
+$file = new SwfTools\FlashFile(SwfTools\Binary\DriverContainer::create(
+    'timeout' => 0,
 ));
-
-$file = new SwfTools\FlashFile('Animation.swf', $configuration);
 ```
 
 ##Using various binaries versions
@@ -71,14 +69,11 @@ want to specify the path to the binary you wnat to use, you can add
 configuration :
 
 ```php
-$configuration = new SwfTools\Configuration(
-    array(
-      'swftextract' => '/usr/local/bin/swfextract',
-      'swftrender'  => '/usr/local/bin/swfrender',
-    )
-);
-
-$file = new SwfTools\FlashFile('Animation.swf', $configuration);
+$file = new SwfTools\FlashFile(SwfTools\Binary\DriverContainer::create(
+    'pdf2swf.binaries'    => '/opt/local/swftools/bin/pdf2swf',
+    'swfrender.binaries'  => '/opt/local/swftools/bin/swfrender',
+    'swfextract.binaries' => '/opt/local/swftools/bin/swfextract',
+));
 ```
 
 ## Silex Service Provider
@@ -91,23 +86,19 @@ is set to 0 (no timeout).
 ```php
 $app = new Silex\Application();
 $app->register(new SwfTools\SwfToolsServiceProvider(), array(
-    'swftools.options' => array(
-        'pdf2swf'    => '/usr/local/bin/pdf2swf',
-        'swfrender'  => '/usr/local/bin/swfrender',
-        'swfextract' => '/usr/local/bin/swfextract',
+    'swftools.configuration' => array(
+        'pdf2swf.binaries'    => '/opt/local/swftools/bin/pdf2swf',
+        'swfrender.binaries'  => '/opt/local/swftools/bin/swfrender',
+        'swfextract.binaries' => '/opt/local/swftools/bin/swfextract',
         'timeout'    => 300,
-    )
+    ),
+    'swftools.logger' => $app->share(function (Application $app) {
+        return $app['monolog'];
+    });
 ));
 
-$app['swftools.flash-file']
-    ->open('file.swf')
-    ->render('output.jpg')
-    ->close();
-
-$app['swftools.pdf-file']
-    ->open('file.pdf')
-    ->toSwf('output.swf')
-    ->close();
+$app['swftools.flash-file']->render('file.swf', 'output.jpg');
+$app['swftools.pdf-file']->toSwf('output.swf');
 ```
 
 ##License

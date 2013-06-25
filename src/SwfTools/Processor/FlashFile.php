@@ -14,35 +14,21 @@ namespace SwfTools\Processor;
 use SwfTools\EmbeddedObject;
 use SwfTools\Exception\Exception;
 use SwfTools\Exception\InvalidArgumentException;
-use SwfTools\Exception\LogicException;
 use SwfTools\Exception\RuntimeException;
 
 class FlashFile extends File
 {
-    protected $embedded;
-
-    public function __destruct()
-    {
-        $this->embedded = null;
-        parent::__destruct();
-    }
-
     /**
      * Render the flash to PNG file
      *
+     * @param  string                   $inputFile
      * @param  string                   $outputFile
      * @param  Boolean                  $legacy_rendering
      * @return Boolean
      * @throws InvalidArgumentException
      */
-    public function render($outputFile, $legacy_rendering = false)
+    public function render($inputFile, $outputFile, $legacy_rendering = false)
     {
-        if (!$this->pathfile) {
-            throw new LogicException('No file open');
-        }
-
-        $swfrender = $this->getBinaryAdapter('Swfrender');
-
         if (!$outputFile) {
             throw new InvalidArgumentException('Invalid argument');
         }
@@ -50,12 +36,10 @@ class FlashFile extends File
         $outputFile = static::changePathnameExtension($outputFile, 'png');
 
         try {
-            $swfrender->render($this->pathfile, $outputFile, $legacy_rendering);
+            $this->container['swfrender']->render($inputFile, $outputFile, $legacy_rendering);
         } catch (Exception $e) {
             throw new RuntimeException('Unable to render');
         }
-
-        unset($swfrender);
 
         return $outputFile;
     }
@@ -63,34 +47,21 @@ class FlashFile extends File
     /**
      * List all embedded object of the current flash file
      *
-     * @param  Boolean          $useCache
+     * @param  string           $inputFile
      * @return type
      * @throws RuntimeException
      */
-    public function listEmbeddedObjects($useCache = false)
+    public function listEmbeddedObjects($inputFile)
     {
-        if (!$this->pathfile) {
-            throw new LogicException('No file open');
-        }
-
-        if ($useCache && $this->embedded) {
-            return $this->embedded;
-        }
-
-        $this->embedded = array();
-
-        $swfextract = $this->getBinaryAdapter('Swfextract');
+        $embedded = array();
 
         try {
-            $datas = explode("\n", $swfextract->listEmbedded($this->pathfile));
+            $datas = explode("\n", $this->container['swfextract']->listEmbedded($inputFile));
         } catch (RuntimeException $e) {
             throw new RuntimeException('Unable to list embedded datas');
         }
 
-        unset($swfextract);
-
         foreach ($datas as $line) {
-
             $matches = array();
 
             preg_match('/\[-([a-z]{1})\]\ [0-9]+\ ([a-z]+):\ ID\(s\)\ ([0-9-,\ ]+)/i', $line, $matches);
@@ -108,48 +79,41 @@ class FlashFile extends File
             foreach (explode(",", $matches[3]) as $id) {
                 if (false !== $offset = strpos($id, '-')) {
                     for ($i = substr($id, 0, $offset); $i <= substr($id, $offset + 1); $i++) {
-                        $this->embedded[] = new EmbeddedObject($option, $matches[2], $i);
+                        $embedded[] = new EmbeddedObject($option, $matches[2], $i);
                     }
                 } else {
-                    $this->embedded[] = new EmbeddedObject($option, $type, $id);
+                    $embedded[] = new EmbeddedObject($option, $type, $id);
                 }
             }
         }
 
-        return $this->embedded;
+        return $embedded;
     }
 
     /**
      * Extract the specified Embedded file
      *
      * @param integer $id
+     * @param string  $inputFile
      * @param string  $outputFile
      *
      * @return string
      *
      * @throws RuntimeException
      */
-    public function extractEmbedded($id, $outputFile)
+    public function extractEmbedded($id, $inputFile, $outputFile)
     {
-        if (!$this->pathfile) {
-            throw new LogicException('No file open');
-        }
-
         if (!$outputFile) {
             throw new InvalidArgumentException('Bad destination');
         }
 
-        foreach ($this->listEmbeddedObjects(true) as $embedded) {
+        foreach ($this->listEmbeddedObjects($inputFile) as $embedded) {
             if ($embedded->getId() == $id) {
-                $swfextract = $this->getBinaryAdapter('Swfextract');
-
                 try {
-                    $swfextract->extract($this->pathfile, $embedded, $outputFile);
+                    $this->container['swfextract']->extract($inputFile, $embedded, $outputFile);
                 } catch (Exception $e) {
                     throw new RuntimeException('Unable to use SwfExtract', $e->getCode(), $e);
                 }
-
-                unset($swfextract);
 
                 return $outputFile;
             }
@@ -161,22 +125,19 @@ class FlashFile extends File
     /**
      * Extract the first embedded image found
      *
+     * @param string $inputFile
      * @param string $outputFile
      *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
-    public function extractFirstImage($outputFile)
+    public function extractFirstImage($inputFile, $outputFile)
     {
-        if (!$this->pathfile) {
-            throw new LogicException('No file open');
-        }
-
         if (!$outputFile) {
             throw new InvalidArgumentException('Bad destination');
         }
 
-        $objects = $this->listEmbeddedObjects();
+        $objects = $this->listEmbeddedObjects($inputFile);
 
         if (!$objects) {
             throw new RuntimeException('Unable to extract an image');
@@ -184,8 +145,6 @@ class FlashFile extends File
 
         foreach ($objects as $embedded) {
             if (in_array($embedded->getType(), array(EmbeddedObject::TYPE_JPEG, EmbeddedObject::TYPE_PNG))) {
-                $swfextract = $this->getBinaryAdapter('Swfextract');
-
                 switch ($embedded->getType()) {
                     case EmbeddedObject::TYPE_JPEG:
                         $outputFile = static::changePathnameExtension($outputFile, 'jpg');
@@ -198,12 +157,10 @@ class FlashFile extends File
                 }
 
                 try {
-                    $swfextract->extract($this->pathfile, $embedded, $outputFile);
+                    $this->container['swfextract']->extract($inputFile, $embedded, $outputFile);
                 } catch (Exception $e) {
                     throw new RuntimeException('Unable to use SwfExtract', $e->getCode(), $e);
                 }
-
-                unset($swfextract);
 
                 return $outputFile;
             }

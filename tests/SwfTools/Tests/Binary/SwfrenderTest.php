@@ -3,10 +3,8 @@
 namespace SwfTools\Tests\Binary;
 
 use SwfTools\Binary\Swfrender;
-use SwfTools\Configuration;
-use SwfTools\Tests\TestCase;
 
-class SwfrenderTest extends TestCase
+class SwfrenderTest extends BinaryTestCase
 {
 
     /**
@@ -16,7 +14,12 @@ class SwfrenderTest extends TestCase
 
     protected function setUp()
     {
-        $this->object = Swfrender::load(new Configuration(), $this->createLoggerMock());
+        $this->object = Swfrender::create();
+    }
+
+    public function getClassName()
+    {
+        return 'SwfTools\Binary\Swfrender';
     }
 
     /**
@@ -69,9 +72,8 @@ class SwfrenderTest extends TestCase
      */
     public function testLoad()
     {
-        $swfextract = Swfrender::load(new Configuration(), $this->createLoggerMock());
+        $swfextract = Swfrender::create();
 
         $this->assertInstanceOf('SwfTools\Binary\Swfrender', $swfextract);
     }
-
 }

@@ -11,21 +11,30 @@
 
 namespace SwfTools\Binary;
 
-use Monolog\Logger;
-use SwfTools\Configuration;
-use SwfTools\Exception\BinaryNotFoundException;
+use Alchemy\BinaryDriver\Configuration;
+use Alchemy\BinaryDriver\ConfigurationInterface;
+use Alchemy\BinaryDriver\Exception\ExecutionFailureException;
+use Psr\Log\LoggerInterface;
 use SwfTools\Exception\InvalidArgumentException;
 use SwfTools\Exception\RuntimeException;
-use Symfony\Component\Process\ProcessBuilder;
 
 class Swfrender extends Binary
 {
     /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'Swfrender';
+    }
+
+    /**
+     * Renders an SWF file.
      *
-     * @param  string                   $pathfile
-     * @param  string                   $outputFile
-     * @param  Boolean                  $legacy
-     * @return null
+     * @param string  $pathfile
+     * @param string  $outputFile
+     * @param Boolean $legacy
+     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
@@ -35,31 +44,37 @@ class Swfrender extends Binary
             throw new InvalidArgumentException('Invalid output file');
         }
 
-        $builder = ProcessBuilder::create(array(
-            $this->binaryPathname,
-            ($legacy ? '-l' : ''),
-            $pathfile, '-o',
-            $outputFile,
-        ));
-
-        return $this->run($builder->getProcess());
+        try {
+            $this->command(array(
+                ($legacy ? '-l' : ''),
+                $pathfile, '-o',
+                $outputFile,
+            ));
+        } catch (ExecutionFailureException $e) {
+            throw new RuntimeException(sprintf(
+                '%s failed to run command', $this->getName()
+            ), $e->getCode(), $e);
+        }
     }
 
     /**
-     * Factory method to build the binary
+     * Creates the Swfrender binary driver
      *
-     * Either pass a configuration file with the binary settings, or pass an
-     * empty configuration, which will trigger the autodetection
-     *
-     * @param Configuration $configuration A Configuration
-     * @param Logger        $logger        A logger
+     * @param array|ConfigurationInterface $conf
+     * @param LoggerInterface              $logger
      *
      * @return Swfrender
      *
-     * @throws BinaryNotFoundException
+     * @throws ExecutableNotFound In case the executable is not found
      */
-    public static function load(Configuration $configuration, Logger $logger)
+    public static function create($conf = array(), LoggerInterface $logger = null)
     {
-        return static::loadBinary('swfrender', $configuration, $logger);
+        if (!$conf instanceof ConfigurationInterface) {
+            $conf = new Configuration($conf);
+        }
+
+        $binaries = $conf->get('swfrender.binaries', array('swfrender'));
+
+        return static::load($binaries, $logger, $conf);
     }
 }
