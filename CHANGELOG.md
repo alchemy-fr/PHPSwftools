@@ -1,6 +1,11 @@
 CHANGELOG
 ---------
 
+* 0.3.0 (06-25-2013)
+
+  * BC Break : FlashFile and PDFFile are now services.
+  * BC Break : Simplification of service provider configuration.
+
 * 0.2.1 (04-23-2013)
 
   * Code cleanup
