@@ -11,7 +11,9 @@
 
 namespace SwfTools\Processor;
 
+use Alchemy\BinaryDriver\Exception\ExecutableNotFoundException;
 use SwfTools\Exception\InvalidArgumentException;
+use SwfTools\Exception\RuntimeException;
 
 class PDFFile extends File
 {
@@ -28,6 +30,10 @@ class PDFFile extends File
             throw new InvalidArgumentException('Bad destination');
         }
 
-        $this->container['pdf2swf']->toSwf($inputfile, $outputFile);
+        try {
+            $this->container['pdf2swf']->toSwf($inputfile, $outputFile);
+        } catch (ExecutableNotFoundException $e) {
+            throw new RuntimeException('Unable to load pdf2swf', $e->getCode(), $e);
+        }
     }
 }

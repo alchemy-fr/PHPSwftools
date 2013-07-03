@@ -11,8 +11,8 @@
 
 namespace SwfTools\Processor;
 
+use Alchemy\BinaryDriver\Exception\ExecutableNotFoundException;
 use SwfTools\EmbeddedObject;
-use SwfTools\Exception\Exception;
 use SwfTools\Exception\InvalidArgumentException;
 use SwfTools\Exception\RuntimeException;
 
@@ -37,8 +37,8 @@ class FlashFile extends File
 
         try {
             $this->container['swfrender']->render($inputFile, $outputFile, $legacy_rendering);
-        } catch (Exception $e) {
-            throw new RuntimeException('Unable to render');
+        } catch (ExecutableNotFoundException $e) {
+            throw new RuntimeException('Unable to load swfrender', $e->getCode(), $e);
         }
 
         return $outputFile;
@@ -57,8 +57,8 @@ class FlashFile extends File
 
         try {
             $datas = explode("\n", $this->container['swfextract']->listEmbedded($inputFile));
-        } catch (RuntimeException $e) {
-            throw new RuntimeException('Unable to list embedded datas');
+        } catch (ExecutableNotFoundException $e) {
+            throw new RuntimeException('Unable to load swfextract', $e->getCode(), $e);
         }
 
         foreach ($datas as $line) {
@@ -111,8 +111,8 @@ class FlashFile extends File
             if ($embedded->getId() == $id) {
                 try {
                     $this->container['swfextract']->extract($inputFile, $embedded, $outputFile);
-                } catch (Exception $e) {
-                    throw new RuntimeException('Unable to use SwfExtract', $e->getCode(), $e);
+                } catch (ExecutableNotFoundException $e) {
+                    throw new RuntimeException('Unable to load swfextract', $e->getCode(), $e);
                 }
 
                 return $outputFile;
@@ -158,8 +158,8 @@ class FlashFile extends File
 
                 try {
                     $this->container['swfextract']->extract($inputFile, $embedded, $outputFile);
-                } catch (Exception $e) {
-                    throw new RuntimeException('Unable to use SwfExtract', $e->getCode(), $e);
+                } catch (ExecutableNotFoundException $e) {
+                    throw new RuntimeException('Unable to load swfextract', $e->getCode(), $e);
                 }
 
                 return $outputFile;

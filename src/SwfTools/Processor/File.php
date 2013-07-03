@@ -11,8 +11,6 @@
 
 namespace SwfTools\Processor;
 
-use Monolog\Logger;
-use Alchemy\BinaryDriver\ConfigurationInterface;
 use SwfTools\Binary\DriverContainer;
 
 abstract class File
@@ -22,8 +20,7 @@ abstract class File
     /**
      * Build the File processor given the configuration
      *
-     * @param array|ConfigurationInterface $configuration
-     * @param Logger                       $logger
+     * @param DriverContainer $container
      */
     public function __construct(DriverContainer $container)
     {
