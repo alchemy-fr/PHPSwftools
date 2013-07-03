@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "d80ba5564c64da418aa04c72e9382ccf",
+    "hash": "1f9ca5b5ecaa35d180ad6746a9e8898d",
     "packages": [
         {
             "name": "alchemy/binary-driver",

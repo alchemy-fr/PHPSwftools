@@ -19,7 +19,6 @@
     "require": {
         "php"                   : ">=5.3.3",
         "alchemy/binary-driver" : "~1.5",
-        "monolog/monolog"       : "~1.0",
         "pimple/pimple"         : "~1.0"
     },
     "require-dev": {
