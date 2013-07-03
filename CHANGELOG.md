@@ -1,6 +1,11 @@
 CHANGELOG
 ---------
 
+* 0.3.1 (07-03-2013)
+
+  * Ensure that exceptions thrown are in SwfTools namespace.
+  * Remove Monolog as a dependency.
+
 * 0.3.0 (06-25-2013)
 
   * BC Break : FlashFile and PDFFile are now services.
