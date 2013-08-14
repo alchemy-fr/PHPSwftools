@@ -106,3 +106,7 @@ $app['swftools.pdf-file']->toSwf('output.swf');
 PHPSwftools are released under MIT License http://opensource.org/licenses/MIT
 
 See LICENSE file for more information
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/alchemy-fr/phpswftools/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
