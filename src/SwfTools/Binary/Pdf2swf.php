@@ -84,11 +84,12 @@ class Pdf2swf extends Binary
         }
 
         $option_cmd = array();
+        $option_convert_cmd = array();
 
         switch ($convertType) {
             case self::CONVERT_POLY2BITMAP:
             case self::CONVERT_BITMAP:
-                $option_cmd [] = $convertType;
+                $option_convert_cmd [] = $convertType;
                 break;
         }
 
@@ -111,6 +112,9 @@ class Pdf2swf extends Binary
         }
 
         $option_string = escapeshellarg(implode('&', $option_cmd));
+        $option_convert_value = implode('&', $option_convert_cmd);
+        $option_convert_string = !$option_convert_value ? : '-s';
+        $option_convert_value = !$option_convert_value ? : $option_convert_value;
         $option_string = !$option_string ? : '-s ' . $option_string;
 
         if (null !== $timelimit) {
@@ -120,6 +124,8 @@ class Pdf2swf extends Binary
         try {
             $this->command(array(
                 $pathfile,
+                $option_convert_string,
+                $option_convert_value,
                 $option_string,
                 '-o',
                 $outputFile,
