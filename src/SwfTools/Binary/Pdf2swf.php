@@ -57,82 +57,88 @@ class Pdf2swf extends Binary
      *
      * @throws InvalidArgumentException
      */
-    public function toSwf($pathfile, $outputFile, Array $options = array(), $convertType = self::CONVERT_POLY2BITMAP, $resolution = 72, $pageRange = '1-', $frameRate = 15, $jpegquality = 75, $timelimit = null)
-    {
-        if (!file_exists($pathfile) || !is_file($pathfile) || !is_readable($pathfile)) {
-            throw new InvalidArgumentException('Provided file does not exists or is not readable.');
-        }
 
-        if (!trim($outputFile)) {
-            throw new InvalidArgumentException('Invalid resolution argument');
-        }
+	public function toSwf($pathfile, $outputFile, Array $options = array(), $convertType = self::CONVERT_POLY2BITMAP, $resolution = 72, $pageRange = '1-', $frameRate = 15, 
+$jpegquality = 75, $timelimit = null)
+	{
+	    if (!file_exists($pathfile) || !is_file($pathfile) || !is_readable($pathfile)) {
+	        throw new InvalidArgumentException('Provided file does not exists or is not readable.');
+	    }
+	
+	    if (!trim($outputFile)) {
+	        throw new InvalidArgumentException('Invalid resolution argument');
+	    }
+	
+	    if ((int) $resolution < 1) {
+	        throw new InvalidArgumentException('Invalid resolution argument');
+	    }
+	
+	    if ((int) $frameRate < 1) {
+	        throw new InvalidArgumentException('Invalid framerate argument');
+	    }
+	
+	    if ((int) $jpegquality < 0 || (int) $jpegquality > 100) {
+	        throw new InvalidArgumentException('Invalid jpegquality argument');
+	    }
+	
+	    if (!preg_match('/\d+-\d?/', $pageRange)) {
+	        throw new InvalidArgumentException('Invalid pages argument');
+	    }
+	
+	    $args = array();
+	
+	    $args[] = $pathfile;
+	    
+	    switch ($convertType) {
+	        case self::CONVERT_POLY2BITMAP:
+	        case self::CONVERT_BITMAP:
+	        $args_s [] = $convertType;
+	            break;
+	    }
+	
+	    $args_s [] = 'zoom=' . (int) $resolution;
+	    $args_s [] = 'framerate=' . (int) $frameRate;
+	    $args_s [] = 'jpegquality=' . (int) $jpegquality;
+	    $args_s [] = 'pages=' . $pageRange;
+	
+	    if (!in_array(self::OPTION_ZLIB_DISABLE, $options) && in_array(self::OPTION_ZLIB_ENABLE, $options)) {
+	        $args_s [] = 'enablezlib';
+	    }
+	    if (!in_array(self::OPTION_DISABLE_SIMPLEVIEWER, $options) && in_array(self::OPTION_ENABLE_SIMPLEVIEWER, $options)) {
+	        $args_s [] = 'simpleviewer';
+	    }
+	    if (in_array(self::OPTION_LINKS_DISABLE, $options)) {
+	        $args_s [] = 'disablelinks';
+	    }
+	    if (in_array(self::OPTION_LINKS_OPENNEWWINDOW, $options)) {
+	        $args_s [] = 'linksopennewwindow';
+	    }
 
-        if ((int) $resolution < 1) {
-            throw new InvalidArgumentException('Invalid resolution argument');
-        }
-
-        if ((int) $frameRate < 1) {
-            throw new InvalidArgumentException('Invalid framerate argument');
-        }
-
-        if ((int) $jpegquality < 0 || (int) $jpegquality > 100) {
-            throw new InvalidArgumentException('Invalid jpegquality argument');
-        }
-
-        if (!preg_match('/\d+-\d?/', $pageRange)) {
-            throw new InvalidArgumentException('Invalid pages argument');
-        }
-
-        $option_cmd = array();
-
-        switch ($convertType) {
-            case self::CONVERT_POLY2BITMAP:
-            case self::CONVERT_BITMAP:
-                $option_cmd [] = $convertType;
-                break;
-        }
-
-        $option_cmd [] = 'zoom=' . (int) $resolution;
-        $option_cmd [] = 'framerate=' . (int) $frameRate;
-        $option_cmd [] = 'jpegquality=' . (int) $jpegquality;
-        $option_cmd [] = 'pages=' . $pageRange;
-
-        if (!in_array(self::OPTION_ZLIB_DISABLE, $options) && in_array(self::OPTION_ZLIB_ENABLE, $options)) {
-            $option_cmd [] = 'enablezlib';
-        }
-        if (!in_array(self::OPTION_DISABLE_SIMPLEVIEWER, $options) && in_array(self::OPTION_ENABLE_SIMPLEVIEWER, $options)) {
-            $option_cmd [] = 'simpleviewer';
-        }
-        if (in_array(self::OPTION_LINKS_DISABLE, $options)) {
-            $option_cmd [] = 'disablelinks';
-        }
-        if (in_array(self::OPTION_LINKS_OPENNEWWINDOW, $options)) {
-            $option_cmd [] = 'linksopennewwindow';
-        }
-
-        $option_string = escapeshellarg(implode('&', $option_cmd));
-        $option_string = !$option_string ? : '-s ' . $option_string;
-
-        if (null !== $timelimit) {
-            trigger_error('Use Configuration timeout instead of Pdf2Swf timelimit', E_USER_DEPRECATED);
-        }
-
-        try {
-            $this->command(array(
-                $pathfile,
-                $option_string,
-                '-o',
-                $outputFile,
-                '-T', '9', '-f'
-            ));
-        } catch (ExecutionFailureException $e) {
-            throw new RuntimeException(sprintf(
-                '%s failed to run command', $this->getName()
-            ), $e->getCode(), $e);
-        }
-
-        return $this;
-    }
+            foreach($args_s as $a){
+                $args[]='-s';
+                $args[]=$a;
+            }
+	
+	    $args[] = '-o';
+	    $args[] = $outputFile;
+	    $args[] = '-T';
+	    $args[] = '-9';
+	    $args[] = '-f';
+	
+	    if (null !== $timelimit) {
+	        trigger_error('Use Configuration timeout instead of Pdf2Swf timelimit', E_USER_DEPRECATED);
+	    }
+	
+	    try {
+	        $this->command($args);
+	    } catch (ExecutionFailureException $e) {
+	        throw new RuntimeException(sprintf(
+	            '%s failed to run command', $this->getName()
+	        ), $e->getCode(), $e);
+	    }
+	
+	    return $this;
+	}
 
     /**
      * Creates the Pdf2swf binary driver
