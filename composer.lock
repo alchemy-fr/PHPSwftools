@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3654c17b3b04747e929cb1237e66855f",
+    "content-hash": "89fee5649332ff84fd7a35f3f3b2ec35",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -1064,16 +1064,16 @@
         },
         {
             "name": "sami/sami",
-            "version": "v4.0.14",
+            "version": "v4.0.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/Sami.git",
-                "reference": "c71dcaf3cdfb6db40a6d420cde24923c3e3d0ded"
+                "reference": "2e24ce638fb86aaddd9952526e62f0ccd4d316af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/Sami/zipball/c71dcaf3cdfb6db40a6d420cde24923c3e3d0ded",
-                "reference": "c71dcaf3cdfb6db40a6d420cde24923c3e3d0ded",
+                "url": "https://api.github.com/repos/FriendsOfPHP/Sami/zipball/2e24ce638fb86aaddd9952526e62f0ccd4d316af",
+                "reference": "2e24ce638fb86aaddd9952526e62f0ccd4d316af",
                 "shasum": ""
             },
             "require": {
@@ -1122,7 +1122,7 @@
             "keywords": [
                 "phpdoc"
             ],
-            "time": "2018-02-05T06:00:28+00:00"
+            "time": "2018-02-22T07:06:23+00:00"
         },
         {
             "name": "silex/silex",
@@ -1894,16 +1894,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.4.6",
+            "version": "v2.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "d2117ec118c1ff3d28ccddca8212d82787a4809f"
+                "reference": "69aacd44dbbaa3199d5afb68605c996d577896fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/d2117ec118c1ff3d28ccddca8212d82787a4809f",
-                "reference": "d2117ec118c1ff3d28ccddca8212d82787a4809f",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/69aacd44dbbaa3199d5afb68605c996d577896fc",
+                "reference": "69aacd44dbbaa3199d5afb68605c996d577896fc",
                 "shasum": ""
             },
             "require": {
@@ -1912,8 +1912,8 @@
             },
             "require-dev": {
                 "psr/container": "^1.0",
-                "symfony/debug": "~2.7",
-                "symfony/phpunit-bridge": "~3.3@dev"
+                "symfony/debug": "^2.7",
+                "symfony/phpunit-bridge": "^3.3"
             },
             "type": "library",
             "extra": {
@@ -1956,7 +1956,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2018-03-03T16:23:01+00:00"
+            "time": "2018-03-20T04:31:17+00:00"
         }
     ],
     "aliases": [],
@@ -1965,7 +1965,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.3.3"
+        "php": ">=7.0.0"
     },
     "platform-dev": []
 }
