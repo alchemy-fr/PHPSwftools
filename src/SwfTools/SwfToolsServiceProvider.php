@@ -11,15 +11,17 @@
 
 namespace SwfTools;
 
-use SwfTools\Binary\DriverContainer;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use SwfTools\Binary\DriverContainer;
 use SwfTools\Processor\FlashFile;
 use SwfTools\Processor\PDFFile;
 
+
 class SwfToolsServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['swftools.default.configuration'] = array(
             'pdf2swf.binaries'    => 'pdf2swf',
@@ -30,24 +32,20 @@ class SwfToolsServiceProvider implements ServiceProviderInterface
         $app['swftools.configuration'] = array();
         $app['swftools.logger'] = null;
 
-        $app['swftools.driver-container'] = $app->share(function(Application $app) {
+        $app['swftools.driver-container'] = function(Application $app) {
             $app['swftools.configuration'] = array_replace(
                 $app['swftools.default.configuration'], $app['swftools.configuration']
             );
 
             return DriverContainer::create($app['swftools.configuration'], $app['swftools.logger']);
-        });
+        };
 
-        $app['swftools.pdf-file'] = $app->share(function(Application $app) {
+        $app['swftools.pdf-file'] = function(Application $app) {
             return new PDFFile($app['swftools.driver-container']);
-        });
+        };
 
-        $app['swftools.flash-file'] = $app->share(function(Application $app) {
+        $app['swftools.flash-file'] = function(Application $app) {
             return new FlashFile($app['swftools.driver-container']);
-        });
-    }
-
-    public function boot(Application $app)
-    {
+        };
     }
 }
