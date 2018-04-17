@@ -12,8 +12,9 @@
 namespace SwfTools\Binary;
 
 use Psr\Log\LoggerInterface;
+use Pimple\Container;
 
-class DriverContainer extends \Pimple
+class DriverContainer extends Container
 {
     public static function create($configuration = array(), LoggerInterface $logger = null)
     {
