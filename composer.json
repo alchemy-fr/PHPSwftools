@@ -18,7 +18,7 @@
     ],
     "require": {
         "php"                   : "~7.0",
-        "alchemy/binary-driver" : "~1.5",
+        "alchemy/binary-driver" : "~4.1",
         "pimple/pimple"         : "~3.0"
     },
     "require-dev": {
