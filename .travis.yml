@@ -4,8 +4,14 @@ dist: xenial
 
 before_script:
   - sudo apt-get update
-  # Previously installed xpdf libexpat-dev
-  - sudo apt-get install -y libfreetype6-dev libjpeg-dev libgif-dev libpng-dev zlib1g-dev gettext build-essential
+  # Previously installed xpdf libexpat-dev libgif-dev
+  - sudo apt-get install -y libfreetype6-dev libjpeg-dev libpng-dev zlib1g-dev gettext build-essential
+  - wget http://ftp.debian.org/debian/pool/main/g/glibc/multiarch-support_2.19-18+deb8u10_amd64.deb
+  - wget http://ftp.debian.org/debian/pool/main/g/giflib/libgif4_4.1.6-11+deb8u1_amd64.deb
+  - wget http://ftp.debian.org/debian/pool/main/g/giflib/libgif-dev_4.1.6-11+deb8u1_amd64.deb
+  - apt install -y multiarch-support*.deb
+  - apt install -y libgif4*.deb
+  - apt install -y libgif-dev_4*.deb
   - wget http://www.swftools.org/swftools-0.9.2.tar.gz
   - sh -c "tar xzvf swftools-0.9.2.tar.gz && cd swftools-0.9.2 && ./configure && make && sudo make install"
   - composer install --dev --prefer-source
