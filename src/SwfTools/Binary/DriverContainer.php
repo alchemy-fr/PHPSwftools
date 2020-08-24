@@ -12,8 +12,9 @@
 namespace SwfTools\Binary;
 
 use Psr\Log\LoggerInterface;
+use \Pimple\Container;
 
-class DriverContainer extends \Pimple
+class DriverContainer extends Container
 {
     public static function create($configuration = array(), LoggerInterface $logger = null)
     {
@@ -22,17 +23,17 @@ class DriverContainer extends \Pimple
         $container['configuration'] = $configuration;
         $container['logger'] = $logger;
 
-        $container['pdf2swf'] = $container->share(function ($container) {
+        $container['pdf2swf'] = function ($container) {
             return Pdf2swf::create($container['configuration'], $container['logger']);
-        });
+        };
 
-        $container['swfrender'] = $container->share(function ($container) {
+        $container['swfrender'] = function ($container) {
             return Swfrender::create($container['configuration'], $container['logger']);
-        });
+        };
 
-        $container['swfextract'] = $container->share(function ($container) {
+        $container['swfextract'] = function ($container) {
             return Swfextract::create($container['configuration'], $container['logger']);
-        });
+        };
 
         return $container;
     }
