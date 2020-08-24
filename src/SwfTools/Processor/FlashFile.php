@@ -153,7 +153,7 @@ class FlashFile extends File
                         $outputFile = static::changePathnameExtension($outputFile, 'png');
                         break;
                     default:
-                        continue;
+                        continue 2;
                 }
 
                 try {
