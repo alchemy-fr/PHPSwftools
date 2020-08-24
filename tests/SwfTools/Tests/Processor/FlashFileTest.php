@@ -35,51 +35,41 @@ class FlashFileTest extends TestCase
         unlink($this->destination);
     }
 
-    /**
-     * @expectedException SwfTools\Exception\RuntimeException
-     * @expectedExceptionMessage Unable to load swfrender
-     */
     public function testRenderNoBinary()
     {
+        $this->expectException(\SwfTools\Exception\RuntimeException::class);
+        $this->expectExceptionMessage('Unable to load swfrender');
         $object = new FlashFile(DriverContainer::create(array('swfrender.binaries' => '/path/to/nowhere')));
         $object->render(__DIR__ . '/../../../files/flashfile.swf', '/target');
     }
 
-    /**
-     * @expectedException SwfTools\Exception\RuntimeException
-     * @expectedExceptionMessage Unable to load swfextract
-     */
     public function testExtractEmbeddedNoBinary()
     {
+        $this->expectException(\SwfTools\Exception\RuntimeException::class);
+        $this->expectExceptionMessage('Unable to load swfextract');
         $object = new FlashFile(DriverContainer::create(array('swfextract.binaries' => '/path/to/nowhere')));
         $object->extractEmbedded(1, __DIR__ . '/../../../files/flashfile.swf', '/target');
     }
 
-    /**
-     * @expectedException SwfTools\Exception\RuntimeException
-     * @expectedExceptionMessage Unable to load swfextract
-     */
     public function testListEmbeddedNoBinary()
     {
+        $this->expectException(\SwfTools\Exception\RuntimeException::class);
+        $this->expectExceptionMessage('Unable to load swfextract');
         $object = new FlashFile(DriverContainer::create(array('swfextract.binaries' => '/path/to/nowhere')));
         $object->listEmbeddedObjects(__DIR__ . '/../../../files/flashfile.swf');
     }
 
-    /**
-     * @expectedException SwfTools\Exception\RuntimeException
-     * @expectedExceptionMessage Unable to load swfextract
-     */
     public function testExtractFirstImageNoBinary()
     {
+        $this->expectException(\SwfTools\Exception\RuntimeException::class);
+        $this->expectExceptionMessage('Unable to load swfextract');
         $object = new FlashFile(DriverContainer::create(array('swfextract.binaries' => '/path/to/nowhere')));
         $object->extractFirstImage(__DIR__ . '/../../../files/flashfile.swf', '/target');
     }
 
-    /**
-     * @expectedException \SwfTools\Exception\InvalidArgumentException
-     */
     public function testRenderWrongDestination()
     {
+        $this->expectException(\SwfTools\Exception\InvalidArgumentException::class);
         $this->object->render(__DIR__ . '/../../../files/flashfile.swf', '');
     }
 
@@ -96,11 +86,9 @@ class FlashFileTest extends TestCase
         unlink($this->destination);
     }
 
-    /**
-     * @expectedException  \SwfTools\Exception\RuntimeException
-     */
     public function testNoFirstImage()
     {
+        $this->expectException(\SwfTools\Exception\RuntimeException::class);
         $object = $this->getMockBuilder('SwfTools\Processor\FlashFile')
             ->setMethods(array('listEmbeddedObjects'))
             ->disableOriginalConstructor()
@@ -113,11 +101,9 @@ class FlashFileTest extends TestCase
         $object->extractFirstImage(__DIR__ . '/../../../files/flashfile.swf', $this->destination);
     }
 
-    /**
-     * @expectedException  \SwfTools\Exception\RuntimeException
-     */
     public function testEmbeddedFailed()
     {
+        $this->expectException(\SwfTools\Exception\RuntimeException::class);
         $object = $this->getMockBuilder('SwfTools\Processor\FlashFile')
             ->setMethods(array('listEmbeddedObjects'))
             ->disableOriginalConstructor()
@@ -138,27 +124,21 @@ class FlashFileTest extends TestCase
         unlink($this->destination);
     }
 
-    /**
-     * @expectedException \SwfTools\Exception\InvalidArgumentException
-     */
     public function testExtractFirstImageFailWithoutDestination()
     {
+        $this->expectException(\SwfTools\Exception\InvalidArgumentException::class);
         $this->object->extractFirstImage(__DIR__ . '/../../../files/flashfile.swf', '');
     }
 
-    /**
-     * @expectedException  \SwfTools\Exception\RuntimeException
-     */
     public function testExtractEmbeddedWrongId()
     {
+        $this->expectException(\SwfTools\Exception\RuntimeException::class);
         $this->object->extractEmbedded(-4, __DIR__ . '/../../../files/flashfile.swf', $this->destination);
     }
 
-    /**
-     * @expectedException  \SwfTools\Exception\RuntimeException
-     */
     public function testExtractEmbeddedWrongOutput()
     {
+        $this->expectException(\SwfTools\Exception\RuntimeException::class);
         $this->object->extractEmbedded(1, __DIR__ . '/../../../files/flashfile.swf', '/dsmsdf/dslgfsdm');
     }
 }

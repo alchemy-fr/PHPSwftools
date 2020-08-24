@@ -28,11 +28,9 @@ class Pdf2swfTest extends BinaryTestCase
         unlink($swf);
     }
 
-    /**
-     * @expectedException \SwfTools\Exception\InvalidArgumentException
-     */
     public function testToSwfInvalidFile()
     {
+        $this->expectException(\SwfTools\Exception\InvalidArgumentException::class);
         $pdf   = __DIR__ . '/../../../files/PDF.pdf';
         $embed = $this->object->toSwf($pdf, '');
     }
@@ -40,10 +38,10 @@ class Pdf2swfTest extends BinaryTestCase
     /**
      * @covers SwfTools\Binary\Pdf2swf::toSwf
      * @dataProvider getWrongOptions
-     * @expectedException SwfTools\Exception\InvalidArgumentException
      */
     public function testToSwfInvalidRes($pdf, $dest, $opts, $convert, $res, $pages, $framerate, $quality)
     {
+        $this->expectException(\SwfTools\Exception\InvalidArgumentException::class);
         $this->object->toSwf($pdf, $dest, $opts, $convert, $res, $pages, $framerate, $quality);
     }
 

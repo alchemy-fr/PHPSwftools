@@ -36,10 +36,10 @@ class SwfextractTest extends BinaryTestCase
 
     /**
      * @covers SwfTools\Binary\Swfextract::listEmbedded
-     * @expectedException \SwfTools\Exception\RuntimeException
      */
     public function testListEmbeddedWrongFile()
     {
+        $this->expectException(\SwfTools\Exception\RuntimeException::class);
         $wrongFile = __DIR__ . '/../../../files/unknownflashfile.swf';
         $this->object->listEmbedded($wrongFile);
     }

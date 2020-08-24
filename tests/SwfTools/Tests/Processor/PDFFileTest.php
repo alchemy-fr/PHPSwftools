@@ -35,21 +35,17 @@ class PDFFileTest extends TestCase
         unlink($this->destination);
     }
 
-    /**
-     * @expectedException SwfTools\Exception\RuntimeException
-     * @expectedExceptionMessage Unable to load pdf2swf
-     */
     public function testToSwfNoBinary()
     {
+        $this->expectException(\SwfTools\Exception\RuntimeException::class);
+        $this->expectExceptionMessage('Unable to load pdf2swf');
         $this->object = new PDFFile(DriverContainer::create(array('pdf2swf.binaries' => '/path/to/nowhere')));
         $this->object->toSwf(__DIR__ . '/../../../files/PDF.pdf', $this->destination);
     }
 
-    /**
-     * @expectedException \SwfTools\Exception\InvalidArgumentException
-     */
     public function testToSwfFailed()
     {
+        $this->expectException(\SwfTools\Exception\InvalidArgumentException::class);
         $this->object->toSwf(__DIR__ . '/../../../files/PDF.pdf', '');
     }
 }
