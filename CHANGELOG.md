@@ -1,6 +1,11 @@
 CHANGELOG
 ---------
 
+* 0.3.2 (07-11-2017)
+
+  * Drop PHP 5.3 from the test suite.
+  * PHRAS-1696 fix -s options applying.
+
 * 0.3.1 (07-03-2013)
 
   * Ensure that exceptions thrown are in SwfTools namespace.
