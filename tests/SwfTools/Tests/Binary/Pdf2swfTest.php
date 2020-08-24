@@ -9,7 +9,7 @@ class Pdf2swfTest extends BinaryTestCase
 {
     protected $object;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = Pdf2swf::create($this->getConfig());
     }

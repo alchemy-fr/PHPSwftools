@@ -13,7 +13,7 @@ class SwfextractTest extends BinaryTestCase
      */
     protected $object;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = Swfextract::create();
     }

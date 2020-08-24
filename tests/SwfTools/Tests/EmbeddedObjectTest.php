@@ -19,7 +19,7 @@ class EmbeddedObjectTest extends TestCase
     /**
      * @covers SwfTools\EmbeddedObject::__construct
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new EmbeddedObject($this->option, $this->type, $this->id);
     }

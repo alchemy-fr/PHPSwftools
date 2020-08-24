@@ -12,7 +12,7 @@ class SwfrenderTest extends BinaryTestCase
      */
     protected $object;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = Swfrender::create();
     }

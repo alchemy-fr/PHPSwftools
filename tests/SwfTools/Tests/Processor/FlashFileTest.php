@@ -14,13 +14,13 @@ class FlashFileTest extends TestCase
     protected $object;
     protected $destination;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->destination = __DIR__ . '/../../../files/tmp.jpg';
         $this->object = new FlashFile(DriverContainer::create());
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if (file_exists($this->destination)) {
             unlink($this->destination);

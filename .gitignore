@@ -6,3 +6,4 @@
 /docs/source/API/API/SILEX2/cache
 /docs/source/API/API/master/cache
 composer.phar
+/.phpunit.result.cache
