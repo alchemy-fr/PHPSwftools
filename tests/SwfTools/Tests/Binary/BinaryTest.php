@@ -10,7 +10,7 @@ abstract class BinaryTestCase extends TestCase
     {
         $classname = $this->getClassName();
 
-        $object = $classname::create();
+        $object = $classname::create($this->getConfig());
         $this->assertRegExp('/([0-9]+\.)+[0-9]+/', $object->getVersion());
     }
 

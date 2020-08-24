@@ -17,7 +17,7 @@ class PDFFileTest extends TestCase
     protected function setUp()
     {
         $this->destination = __DIR__ . '/../../../files/tmp.swf';
-        $this->object = new PDFFile(DriverContainer::create());
+        $this->object = new PDFFile(DriverContainer::create($this->getConfig()));
     }
 
     protected function tearDown()

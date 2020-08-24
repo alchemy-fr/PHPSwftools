@@ -1,14 +1,20 @@
 language: php
 
+dist: xenial
+
 before_script:
   - sudo apt-get update
-  - sudo apt-get install -y libfreetype6-dev libjpeg-dev libgif-dev libpng-dev xpdf libexpat-dev gettext zlib1g-dev build-essential
-  - wget http://www.swftools.org/swftools-0.9.1.tar.gz
-  - sh -c "tar xzvf swftools-0.9.1.tar.gz && cd swftools-0.9.1 && ./configure && make && sudo make install"
+  # Previously installed xpdf libexpat-dev
+  - sudo apt-get install -y libfreetype6-dev libjpeg-dev libgif-dev libpng-dev zlib1g-dev gettext build-essential
+  - wget http://www.swftools.org/swftools-0.9.2.tar.gz
+  - sh -c "tar xzvf swftools-0.9.2.tar.gz && cd swftools-0.9.2 && ./configure && make && sudo make install"
   - composer install --dev --prefer-source
+
+script: ./vendor/bin/phpunit
 
 php:
   - 7.0
   - 7.1
   - 7.2
-
+  - 7.3
+  - 7.4
