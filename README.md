@@ -1,6 +1,6 @@
-#PHP Swftools
+# PHP Swftools
 
-[![Build Status](https://secure.travis-ci.org/alchemy-fr/PHPSwftools.png?branch=master)](http://travis-ci.org/alchemy-fr/PHPSwftools)
+[![Build Status](https://travis-ci.org/alchemy-fr/PHPSwftools.svg?branch=master)](https://travis-ci.org/alchemy-fr/PHPSwftools)
 
 PHP Swftools is a tiny lib which help you to use SWFTools http://www.swftools.org/
 
@@ -22,13 +22,13 @@ It is recommended to install PHP-Swftools through
 }
 ```
 
-##Dependencies :
+## Dependencies
 
 In order to use PHP SwfTools, you need to install SWFTools. Depending of your
 configuration, please follow the instructions at
 http://wiki.swftools.org/wiki/Installation.
 
-##Main API usage :
+## Main API usage
 
 ```php
 $file = new SwfTools\FlashFile(SwfTools\Binary\DriverContainer::create());
@@ -49,7 +49,7 @@ $file->extractEmbedded(1, 'Animation.swf', 'Object1.png');
 $file->extractFirstImage('Animation.swf', 'renderedAnimation.jpg');
 ```
 
-##Setting timeout
+## Setting timeout
 
 PHPSwfTools uses underlying processes to execute commands. You can set a timeout
 to prevent these processes to run more than a defined duration.
@@ -62,7 +62,7 @@ $file = new SwfTools\FlashFile(SwfTools\Binary\DriverContainer::create(
 ));
 ```
 
-##Using various binaries versions
+## Using various binaries versions
 
 PHPSwfTools uses ``swfextract`` an ``swfrender`` provided by SWFTools. If you
 want to specify the path to the binary you wnat to use, you can add
@@ -101,7 +101,7 @@ $app['swftools.flash-file']->render('file.swf', 'output.jpg');
 $app['swftools.pdf-file']->toSwf('output.swf');
 ```
 
-##License
+## License
 
 PHPSwftools are released under MIT License http://opensource.org/licenses/MIT
 
