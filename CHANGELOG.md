@@ -1,6 +1,21 @@
 CHANGELOG
 ---------
 
+* 5.0.0 (dd-mm-yyyy)
+
+  * Drop PHP 7.0 support and support 7.1+.
+  * Allow phpunit 7, 8, 9
+  * Fix PHP "continue" syntax error
+
+* 4.1.0 (25-04-2018)
+
+  * Drop PHP 5.x support and support 7.0+.
+  * Upgrade `alchemy/binary-driver`
+  * Upgrade `phpunit/phpunit` to 6
+  * Drop PHP 5.x from the test suite.
+  * Use `silex/silex` 2.x instead of 1.x
+  * Use `pimple/pimple` 3.x instead of 1.x
+
 * 0.3.2 (07-11-2017)
 
   * Drop PHP 5.3 from the test suite.
